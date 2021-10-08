@@ -1,8 +1,7 @@
 <template>
-<div>
-
-
-</div>
+  <div>
+    <button @click="$auth.loginWith('aad')">Prijava</button>
+  </div>
 </template>
 
 <script>
