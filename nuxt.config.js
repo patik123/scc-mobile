@@ -34,7 +34,12 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ['@nuxtjs/axios', '@nuxtjs/pwa', '@nuxtjs/auth-next'],
+  modules: [
+    '@nuxtjs/axios',
+    '@nuxtjs/pwa',
+    '@nuxtjs/auth-next',
+    'bootstrap-vue/nuxt',
+  ],
 
   axios: {},
 
@@ -49,9 +54,13 @@ export default {
       display: 'standalone',
       start_url: '/',
     },
+    /*   workbox: {
+      dev: process.env.NODE_ENV !== 'production'
+    } */
   },
-  
+
   auth: {
+    cookie: false,
     redirect: {
       login: '/',
       callback: '/auth',
