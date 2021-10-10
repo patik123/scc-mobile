@@ -10,9 +10,7 @@ export default {
       const base64Url = token.toString().split('.')[1]
 
       if (token) {
-        const decodedValue = JSON.parse(
-          decodeURIComponent(escape(atob(base64Url)))
-        )
+        const decodedValue = JSON.parse(decodeURIComponent(escape(atob(base64Url))))
         this.$auth.$storage.setUniversal('jwt_decoded', decodedValue)
       }
     } catch (e) {

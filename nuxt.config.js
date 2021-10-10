@@ -34,12 +34,7 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: [
-    '@nuxtjs/axios',
-    '@nuxtjs/pwa',
-    '@nuxtjs/auth-next',
-    'bootstrap-vue/nuxt',
-  ],
+  modules: ['@nuxtjs/axios', '@nuxtjs/pwa', '@nuxtjs/auth-next', 'bootstrap-vue/nuxt'],
 
   axios: {},
 
@@ -69,10 +64,8 @@ export default {
       aad: {
         scheme: 'oauth2',
         endpoints: {
-          authorization:
-            'https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize',
-          token:
-            'https://login.microsoftonline.com/organizations/oauth2/v2.0/token',
+          authorization: 'https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize',
+          token: 'https://login.microsoftonline.com/organizations/oauth2/v2.0/token',
           userInfo: '',
           logout: '/',
           refresh: 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
