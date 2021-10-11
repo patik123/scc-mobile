@@ -169,7 +169,7 @@
 
 <script>
 import axios from 'axios'
-import * as configData from '~/config.json'
+import * as configData from '~/static/config.json'
 
 export default {
   data() {
