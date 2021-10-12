@@ -1,7 +1,7 @@
 import * as configData from '~/static/config.json'
 
 export const state = () => ({
-    config: configData,
+  config: configData,
 })
 
 export const mutations = {}

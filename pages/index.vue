@@ -6,7 +6,7 @@
           <b-nav-item href="#">Šolski center Celje</b-nav-item>
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto">
-          <b-nav-item @click="$auth.loginWith('aad')">
+          <b-nav-item @click="login()">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
               <path
                 fill-rule="evenodd"
@@ -26,7 +26,7 @@
 
         <div class="mt-3">Aplikacija je namenjena dijakom Šolskega centra Celje.</div>
         <div class="mt-3">
-          <b-button variant="primary" @click="$auth.loginWith('aad')"> Prijava </b-button>
+          <b-button variant="primary" @click="login()"> Prijava </b-button>
         </div>
       </div>
     </div>
@@ -183,20 +183,21 @@ export default {
     }
   },
 
-mounted() {
-  console.log("mouted")
-  this.full_school_name()
-  console.log(this.school_website())
-},
+  mounted() {
+    console.log('mouted')
+    this.full_school_name()
+    console.log(this.school_website())
+  },
 
   created() {
-    console.log("created")
+    console.log('created')
     this.jwt_decoded = this.$auth.$storage.getUniversal('jwt_decoded')
     this.jwt_token = this.$auth.$storage.getUniversal('_token.aad')
     this.config = configData
     if (this.$auth.loggedIn && !localStorage.getItem('user')) {
       this.getUserData()
     }
+    console.log(this.$store.state.auth.loggedIn)
   },
 
   methods: {
@@ -214,7 +215,7 @@ mounted() {
           window.localStorage.setItem('school', this.user.positions['0'].detail.company.department.split('(D)')[0])
           window.localStorage.setItem('class', this.user.positions['0'].detail.jobTitle)
           this.school = window.localStorage.getItem('school')
-          
+
           this.user_class = window.localStorage.getItem('class')
           this.$router.go() // refresh page zaradi napake pri pridobivanju podatkov - le začasna rešitev
         })
@@ -225,32 +226,27 @@ mounted() {
         })
     },
 
-    updated() {
-      console.log("updated")
-    },
-
-beforeMount() {
-  console.log("beforeMount")
-},
-/* ERROR OB USMERITVI NA STRAN SE POJAVI UNTABLE ERROR */
-     full_school_name() {
-      if( this.$auth.loggedIn){
-      const school = this.school
-      return this.config.default[school].full_school_name
+    /* ERROR OB USMERITVI NA STRAN SE POJAVI UNTABLE ERROR */
+    full_school_name() {
+      if (this.$auth.loggedIn) {
+        const school = this.school
+        return this.config.default[school].full_school_name
       }
       return null
- 
     },
 
-     school_website() {
-        if(   this.$auth.loggedIn){
-      const school = this.school
-      return this.config.default[school].website
-        }
-        return null
+    school_website() {
+      if (this.$auth.loggedIn) {
+        const school = this.school
+        return this.config.default[school].website
+      }
+      return null
     },
+
+    login() {
+    this.$auth.loginWith('aad')
   },
-
+  },
 
 
 }

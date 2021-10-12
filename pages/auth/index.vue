@@ -3,21 +3,11 @@
 </template>
 
 <script>
+import jwtDecode from 'jwt-decode'
 export default {
   created() {
-    try {
-      const token = this.$auth.$storage.getUniversal('_token.aad')
-      const base64Url = token.toString().split('.')[1]
-
-      if (token) {
-        const decodedValue = JSON.parse(decodeURIComponent(escape(atob(base64Url))))
-        this.$auth.$storage.setUniversal('jwt_decoded', decodedValue)
-      }
-    } catch (e) {
-      this.$auth.$storage.removeUniversal('_token.aad')
-      this.$auth.$storage.removeUniversal('jwt_decoded')
-      this.$router.push('/')
-    }
+    const decodedBearer = jwtDecode(this.$auth.$storage.getUniversal('_token.aad'))
+    this.$auth.$storage.setUniversal('jwt_decoded', decodedBearer)
   },
 }
 </script>
