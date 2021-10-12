@@ -4,7 +4,7 @@ export default {
   ssr: false,
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'Šolski center Celje Mobile',
+    title: 'ŠCC Mobile',
     htmlAttrs: {
       lang: 'en',
     },
@@ -12,7 +12,8 @@ export default {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' },
+      { name: 'format-detection', content: 'telephone=no' }, 
+      { name: 'google', content: 'notranslate'} // Disable Google Translate
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
@@ -40,10 +41,10 @@ export default {
 
   pwa: {
     manifest: {
-      name: 'Šolski center Celje Mobile',
-      short_name: 'Šolski center Celje Mobile',
-      lang: 'en',
-      description: 'Šolski center Celje Mobile',
+      name: 'ŠCC Mobile',
+      short_name: 'ŠCC Mobile',
+      lang: 'si',
+      description: 'ŠCC Mobile',
       background_color: '#ffffff',
       theme_color: '#ffffff',
       display: 'standalone',
@@ -85,7 +86,7 @@ export default {
         clientId: 'ed033b99-1ce6-49c4-a297-5e9bdc24dc5f',
         codeChallengeMethod: 'S256',
         scope: ['openid', 'profile'],
-        autoLogout: true,
+        autoLogout: false,
       },
     },
   },

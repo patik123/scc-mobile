@@ -67,7 +67,7 @@
         </template>
         <div class="px-3 py-3">
           <span class="d-block mb-3">{{ jwt_decoded.given_name + ' ' + jwt_decoded.family_name }}</span>
-          <span class="d-block mb-1">{{ full_school_name }}</span>
+          <span class="d-block mb-1">{{ full_school_name() }}</span>
           <span class="d-block">{{ user_class }}</span>
         </div>
 
@@ -138,7 +138,7 @@
             >
 
             <a v-bind:href="config.default.eucilnica_site" class="text-light pt-4 text-decoration-none">Spletna učilnica</a>
-            <a v-bind:href="school_website" class="text-light pt-3 text-decoration-none">
+            <a v-bind:href="school_website()" class="text-light pt-3 text-decoration-none">
               <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 512 512">
                 <path d="M256 48C141.13 48 48 141.13 48 256s93.13 208 208 208 208-93.13 208-208S370.87 48 256 48z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32" />
                 <path
@@ -183,20 +183,17 @@ export default {
     }
   },
 
-  computed: {
-    full_school_name() {
-      const school = this.school
-      return this.config.default[school].full_school_name
-    },
-    school_website() {
-      const school = this.school
-      return this.config.default[school].website
-    },
-  },
+mounted() {
+  console.log("mouted")
+  this.full_school_name()
+  console.log(this.school_website())
+},
 
   created() {
+    console.log("created")
     this.jwt_decoded = this.$auth.$storage.getUniversal('jwt_decoded')
     this.jwt_token = this.$auth.$storage.getUniversal('_token.aad')
+    this.config = configData
     if (this.$auth.loggedIn && !localStorage.getItem('user')) {
       this.getUserData()
     }
@@ -217,7 +214,9 @@ export default {
           window.localStorage.setItem('school', this.user.positions['0'].detail.company.department.split('(D)')[0])
           window.localStorage.setItem('class', this.user.positions['0'].detail.jobTitle)
           this.school = window.localStorage.getItem('school')
+          
           this.user_class = window.localStorage.getItem('class')
+          this.$router.go() // refresh page zaradi napake pri pridobivanju podatkov - le začasna rešitev
         })
 
         .catch((error) => {
@@ -225,7 +224,35 @@ export default {
           console.log(error)
         })
     },
+
+    updated() {
+      console.log("updated")
+    },
+
+beforeMount() {
+  console.log("beforeMount")
+},
+/* ERROR OB USMERITVI NA STRAN SE POJAVI UNTABLE ERROR */
+     full_school_name() {
+      if( this.$auth.loggedIn){
+      const school = this.school
+      return this.config.default[school].full_school_name
+      }
+      return null
+ 
+    },
+
+     school_website() {
+        if(   this.$auth.loggedIn){
+      const school = this.school
+      return this.config.default[school].website
+        }
+        return null
+    },
   },
+
+
+
 }
 </script>
 
