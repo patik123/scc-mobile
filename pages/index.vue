@@ -66,7 +66,7 @@
           </div>
         </template>
         <div class="px-3 py-3">
-          <span class="d-block mb-3">{{ jwt_decoded.given_name + ' ' + jwt_decoded.family_name }}</span>
+          <span class="d-block mb-3 font-weight-bold">{{ jwt_decoded.given_name + ' ' + jwt_decoded.family_name }}</span>
           <span class="d-block mb-1">{{ full_school_name() }}</span>
           <span class="d-block">{{ user_class }}</span>
         </div>
@@ -244,11 +244,9 @@ export default {
     },
 
     login() {
-    this.$auth.loginWith('aad')
+      this.$auth.loginWith('aad')
+    },
   },
-  },
-
-
 }
 </script>
 

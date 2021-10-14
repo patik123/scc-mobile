@@ -6,14 +6,14 @@ export default {
   head: {
     title: 'ŠCC Mobile',
     htmlAttrs: {
-      lang: 'en',
+      lang: 'si',
     },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }, 
-      { name: 'google', content: 'notranslate'} // Disable Google Translate
+      { name: 'format-detection', content: 'telephone=no' },
+      { name: 'google', content: 'notranslate' }, // Disable Google Translate
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
@@ -22,7 +22,7 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: ['~/plugins/barcode.client.js'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -85,15 +85,13 @@ export default {
         accessType: 'offline',
         clientId: 'ed033b99-1ce6-49c4-a297-5e9bdc24dc5f',
         codeChallengeMethod: 'S256',
-        scope: ['openid', 'profile'],
+        scope: ['openid', 'profile', 'offline_access', 'User.Read', 'Calendars.ReadWrite'],
         autoLogout: false,
       },
     },
   },
 
-  router: {
-  
-  },
+  router: {},
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
