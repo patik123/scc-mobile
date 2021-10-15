@@ -11,15 +11,16 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
+      { hid: 'description', name: 'description', content: 'Mobilna aplikacija Šolskega centra Celja' },
       { name: 'format-detection', content: 'telephone=no' },
+      { name: 'Author', content: 'Patrick Košir' },
       { name: 'google', content: 'notranslate' }, // Disable Google Translate
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [],
+  css: ['@/assets/scss/main.scss'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: ['~/plugins/barcode.client.js'],
@@ -28,11 +29,7 @@ export default {
   components: true,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: [
-    // https://go.nuxtjs.dev/eslint
-    '@nuxtjs/eslint-module',
-    '@nuxtjs/pwa',
-  ],
+  buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/pwa', '@nuxtjs/style-resources'],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: ['@nuxtjs/axios', '@nuxtjs/pwa', '@nuxtjs/auth-next', 'bootstrap-vue/nuxt'],
@@ -42,6 +39,7 @@ export default {
   pwa: {
     manifest: {
       name: 'ŠCC Mobile',
+      author: 'Patrick Košir',
       short_name: 'ŠCC Mobile',
       lang: 'si',
       description: 'ŠCC Mobile',
@@ -53,6 +51,14 @@ export default {
     /*   workbox: {
       dev: process.env.NODE_ENV !== 'production'
     } */
+  },
+  styleResources: {
+    // your settings here
+    sass: [],
+    scss: [],
+    less: [],
+    stylus: [],
+    hoistUseStatements: true, // Hoists the "@use" imports. Applies only to "sass", "scss" and "less". Default: false.
   },
 
   auth: {
@@ -94,5 +100,17 @@ export default {
   router: {},
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    sass: {
+      implementation: require('sass'),
+    },
+    scss: {
+      implementation: require('sass'),
+    },
+  },
+
+  bootstrapVue: {
+    bootstrapCSS: false,
+    icons: true,
+  },
 }

@@ -1,25 +1,31 @@
 {
   "KER": {
     "full_school_name": "Srednja šola za kemijo, elektrotehniko in računalništvo",
-    "website": "https://ker.sc-celje.si"
+    "website": "https://ker.sc-celje.si",
+    "show_nadomescanja": false
   },
   "GL": {
     "full_school_name": "Gimnazija Lava",
-    "website": "https://gl.sc-celje.si"
+    "website": "https://gl.sc-celje.si",
+    "show_nadomescanja": false
   },
   "GVO": {
     "full_school_name": "Srednja šola za gradbeništvo in varovanje okolja",
-    "website": "https://gvo.sc-celje.si"
+    "website": "https://gvo.sc-celje.si",
+    "show_nadomescanja": false
   },
   "SDL": {
     "full_school_name": "Srednja šola za storitvene dejavnosti in logistiko",
-    "website": "https://sdl.sc-celje.si"
+    "website": "https://sdl.sc-celje.si",
+    "show_nadomescanja": true
   },
   "SMM": {
     "full_school_name": "Srednja šola za strojništvo, mehatroniko in mehatroniko",
-    "website": "https://smm.sc-celje.si"
+    "website": "https://smm.sc-celje.si",
+    "show_nadomescanja": true
   },
   "prehrana_site": "https://prehrana.sc-celje.si",
   "eucilnica_site": "https://eucilnica.sc-celje.si",
+  "scc_main_site": "https://www.sc-celje.si/",
   "version": "1.0.0"
 }

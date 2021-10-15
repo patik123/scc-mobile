@@ -7,7 +7,7 @@
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto">
           <b-nav-item @click="login()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
               <path
                 fill-rule="evenodd"
                 d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"
@@ -66,7 +66,7 @@
           </div>
         </template>
         <div class="px-3 py-3">
-          <span class="d-block mb-3 font-weight-bold">{{ jwt_decoded.given_name + ' ' + jwt_decoded.family_name }}</span>
+          <span class="d-block mb-3 font-weight-bold h4">{{ jwt_decoded.given_name + ' ' + jwt_decoded.family_name }}</span>
           <span class="d-block mb-1">{{ full_school_name() }}</span>
           <span class="d-block">{{ user_class }}</span>
         </div>
@@ -88,7 +88,7 @@
 
               Obvestila</NuxtLink
             >
-            <NuxtLink to="/nadomescanja" class="mb-1 pt-3 text-light text-decoration-none">
+            <NuxtLink v-if="show_nadomescanja()" to="/nadomescanja" class="mb-1 pt-3 text-light text-decoration-none">
               <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16">
                 <path
                   fill-rule="evenodd"
@@ -137,8 +137,8 @@
               E-izkaznica</NuxtLink
             >
 
-            <a v-bind:href="config.default.eucilnica_site" class="text-light pt-4 text-decoration-none">Spletna učilnica</a>
-            <a v-bind:href="school_website()" class="text-light pt-3 text-decoration-none">
+            <a :href="config.default.eucilnica_site" class="text-light pt-4 text-decoration-none">Spletna učilnica</a>
+            <a :href="school_website()" class="text-light pt-3 text-decoration-none">
               <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 512 512">
                 <path d="M256 48C141.13 48 48 141.13 48 256s93.13 208 208 208 208-93.13 208-208S370.87 48 256 48z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32" />
                 <path
@@ -183,21 +183,13 @@ export default {
     }
   },
 
-  mounted() {
-    console.log('mouted')
-    this.full_school_name()
-    console.log(this.school_website())
-  },
-
   created() {
-    console.log('created')
     this.jwt_decoded = this.$auth.$storage.getUniversal('jwt_decoded')
     this.jwt_token = this.$auth.$storage.getUniversal('_token.aad')
     this.config = configData
     if (this.$auth.loggedIn && !localStorage.getItem('user')) {
       this.getUserData()
     }
-    console.log(this.$store.state.auth.loggedIn)
   },
 
   methods: {
@@ -215,7 +207,6 @@ export default {
           window.localStorage.setItem('school', this.user.positions['0'].detail.company.department.split('(D)')[0])
           window.localStorage.setItem('class', this.user.positions['0'].detail.jobTitle)
           this.school = window.localStorage.getItem('school')
-
           this.user_class = window.localStorage.getItem('class')
           this.$router.go() // refresh page zaradi napake pri pridobivanju podatkov - le začasna rešitev
         })
@@ -224,6 +215,13 @@ export default {
           // eslint-disable-next-line no-console
           console.log(error)
         })
+    },
+    show_nadomescanja() {
+      if (this.$auth.loggedIn) {
+        const school = this.school
+        return this.config.default[school].show_nadomescanja
+      }
+      return null
     },
 
     /* ERROR OB USMERITVI NA STRAN SE POJAVI UNTABLE ERROR */
@@ -250,14 +248,4 @@ export default {
 }
 </script>
 
-<style>
-.center {
-  text-align: center;
-}
-
-.icon {
-  width: 2em;
-  height: 2em;
-  margin-right: 0.3em;
-}
-</style>
+<style lang="scss"></style>

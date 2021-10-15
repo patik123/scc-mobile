@@ -66,14 +66,14 @@
           </div>
         </template>
         <div class="px-3 py-3">
-          <span class="d-block mb-3 font-weight-bold">{{ jwt_decoded.given_name + ' ' + jwt_decoded.family_name }}</span>
+          <span class="d-block mb-3 font-weight-bold h4">{{ jwt_decoded.given_name + ' ' + jwt_decoded.family_name }}</span>
           <span class="d-block mb-1">{{ full_school_name() }}</span>
           <span class="d-block">{{ user_class }}</span>
         </div>
 
         <nav class="mb-3 px-3 py-3">
           <b-nav vertical>
-                      <NuxtLink to="/" class="mb-1 pt-3 text-light text-decoration-none">
+            <NuxtLink to="/" class="mb-1 pt-3 text-light text-decoration-none">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="icon" viewBox="0 0 16 16">
                 <path
                   fill-rule="evenodd"
@@ -99,7 +99,7 @@
 
               Obvestila</NuxtLink
             >
-            <NuxtLink to="/nadomescanja" class="mb-1 pt-3 text-light text-decoration-none">
+            <NuxtLink v-if="show_nadomescanja()" to="/nadomescanja" class="mb-1 pt-3 text-light text-decoration-none">
               <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16">
                 <path
                   fill-rule="evenodd"
@@ -179,7 +179,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import * as configData from '~/static/config.json'
 
 export default {
@@ -212,6 +211,14 @@ export default {
       return null
     },
 
+    show_nadomescanja() {
+      if (this.$auth.loggedIn) {
+        const school = this.school
+        return this.config.default[school].show_nadomescanja
+      }
+      return null
+    },
+
     school_website() {
       if (this.$auth.loggedIn) {
         const school = this.school
@@ -222,15 +229,3 @@ export default {
   },
 }
 </script>
-
-<style>
-.center {
-  text-align: center;
-}
-
-.icon {
-  width: 2em;
-  height: 2em;
-  margin-right: 0.3em;
-}
-</style>

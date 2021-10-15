@@ -66,7 +66,7 @@
           </div>
         </template>
         <div class="px-3 py-3">
-          <span class="d-block mb-3 font-weight-bold">{{ jwt_decoded.given_name + ' ' + jwt_decoded.family_name }}</span>
+          <span class="d-block mb-3 font-weight-bold h4">{{ jwt_decoded.given_name + ' ' + jwt_decoded.family_name }}</span>
           <span class="d-block mb-1">{{ full_school_name() }}</span>
           <span class="d-block">{{ user_class }}</span>
         </div>
@@ -99,7 +99,7 @@
 
               Obvestila</NuxtLink
             >
-            <NuxtLink to="/nadomescanja" class="mb-1 pt-3 text-light text-decoration-none">
+            <NuxtLink v-if="show_nadomescanja()" to="/nadomescanja" class="mb-1 pt-3 text-light text-decoration-none">
               <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16">
                 <path
                   fill-rule="evenodd"
@@ -148,8 +148,8 @@
               E-izkaznica</NuxtLink
             >
 
-            <a v-bind:href="config.default.eucilnica_site" class="text-light pt-4 text-decoration-none">Spletna učilnica</a>
-            <a v-bind:href="school_website()" class="text-light pt-3 text-decoration-none">
+            <a :href="config.default.eucilnica_site" class="text-light pt-4 text-decoration-none">Spletna učilnica</a>
+            <a :href="school_website()" class="text-light pt-3 text-decoration-none">
               <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 512 512">
                 <path d="M256 48C141.13 48 48 141.13 48 256s93.13 208 208 208 208-93.13 208-208S370.87 48 256 48z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32" />
                 <path
@@ -176,11 +176,11 @@
       </b-sidebar>
 
       <div class="container-fluid">
-        <h3>Obvestila</h3>
+        <h3 class="mb-2 mt-2">Obvestila</h3>
 
         <div v-if="prikazi_obvestila" id="obvestila">
-          <div class="card mt-2" @click="show_obvestilo_func" v-for="obvestilo in obvestila" v-bind:key="obvestilo.i">
-            <div v-bind:data-url="obvestilo.link" v-bind:data-id="obvestilo.i" class="card-body">
+          <div v-for="obvestilo in obvestila" :key="obvestilo.i" class="card mt-2" @click="show_obvestilo_func">
+            <div :data-url="obvestilo.link" :data-id="obvestilo.i" class="card-body">
               {{ obvestilo.title }}
             </div>
           </div>
@@ -188,18 +188,24 @@
 
         <div v-if="prikazi_obvestilo" id="show-obvestilo">
           <div>
-            <button @click="back_to_obvestila" class="btn btn-primary">  Back</button>
+            <button class="btn btn-primary mt-2 mb-2" @click="back_to_obvestila">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16">
+                <path
+                  fill-rule="evenodd"
+                  d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"
+                />
+              </svg>
+            </button>
           </div>
 
-          <div class="clearfix">
-            <h3 class="float-left"> {{ vsebina_obvestila_title }}</h3>
+          <div class="">
+            <h3 class="float-left">{{ vsebina_obvestila_title }}</h3>
+
             <span class="float-right badge badge-primary">{{ vsebina_obvestila_date }}</span>
           </div>
-          
-          
-
+        </div>
+        <div class="table-responsive">
           <span v-html="vsebina_obvestila_body"></span>
-     
         </div>
       </div>
     </div>
@@ -260,6 +266,14 @@ export default {
       return null
     },
 
+    show_nadomescanja() {
+      if (this.$auth.loggedIn) {
+        const school = this.school
+        return this.config.default[school].show_nadomescanja
+      }
+      return null
+    },
+
     school_website() {
       if (this.$auth.loggedIn) {
         const school = this.school
@@ -269,21 +283,19 @@ export default {
     },
 
     show_obvestilo_func(e) {
-
       // eslint-disable-next-line no-console
       const url = e.target.dataset.url
 
-       axios.get(`https://api.allorigins.win/get?url=${url}`).then((response) => {
-      const $ = cherio.load(response.data.contents)
+      axios.get(`https://api.allorigins.win/get?url=${url}`).then((response) => {
+        const $ = cherio.load(response.data.contents)
 
-      this.vsebina_obvestila_title = $('.post-title').text()
-      this.vsebina_obvestila_body = $('.entry-inner').html()
-      this.vsebina_obvestila_date = $('.post-byline').text()
-    })
+        this.vsebina_obvestila_title = $('.post-title').text()
+        this.vsebina_obvestila_body = $('.entry-inner').html()
+        this.vsebina_obvestila_date = $('.post-byline').text()
+      })
 
       this.prikazi_obvestilo = true
       this.prikazi_obvestila = false
-  
     },
 
     back_to_obvestila() {
@@ -298,16 +310,6 @@ export default {
 </script>
 
 <style scoped>
-.center {
-  text-align: center;
-}
-
-.icon {
-  width: 2em;
-  height: 2em;
-  margin-right: 0.3em;
-}
-
 .card {
   cursor: pointer;
 }
