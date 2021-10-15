@@ -1,5 +1,5 @@
 <template>
-  <div id="main">
+  <div id="obvestila">
     <div v-if="!$auth.loggedIn">
       <b-navbar type="dark" variant="dark">
         <b-navbar-nav>
@@ -73,6 +73,17 @@
 
         <nav class="mb-3 px-3 py-3">
           <b-nav vertical>
+            <NuxtLink to="/" class="mb-1 pt-3 text-light text-decoration-none">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="icon" viewBox="0 0 16 16">
+                <path
+                  fill-rule="evenodd"
+                  d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"
+                />
+                <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z" />
+              </svg>
+
+              Domov</NuxtLink
+            >
             <NuxtLink to="/obvestila" class="mb-1 pt-3 text-light text-decoration-none">
               <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 512 512">
                 <path
@@ -165,14 +176,30 @@
       </b-sidebar>
 
       <div class="container-fluid">
-        <div>Obvestila</div>
+        <h3>Obvestila</h3>
 
-        <div id="obvestila">
-          <div v-for="obvstilo in obvestila" key="obvestilo.i" class="card mt-2">
-            <div  class="card-body">
-              {{ obvstilo.title }}
+        <div v-if="prikazi_obvestila" id="obvestila">
+          <div class="card mt-2" @click="show_obvestilo_func" v-for="obvestilo in obvestila" v-bind:key="obvestilo.i">
+            <div v-bind:data-url="obvestilo.link" v-bind:data-id="obvestilo.i" class="card-body">
+              {{ obvestilo.title }}
             </div>
           </div>
+        </div>
+
+        <div v-if="prikazi_obvestilo" id="show-obvestilo">
+          <div>
+            <button @click="back_to_obvestila" class="btn btn-primary">  Back</button>
+          </div>
+
+          <div class="clearfix">
+            <h3 class="float-left"> {{ vsebina_obvestila_title }}</h3>
+            <span class="float-right badge badge-primary">{{ vsebina_obvestila_date }}</span>
+          </div>
+          
+          
+
+          <span v-html="vsebina_obvestila_body"></span>
+     
         </div>
       </div>
     </div>
@@ -195,6 +222,11 @@ export default {
       user_class: localStorage.getItem('class'),
       config: configData,
       obvestila: [],
+      prikazi_obvestila: true,
+      prikazi_obvestilo: false,
+      vsebina_obvestila_title: '',
+      vsebina_obvestila_body: '',
+      vsebina_obvestila_date: '',
     }
   },
 
@@ -235,11 +267,37 @@ export default {
       }
       return null
     },
+
+    show_obvestilo_func(e) {
+
+      // eslint-disable-next-line no-console
+      const url = e.target.dataset.url
+
+       axios.get(`https://api.allorigins.win/get?url=${url}`).then((response) => {
+      const $ = cherio.load(response.data.contents)
+
+      this.vsebina_obvestila_title = $('.post-title').text()
+      this.vsebina_obvestila_body = $('.entry-inner').html()
+      this.vsebina_obvestila_date = $('.post-byline').text()
+    })
+
+      this.prikazi_obvestilo = true
+      this.prikazi_obvestila = false
+  
+    },
+
+    back_to_obvestila() {
+      this.vsebina_obvestila_title = ''
+      this.vsebina_obvestila_body = ''
+      this.vsebina_obvestila_date = ''
+      this.prikazi_obvestilo = false
+      this.prikazi_obvestila = true
+    },
   },
 }
 </script>
 
-<style>
+<style scoped>
 .center {
   text-align: center;
 }
@@ -248,5 +306,12 @@ export default {
   width: 2em;
   height: 2em;
   margin-right: 0.3em;
+}
+
+.card {
+  cursor: pointer;
+}
+.card:hover {
+  background-color: #f5f5f5;
 }
 </style>
