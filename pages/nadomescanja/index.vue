@@ -1,7 +1,6 @@
 <template>
   <div class="">
     <v-app>
-      <!-- NO LOGGED IN -->
       <v-card v-if="!$auth.loggedIn" class="no-radius" height="100%" width="100%">
         <v-app-bar>
           <v-toolbar-title>Šolski center Celje</v-toolbar-title>
@@ -17,10 +16,10 @@
         </v-main>
       </v-card>
 
-      <!-- LOGGED IN -->
       <v-card v-else class="no-radius" height="100%" width="100%">
         <v-app-bar color="">
           <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+
           <v-toolbar-title>Šolski center Celje</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-icon @click="$auth.logout('aad')">logout</v-icon>
@@ -55,7 +54,7 @@
               </v-list-item>
 
               <v-list-item class="rounded-r-xl" to="/izkaznica" nuxt>
-                <v-list-item-title> E-izkaznica</v-list-item-title>
+                <v-list-item-title><v-icon>badge</v-icon> E-izkaznica</v-list-item-title>
               </v-list-item>
               <v-divider class="mb-1"></v-divider>
               <v-list-item class="rounded-r-xl" target="_blank" :href="config.default.eucilnica_site">

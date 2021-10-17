@@ -1,7 +1,6 @@
 <template>
   <div class="">
     <v-app>
-      <!-- NO LOGGED IN -->
       <v-card v-if="!$auth.loggedIn" class="no-radius" height="100%" width="100%">
         <v-app-bar>
           <v-toolbar-title>Šolski center Celje</v-toolbar-title>
@@ -17,10 +16,10 @@
         </v-main>
       </v-card>
 
-      <!-- LOGGED IN -->
       <v-card v-else class="no-radius" height="100%" width="100%">
         <v-app-bar color="">
           <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+
           <v-toolbar-title>Šolski center Celje</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-icon @click="$auth.logout('aad')">logout</v-icon>
@@ -55,7 +54,7 @@
               </v-list-item>
 
               <v-list-item class="rounded-r-xl" to="/izkaznica" nuxt>
-                <v-list-item-title> E-izkaznica</v-list-item-title>
+                <v-list-item-title><v-icon>badge</v-icon> E-izkaznica</v-list-item-title>
               </v-list-item>
               <v-divider class="mb-1"></v-divider>
               <v-list-item class="rounded-r-xl" target="_blank" :href="config.default.eucilnica_site">
@@ -67,13 +66,45 @@
             </v-list-item-group>
           </v-list>
 
-          <v-footer class="justify-center pl-0" inset app>
+          <v-footer class="justify-center pl-0" inset app fixed>
             <span>Verzija: {{ config.default.version }} &copy; 2021 </span>
             <v-switch v-model="darkmode"></v-switch>
           </v-footer>
         </v-navigation-drawer>
 
-        <v-main> </v-main>
+        <v-main class="mt-2">
+        <v-container fluid> 
+          <!-- Vsa obvestila dialog -->
+          <div v-if="show_all_notifications" id="all_obvestila" >
+            <v-card v-for="obvestilo in obvestila" :key="obvestilo.i"  outlined class="margin-card" :data-url="obvestilo.link" :data-id="obvestilo.i"   @click="show_obvestilo_func">
+              <v-card-title>
+                <v-card-title>
+                  <span>{{ obvestilo.title }}</span>
+                </v-card-title>
+              </v-card-title>
+            </v-card>
+
+          </div>
+
+          <!-- Dialog za prikaz enega obvestila -->
+
+          <div v-if="show_notification" id="obvestilo">
+            <div>
+              <v-btn color="primary" class="mb-4" @click="back_to_obvestila">Nazaj</v-btn>
+            </div>
+            
+            <div class="d-inline ">
+            <h1>{{ vsebina_obvestila_title }}</h1>
+            <v-chip >{{ vsebina_obvestila_date }}</v-chip>
+            </div>
+
+            <div class="mt-5 responsive-area">
+            <span v-html="vsebina_obvestila_body"></span>
+            </div>
+          </div>
+
+        </v-container>
+        </v-main>
       </v-card>
     </v-app>
   </div>
@@ -81,6 +112,8 @@
 
 <script>
 import axios from 'axios'
+import cherio from 'cherio'
+
 import * as configData from '~/static/config.json'
 
 export default {
@@ -95,6 +128,12 @@ export default {
       drawer: false,
       group: null,
       darkmode: false,
+      obvestila: [],
+      show_all_notifications: true,
+      show_notification: false,
+      vsebina_obvestila_title: '',
+      vsebina_obvestila_body: '',
+      vsebina_obvestila_date: '',
     }
   },
   watch: {
@@ -120,6 +159,9 @@ export default {
         this.handledarkmode()
       }
     }
+
+    this.getObvestila()
+
   },
 
   methods: {
@@ -146,6 +188,28 @@ export default {
           console.log(error)
         })
     },
+
+       show_obvestilo_func(e) {
+      // eslint-disable-next-line no-console
+     const url = e.currentTarget.dataset.url
+
+      axios.get(`https://api.allorigins.win/get?url=${url}`).then((response) => {
+        const $ = cherio.load(response.data.contents)
+        this.vsebina_obvestila_title = $('.post-title').text()
+        this.vsebina_obvestila_body = $('.entry-inner').html()
+        this.vsebina_obvestila_date = $('.post-byline').text()
+      })
+      this.show_notification = true
+      this.show_all_notifications = false
+    },
+
+    back_to_obvestila() {
+      this.vsebina_obvestila_title = ''
+      this.vsebina_obvestila_body = ''
+      this.vsebina_obvestila_date = ''
+      this.show_notification = false
+      this.show_all_notifications = true
+    },
     show_nadomescanja() {
       if (this.$auth.loggedIn) {
         const school = this.school
@@ -161,6 +225,21 @@ export default {
         this.$vuetify.theme.dark = false
         localStorage.setItem('DarkMode', false)
       }
+    },
+
+    getObvestila(){
+    axios.get(`https://api.allorigins.win/get?url=${this.school_website()}`).then((response) => {
+      const $ = cherio.load(response.data.contents)
+      $('#my_custom_widget-2 a').each((i, el) => {
+        if ($(el).text() !== '(novo)') {
+          this.obvestila.push({
+            id: i,
+            title: $(el).text(),
+            link: $(el).attr('href'),
+          })
+        }
+      })
+    })
     },
 
     /* ERROR OB USMERITVI NA STRAN SE POJAVI UNTABLE ERROR */
@@ -186,3 +265,14 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.margin-card{
+  margin-top: 10px !important;
+}
+
+.responsive-area {
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch;
+}
+</style>
