@@ -29,10 +29,10 @@ export default {
   components: true,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/pwa', '@nuxtjs/style-resources'],
+  buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/pwa', '@nuxtjs/style-resources', '@nuxtjs/vuetify'],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ['@nuxtjs/axios', '@nuxtjs/pwa', '@nuxtjs/auth-next', 'bootstrap-vue/nuxt'],
+  modules: ['@nuxtjs/axios', '@nuxtjs/pwa', '@nuxtjs/auth-next'],
 
   axios: {},
 
@@ -51,14 +51,6 @@ export default {
     /*   workbox: {
       dev: process.env.NODE_ENV !== 'production'
     } */
-  },
-  styleResources: {
-    // your settings here
-    sass: [],
-    scss: [],
-    less: [],
-    stylus: [],
-    hoistUseStatements: true, // Hoists the "@use" imports. Applies only to "sass", "scss" and "less". Default: false.
   },
 
   auth: {
@@ -112,5 +104,13 @@ export default {
   bootstrapVue: {
     bootstrapCSS: false,
     icons: true,
+  },
+
+  vuetify: {
+    optionsPath: './vuetify.options.js',
+    defaultAssets: {
+      icons: 'md',
+    },
+    customVariables: ['~/assets/scss/variables.scss'],
   },
 }

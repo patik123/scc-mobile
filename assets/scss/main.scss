@@ -1,12 +1,7 @@
 // sass-lint:disable
-.center {
-  text-align: center;
-}
 
-.icon {
-  width: 2em;
-  height: 2em;
-  margin-right: 0.3em;
+.no-radius {
+  border-radius: 0 !important;
 }
 
 // BARVE ŠOL
@@ -19,12 +14,4 @@ $SMM: #766a62;
 $SCC-default: #002f5f;
 $SCC-secondary: #8996a0;
 
-// BOOTSTRAP CONFIG
-
-@import '~bootstrap/scss/bootstrap.scss';
-@import '~bootstrap-vue/src/index.scss';
-
-@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap');
-body {
-  font-family: 'Nunito Sans', sans-serif;
-}
+// VUETIFY CONFIG
