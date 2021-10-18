@@ -69,7 +69,33 @@
           </v-list>
         </v-navigation-drawer>
 
-        <v-main> </v-main>
+        <v-main>
+          <!-- TABI -->
+          <v-tabs v-model="tab" background-color="transparent" color="basil" grow>
+            <v-tab v-for="item in items" :key="item">
+              {{ item }}
+            </v-tab>
+          </v-tabs>
+
+          <v-tabs-items v-model="tab">
+            <!-- TAB LAVA 22 -->
+            <v-tab-item :v-for="0">
+
+              <span v-html="jedilnik_lava_22"></span>
+            </v-tab-item>
+
+            <!-- TAB Kosovelova 14 (pionirski dom) -->
+            <v-tab-item :v-for="1"> 
+
+               <span v-html="jedilnik_kosovelova_14"></span>
+            </v-tab-item>
+
+            <!-- TAB Ljubljanska 21 (dijaški dom) -->
+            <v-tab-item :v-for="2"> 
+               <span v-html="jedilnik_ljubljanska_21"></span>
+            </v-tab-item>
+          </v-tabs-items>
+        </v-main>
       </v-card>
     </v-app>
   </div>
@@ -77,6 +103,8 @@
 
 <script>
 import axios from 'axios'
+import cherio from 'cherio'
+import HtmlTableToJson from 'html-table-to-json'
 import * as configData from '~/static/config.json'
 
 export default {
@@ -92,6 +120,11 @@ export default {
       group: null,
       darkmode: false,
       dark_light_icon: 'dark_mode',
+      tab: null,
+      items: ['Lava 22', 'Kosovelova 14 (pionirski dom)', ' Ljubljanska 21 (dijaški dom)'],
+      jedilnik_lava_22: '',
+      jedilnik_kosovelova_14: '',
+      jedilnik_ljubljanska_21: '',
     }
   },
   watch: {
@@ -117,6 +150,22 @@ export default {
         this.handledarkmode()
       }
     }
+
+    const url = this.config.default.prehrana_site
+
+    axios.get(`https://api.allorigins.win/get?url=${url}`).then((response) => {
+      const $ = cherio.load(response.data.contents)
+      const jedilnikLava = $('.content').html()
+      this.jedilnik_lava_22 = jedilnikLava
+
+      const jedilnikKosovelova = $('.content').html()
+      this.jedilnik_kosovelova_14 = jedilnikKosovelova
+
+      const jedilnikLjubljanska = $('.content').html()
+      this.jedilnik_ljubljanska_21 = jedilnikLjubljanska
+
+
+    })
   },
 
   methods: {
