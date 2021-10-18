@@ -5,6 +5,7 @@
         <v-app-bar>
           <v-toolbar-title>Šolski center Celje</v-toolbar-title>
           <v-spacer></v-spacer>
+          <v-icon class="mr-2" @click="darkMode()">{{ dark_light_icon }}</v-icon>
           <v-icon @click="login()">login</v-icon>
         </v-app-bar>
 
@@ -22,6 +23,7 @@
 
           <v-toolbar-title>Šolski center Celje</v-toolbar-title>
           <v-spacer></v-spacer>
+          <v-icon class="mr-2" @click="darkMode()">{{ dark_light_icon }}</v-icon>
           <v-icon @click="$auth.logout('aad')">logout</v-icon>
         </v-app-bar>
 
@@ -65,14 +67,18 @@
               </v-list-item>
             </v-list-item-group>
           </v-list>
-
-          <v-footer class="justify-center pl-0" inset app>
-            <span>Verzija: {{ config.default.version }} &copy; 2021 </span>
-            <v-switch v-model="darkmode"></v-switch>
-          </v-footer>
         </v-navigation-drawer>
 
-        <v-main> </v-main>
+        <v-main>
+          <v-container fluid>
+            <div class="text-center">
+              <BarCode :value="sifra_dijaka" font="Nuninto"> Težava s prikazom barcode </BarCode>
+              <span class="d-block mb-3 font-weight-bold" style="font-size: 25px">{{ jwt_decoded.given_name + ' ' + jwt_decoded.family_name }}</span>
+              <span class="d-block mb-1" style="font-size: 18px">{{ full_school_name() }}</span>
+              <span class="d-block" style="font-size: 18px">{{ user_class }}</span>
+            </div>
+          </v-container>
+        </v-main>
       </v-card>
     </v-app>
   </div>
@@ -94,6 +100,8 @@ export default {
       drawer: false,
       group: null,
       darkmode: false,
+      dark_light_icon: 'dark_mode',
+      sifra_dijaka: '',
     }
   },
   watch: {
@@ -112,6 +120,7 @@ export default {
     if (this.$auth.loggedIn && !localStorage.getItem('user')) {
       this.getUserData()
     }
+    this.sifra_dijaka = this.jwt_decoded.unique_name.split('@')[0].split('.').pop()
     if (localStorage.getItem('DarkMode')) {
       if (localStorage.getItem('DarkMode') === 'true') {
         this.darkmode = true
@@ -145,6 +154,11 @@ export default {
           console.log(error)
         })
     },
+
+    darkMode() {
+      this.darkmode = !this.darkmode
+      localStorage.setItem('DarkMode', this.darkmode)
+    },
     show_nadomescanja() {
       if (this.$auth.loggedIn) {
         const school = this.school
@@ -156,9 +170,11 @@ export default {
       if (this.darkmode === true) {
         this.$vuetify.theme.dark = true
         localStorage.setItem('DarkMode', true)
+        this.dark_light_icon = 'dark_mode'
       } else if (this.darkmode === false) {
         this.$vuetify.theme.dark = false
         localStorage.setItem('DarkMode', false)
+        this.dark_light_icon = 'light_mode'
       }
     },
 

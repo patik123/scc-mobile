@@ -5,6 +5,7 @@
         <v-app-bar>
           <v-toolbar-title>Šolski center Celje</v-toolbar-title>
           <v-spacer></v-spacer>
+          <v-icon class="mr-2" @click="darkMode()">{{ dark_light_icon }}</v-icon>
           <v-icon @click="login()">login</v-icon>
         </v-app-bar>
 
@@ -22,6 +23,7 @@
 
           <v-toolbar-title>Šolski center Celje</v-toolbar-title>
           <v-spacer></v-spacer>
+          <v-icon class="mr-2" @click="darkMode()">{{ dark_light_icon }}</v-icon>
           <v-icon @click="$auth.logout('aad')">logout</v-icon>
         </v-app-bar>
 
@@ -65,11 +67,6 @@
               </v-list-item>
             </v-list-item-group>
           </v-list>
-
-          <v-footer class="justify-center pl-0" inset app>
-            <span>Verzija: {{ config.default.version }} &copy; 2021 </span>
-            <v-switch v-model="darkmode"></v-switch>
-          </v-footer>
         </v-navigation-drawer>
 
         <v-main> </v-main>
@@ -94,6 +91,7 @@ export default {
       drawer: false,
       group: null,
       darkmode: false,
+      dark_light_icon: 'dark_mode',
     }
   },
   watch: {
@@ -145,6 +143,11 @@ export default {
           console.log(error)
         })
     },
+
+    darkMode() {
+      this.darkmode = !this.darkmode
+      localStorage.setItem('DarkMode', this.darkmode)
+    },
     show_nadomescanja() {
       if (this.$auth.loggedIn) {
         const school = this.school
@@ -156,9 +159,11 @@ export default {
       if (this.darkmode === true) {
         this.$vuetify.theme.dark = true
         localStorage.setItem('DarkMode', true)
+        this.dark_light_icon = 'dark_mode'
       } else if (this.darkmode === false) {
         this.$vuetify.theme.dark = false
         localStorage.setItem('DarkMode', false)
+        this.dark_light_icon = 'light_mode'
       }
     },
 

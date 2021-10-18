@@ -5,7 +5,8 @@
         <v-app-bar>
           <v-toolbar-title>Šolski center Celje</v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-icon @click="login()">login</v-icon>
+          <v-icon class="mr-2" @click="darkMode()">{{ dark_light_icon }}</v-icon>
+          <v-icon>login</v-icon>
         </v-app-bar>
 
         <v-main class="text-center">
@@ -16,12 +17,14 @@
         </v-main>
       </v-card>
 
+      <!-- LOGGED IN -->
       <v-card v-else class="no-radius" height="100%" width="100%">
         <v-app-bar color="">
           <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
           <v-toolbar-title>Šolski center Celje</v-toolbar-title>
           <v-spacer></v-spacer>
+          <v-icon class="mr-2" @click="darkMode()">{{ dark_light_icon }}</v-icon>
           <v-icon @click="$auth.logout('aad')">logout</v-icon>
         </v-app-bar>
 
@@ -65,45 +68,38 @@
               </v-list-item>
             </v-list-item-group>
           </v-list>
-
-          <v-footer class="justify-center pl-0" inset app fixed>
-            <span>Verzija: {{ config.default.version }} &copy; 2021 </span>
-            <v-switch v-model="darkmode"></v-switch>
-          </v-footer>
         </v-navigation-drawer>
 
         <v-main class="mt-2">
-        <v-container fluid> 
-          <!-- Vsa obvestila dialog -->
-          <div v-if="show_all_notifications" id="all_obvestila" >
-            <v-card v-for="obvestilo in obvestila" :key="obvestilo.i"  outlined class="margin-card" :data-url="obvestilo.link" :data-id="obvestilo.i"   @click="show_obvestilo_func">
-              <v-card-title>
+          <v-container fluid>
+            <!-- Vsa obvestila dialog -->
+            <div v-if="show_all_notifications">
+              <v-card v-for="obvestilo in obvestila" :key="obvestilo.i" outlined class="margin-card" :data-url="obvestilo.link" :data-id="obvestilo.i" @click="show_obvestilo_func">
                 <v-card-title>
-                  <span>{{ obvestilo.title }}</span>
+                  <v-card-title>
+                    <span>{{ obvestilo.title }}</span>
+                  </v-card-title>
                 </v-card-title>
-              </v-card-title>
-            </v-card>
-
-          </div>
-
-          <!-- Dialog za prikaz enega obvestila -->
-
-          <div v-if="show_notification" id="obvestilo">
-            <div>
-              <v-btn color="primary" class="mb-4" @click="back_to_obvestila">Nazaj</v-btn>
-            </div>
-            
-            <div class="d-inline ">
-            <h1>{{ vsebina_obvestila_title }}</h1>
-            <v-chip >{{ vsebina_obvestila_date }}</v-chip>
+              </v-card>
             </div>
 
-            <div class="mt-5 responsive-area">
-            <span v-html="vsebina_obvestila_body"></span>
-            </div>
-          </div>
+            <!-- Dialog za prikaz enega obvestila -->
 
-        </v-container>
+            <div v-if="show_notification">
+              <div>
+                <v-btn color="primary" class="mb-4" @click="back_to_obvestila">Nazaj</v-btn>
+              </div>
+
+              <div class="d-inline">
+                <h1>{{ vsebina_obvestila_title }}</h1>
+                <v-chip>{{ vsebina_obvestila_date }}</v-chip>
+              </div>
+
+              <div class="mt-5 responsive-area">
+                <span v-html="vsebina_obvestila_body"></span>
+              </div>
+            </div>
+          </v-container>
         </v-main>
       </v-card>
     </v-app>
@@ -128,6 +124,7 @@ export default {
       drawer: false,
       group: null,
       darkmode: false,
+      dark_light_icon: 'dark_mode',
       obvestila: [],
       show_all_notifications: true,
       show_notification: false,
@@ -161,7 +158,6 @@ export default {
     }
 
     this.getObvestila()
-
   },
 
   methods: {
@@ -188,10 +184,14 @@ export default {
           console.log(error)
         })
     },
+    darkMode() {
+      this.darkmode = !this.darkmode
+      localStorage.setItem('DarkMode', this.darkmode)
+    },
 
-       show_obvestilo_func(e) {
+    show_obvestilo_func(e) {
       // eslint-disable-next-line no-console
-     const url = e.currentTarget.dataset.url
+      const url = e.currentTarget.dataset.url
 
       axios.get(`https://api.allorigins.win/get?url=${url}`).then((response) => {
         const $ = cherio.load(response.data.contents)
@@ -221,25 +221,26 @@ export default {
       if (this.darkmode === true) {
         this.$vuetify.theme.dark = true
         localStorage.setItem('DarkMode', true)
+        this.dark_light_icon = 'dark_mode'
       } else if (this.darkmode === false) {
         this.$vuetify.theme.dark = false
         localStorage.setItem('DarkMode', false)
+        this.dark_light_icon = 'light_mode'
       }
     },
-
-    getObvestila(){
-    axios.get(`https://api.allorigins.win/get?url=${this.school_website()}`).then((response) => {
-      const $ = cherio.load(response.data.contents)
-      $('#my_custom_widget-2 a').each((i, el) => {
-        if ($(el).text() !== '(novo)') {
-          this.obvestila.push({
-            id: i,
-            title: $(el).text(),
-            link: $(el).attr('href'),
-          })
-        }
+    getObvestila() {
+      axios.get(`https://api.allorigins.win/get?url=${this.school_website()}`).then((response) => {
+        const $ = cherio.load(response.data.contents)
+        $('#my_custom_widget-2 a').each((i, el) => {
+          if ($(el).text() !== '(novo)') {
+            this.obvestila.push({
+              id: i,
+              title: $(el).text(),
+              link: $(el).attr('href'),
+            })
+          }
+        })
       })
-    })
     },
 
     /* ERROR OB USMERITVI NA STRAN SE POJAVI UNTABLE ERROR */
@@ -267,7 +268,7 @@ export default {
 </script>
 
 <style scoped>
-.margin-card{
+.margin-card {
   margin-top: 10px !important;
 }
 
