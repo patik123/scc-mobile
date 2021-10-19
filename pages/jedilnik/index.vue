@@ -155,17 +155,23 @@ export default {
 
     axios.get(`https://api.allorigins.win/get?url=${url}`).then((response) => {
       const $ = cherio.load(response.data.contents)
-      const jedilnikLava = $('.content').html()
-      this.jedilnik_lava_22 = jedilnikLava
 
-      const jedilnikKosovelova = $('.content').html()
-      this.jedilnik_kosovelova_14 = jedilnikKosovelova
+      const table_lava_22 = $('.content')[0]
+      const table_lava_22_result = HtmlTableToJson.parse($(table_lava_22).html())
+      this.jedilnik_lava_22 = table_lava_22_result.results
 
-      const jedilnikLjubljanska = $('.content').html()
-      this.jedilnik_ljubljanska_21 = jedilnikLjubljanska
+      const table_kosovelova_14 = $('.content')[1]
+      const table_kosovelova_14_result = HtmlTableToJson.parse($(table_kosovelova_14).html())
+      this.jedilnik_kosovelova_14 = table_kosovelova_14_result.results
 
+      const table_ljubljanska_21 = $('.content')[2]
+      const table_ljubljanska_21_result = HtmlTableToJson.parse($(table_ljubljanska_21).html())
+      this.jedilnik_ljubljanska_21 = table_ljubljanska_21_result.results
 
+      
     })
+
+    
   },
 
   methods: {
