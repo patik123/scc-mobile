@@ -64,29 +64,19 @@
         </v-navigation-drawer>
 
         <v-main>
-          <!-- TABI -->
-          <v-tabs v-model="tab" background-color="transparent" color="basil" grow>
-            <v-tab v-for="item in items" :key="item">
-              {{ item }}
-            </v-tab>
-          </v-tabs>
+          <v-container fluid>
 
-          <v-tabs-items v-model="tab">
-            <!-- TAB LAVA 22 -->
-            <v-tab-item :v-for="0">
-              <span v-html="jedilnik_lava_22"></span>
-            </v-tab-item>
+            <img src="~/static/SC_Celje.png" alt="Logo Šolskega centra Celje" class="scc-logo">
 
-            <!-- TAB Kosovelova 14 (pionirski dom) -->
-            <v-tab-item :v-for="1">
-              <span style="word-break: normal; punctuation-wrap: hanging" v-html="jedilnik_kosovelova_14"></span>
-            </v-tab-item>
 
-            <!-- TAB Ljubljanska 21 (dijaški dom) -->
-            <v-tab-item :v-for="2">
-              <span v-html="jedilnik_ljubljanska_21"></span>
-            </v-tab-item>
-          </v-tabs-items>
+            <p>Verzija: {{config.default.version}}</p>
+            <p>Avtor: Patrick KOŠIR </p>
+            <p>E-mail: {{config.default.contact_email}}</p>
+
+            <p>Mobilna aplikacija Šolskega centra Celje je namenjena vsem dijakom vseh dijakov in združuje najpomembnejše informacije
+              potrebne za uspešno opravljanje šolskih obveznosti.
+            </p>
+          </v-container>
         </v-main>
       </v-card>
     </v-app>
@@ -95,8 +85,6 @@
 
 <script>
 import axios from 'axios'
-import cherio from 'cherio'
-import HtmlTableToJson from 'html-table-to-json'
 import * as configData from '~/static/config.json'
 
 export default {
@@ -112,11 +100,6 @@ export default {
       group: null,
       darkmode: false,
       dark_light_icon: 'dark_mode',
-      tab: null,
-      items: ['Lava 22', 'Kosovelova 14 (pionirski dom)', ' Ljubljanska 21 (dijaški dom)'],
-      jedilnik_lava_22: '',
-      jedilnik_kosovelova_14: '',
-      jedilnik_ljubljanska_21: '',
     }
   },
   watch: {
@@ -145,7 +128,6 @@ export default {
           this.handledarkmode()
         }
       }
-      this.getJedilnik()
     }
   },
 
@@ -172,36 +154,6 @@ export default {
           // eslint-disable-next-line no-console
           console.log(error)
         })
-    },
-
-    getJedilnik() {
-      const url = this.config.default.prehrana_site
-
-      axios.get(`https://api.allorigins.win/get?url=${url}`).then((response) => {
-        const $ = cherio.load(response.data.contents)
-
-        // Ustvari presledek za vsak break v tabeli (za lepši izpis)
-        $('table br').each(function (e, el) {
-          $(el).replaceWith(' ')
-        })
-
-        // Ustvari presledek za vsak break v tabeli (za lepši izpis)
-        $('table br').each(function (e, el) {
-          $(el).replaceWith(' ')
-        })
-
-        const table_lava_22 = $('.content')[0]
-        const table_lava_22_result = HtmlTableToJson.parse($(table_lava_22).html())
-        this.jedilnik_lava_22 = table_lava_22_result.results
-
-        const table_kosovelova_14 = $('.content')[1]
-        const table_kosovelova_14_result = HtmlTableToJson.parse($(table_kosovelova_14).html())
-        this.jedilnik_kosovelova_14 = table_kosovelova_14_result.results
-
-        const table_ljubljanska_21 = $('.content')[2]
-        const table_ljubljanska_21_result = HtmlTableToJson.parse($(table_ljubljanska_21).html())
-        this.jedilnik_ljubljanska_21 = table_ljubljanska_21_result.results
-      })
     },
 
     darkMode() {
@@ -243,10 +195,12 @@ export default {
       }
       return null
     },
-
-    login() {
-      this.$auth.loginWith('aad')
-    },
   },
 }
 </script>
+<style scoped>
+.scc-logo {
+  width: 160px;
+  height: 90px;
+}
+</style>

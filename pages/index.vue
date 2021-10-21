@@ -39,10 +39,15 @@
 
           <v-divider></v-divider>
           <v-list nav dense>
-            <v-list-item-group v-model="group" active-class="">
+            <v-list-item-group v-model="group" active-class="rounded-r-xl">
               <v-list-item class="rounded-r-xl" to="/" nuxt>
                 <v-list-item-title><v-icon>home</v-icon> Domov</v-list-item-title>
               </v-list-item>
+
+              <v-list-item class="rounded-r-xl" to="/urnik" nuxt>
+                <v-list-item-title><v-icon>schedule</v-icon> Urnik</v-list-item-title>
+              </v-list-item>
+
               <v-list-item class="rounded-r-xl" to="/obvestila" nuxt>
                 <v-list-item-title><v-icon>notifications</v-icon> Obvestila</v-list-item-title>
               </v-list-item>
@@ -58,6 +63,7 @@
               <v-list-item class="rounded-r-xl" to="/izkaznica" nuxt>
                 <v-list-item-title><v-icon>badge</v-icon> E-izkaznica</v-list-item-title>
               </v-list-item>
+
               <v-divider class="mb-1"></v-divider>
               <v-list-item class="rounded-r-xl" target="_blank" :href="config.default.eucilnica_site">
                 <v-list-item-title><v-icon>school</v-icon> Spletna učilnica</v-list-item-title>
@@ -65,11 +71,17 @@
               <v-list-item class="rounded-r-xl" target="_blank" :href="school_website()">
                 <v-list-item-title><v-icon>language</v-icon> Šolska spletna stran</v-list-item-title>
               </v-list-item>
+
+              <v-list-item class="rounded-r-xl" to="/about" nuxt>
+                <v-list-item-title><v-icon>info</v-icon> O aplikaciji</v-list-item-title>
+              </v-list-item>
             </v-list-item-group>
           </v-list>
         </v-navigation-drawer>
 
-        <v-main> </v-main>
+        <v-main>
+          <v-container fluid> </v-container>
+        </v-main>
       </v-card>
     </v-app>
   </div>

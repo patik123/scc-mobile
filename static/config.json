@@ -27,5 +27,6 @@
   "prehrana_site": "https://prehrana.sc-celje.si",
   "eucilnica_site": "https://eucilnica.sc-celje.si",
   "scc_main_site": "https://www.sc-celje.si/",
-  "version": "1.0.0"
+  "version": "1.0.0-alfa",
+  "contact_email": "patrick.kosir.16867@dijak.sc-celje.si"
 }

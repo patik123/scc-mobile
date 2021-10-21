@@ -1,24 +1,8 @@
 <template>
   <div class="">
     <v-app>
-      <v-card v-if="!$auth.loggedIn" class="no-radius" height="100%" width="100%">
-        <v-app-bar>
-          <v-toolbar-title>Šolski center Celje</v-toolbar-title>
-          <v-spacer></v-spacer>
-          <v-icon class="mr-2" @click="darkMode()">{{ dark_light_icon }}</v-icon>
-          <v-icon>login</v-icon>
-        </v-app-bar>
-
-        <v-main class="text-center">
-          <img src="~/static/cvet_barvni.png" alt="ŠCC roža" width="100px" height="100px" class="mt-5" />
-
-          <p class="mt-5 font-weight-bold" style="font-size: 25px">Mobilna aplikacija Šolskega centra Celje</p>
-          <p class="mt-2" style="font-size: 20px">Aplikacija je namenjena dijakom Šolskega centra Celje.</p>
-        </v-main>
-      </v-card>
-
       <!-- LOGGED IN -->
-      <v-card v-else class="no-radius" height="100%" width="100%">
+      <v-card class="no-radius" height="100%" width="100%">
         <v-app-bar color="">
           <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
@@ -44,6 +28,11 @@
               <v-list-item class="rounded-r-xl" to="/" nuxt>
                 <v-list-item-title><v-icon>home</v-icon> Domov</v-list-item-title>
               </v-list-item>
+
+              <v-list-item class="rounded-r-xl" to="/urnik" nuxt>
+                <v-list-item-title><v-icon>schedule</v-icon> Urnik</v-list-item-title>
+              </v-list-item>
+
               <v-list-item class="rounded-r-xl" to="/obvestila" nuxt>
                 <v-list-item-title><v-icon>notifications</v-icon> Obvestila</v-list-item-title>
               </v-list-item>
@@ -59,12 +48,17 @@
               <v-list-item class="rounded-r-xl" to="/izkaznica" nuxt>
                 <v-list-item-title><v-icon>badge</v-icon> E-izkaznica</v-list-item-title>
               </v-list-item>
+              
               <v-divider class="mb-1"></v-divider>
               <v-list-item class="rounded-r-xl" target="_blank" :href="config.default.eucilnica_site">
                 <v-list-item-title><v-icon>school</v-icon> Spletna učilnica</v-list-item-title>
               </v-list-item>
               <v-list-item class="rounded-r-xl" target="_blank" :href="school_website()">
                 <v-list-item-title><v-icon>language</v-icon> Šolska spletna stran</v-list-item-title>
+              </v-list-item>
+
+              <v-list-item class="rounded-r-xl" to="/about" nuxt>
+                <v-list-item-title><v-icon>info</v-icon> O aplikaciji</v-list-item-title>
               </v-list-item>
             </v-list-item-group>
           </v-list>
@@ -96,6 +90,7 @@
               </div>
 
               <div class="mt-5 responsive-area">
+                <!-- eslint-disable-next-line no-console -->
                 <span v-html="vsebina_obvestila_body"></span>
               </div>
             </div>
@@ -143,21 +138,24 @@ export default {
   },
 
   created() {
-    this.jwt_decoded = this.$auth.$storage.getUniversal('jwt_decoded')
-    this.jwt_token = this.$auth.$storage.getUniversal('_token.aad')
-    this.config = configData
-    if (this.$auth.loggedIn && !localStorage.getItem('user')) {
-      this.getUserData()
-    }
-    if (localStorage.getItem('DarkMode')) {
-      if (localStorage.getItem('DarkMode') === 'true') {
-        this.darkmode = true
-      } else {
-        this.handledarkmode()
+    if (!this.$auth.loggedIn) {
+      this.$router.push('/')
+    } else {
+      this.jwt_decoded = this.$auth.$storage.getUniversal('jwt_decoded')
+      this.jwt_token = this.$auth.$storage.getUniversal('_token.aad')
+      this.config = configData
+      if (this.$auth.loggedIn && !localStorage.getItem('user')) {
+        this.getUserData()
       }
+      if (localStorage.getItem('DarkMode')) {
+        if (localStorage.getItem('DarkMode') === 'true') {
+          this.darkmode = true
+        } else {
+          this.handledarkmode()
+        }
+      }
+      this.getObvestila()
     }
-
-    this.getObvestila()
   },
 
   methods: {
@@ -258,10 +256,6 @@ export default {
         return this.config.default[school].website
       }
       return null
-    },
-
-    login() {
-      this.$auth.loginWith('aad')
     },
   },
 }
