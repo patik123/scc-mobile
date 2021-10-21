@@ -80,19 +80,17 @@
           <v-tabs-items v-model="tab">
             <!-- TAB LAVA 22 -->
             <v-tab-item :v-for="0">
-
               <span v-html="jedilnik_lava_22"></span>
             </v-tab-item>
 
             <!-- TAB Kosovelova 14 (pionirski dom) -->
-            <v-tab-item :v-for="1"> 
-
-               <span v-html="jedilnik_kosovelova_14"></span>
+            <v-tab-item :v-for="1">
+              <span style="word-break: normal; punctuation-wrap: hanging;" v-html="jedilnik_kosovelova_14"></span>
             </v-tab-item>
 
             <!-- TAB Ljubljanska 21 (dijaški dom) -->
-            <v-tab-item :v-for="2"> 
-               <span v-html="jedilnik_ljubljanska_21"></span>
+            <v-tab-item :v-for="2">
+              <span v-html="jedilnik_ljubljanska_21"></span>
             </v-tab-item>
           </v-tabs-items>
         </v-main>
@@ -156,6 +154,17 @@ export default {
     axios.get(`https://api.allorigins.win/get?url=${url}`).then((response) => {
       const $ = cherio.load(response.data.contents)
 
+      // Ustvari presledek za vsak break v tabeli (za lepši izpis)
+      $('table br').each(function (e, el) {
+        $(el).replaceWith(' ')
+      })
+
+            // Ustvari presledek za vsak break v tabeli (za lepši izpis)
+      $('table br').each(function (e, el) {
+        $(el).replaceWith(' ')
+      })
+
+
       const table_lava_22 = $('.content')[0]
       const table_lava_22_result = HtmlTableToJson.parse($(table_lava_22).html())
       this.jedilnik_lava_22 = table_lava_22_result.results
@@ -167,11 +176,7 @@ export default {
       const table_ljubljanska_21 = $('.content')[2]
       const table_ljubljanska_21_result = HtmlTableToJson.parse($(table_ljubljanska_21).html())
       this.jedilnik_ljubljanska_21 = table_ljubljanska_21_result.results
-
-      
     })
-
-    
   },
 
   methods: {

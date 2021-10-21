@@ -69,7 +69,12 @@
           </v-list>
         </v-navigation-drawer>
 
-        <v-main> </v-main>
+        <v-main>
+          <v-container fluid>
+          
+          
+          </v-container>  
+        </v-main>
       </v-card>
     </v-app>
   </div>
@@ -78,6 +83,7 @@
 <script>
 import axios from 'axios'
 import * as configData from '~/static/config.json'
+
 
 export default {
   data() {
@@ -117,6 +123,9 @@ export default {
         this.handledarkmode()
       }
     }
+
+
+
   },
 
   methods: {
