@@ -12,7 +12,11 @@ export default {
     this.$auth.$storage.setUniversal('jwt_decoded', decodedBearer)
     }
     catch (error) {
+
     console.error(error);
+
+    localStorage.clear();
+    this.$router.push('/')
     }
   },
 }
