@@ -54,7 +54,7 @@
               <v-list-item class="rounded-r-xl" target="_blank" :href="school_website()">
                 <v-list-item-title><v-icon>language</v-icon> Šolska spletna stran</v-list-item-title>
               </v-list-item>
-              
+
               <v-list-item class="rounded-r-xl" to="/about" nuxt>
                 <v-list-item-title><v-icon>info</v-icon> O aplikaciji</v-list-item-title>
               </v-list-item>
@@ -65,7 +65,7 @@
         <v-main>
           <v-container fluid>
             <span v-html="urnik"></span>
-             </v-container>
+          </v-container>
         </v-main>
       </v-card>
     </v-app>
@@ -89,7 +89,7 @@ export default {
       group: null,
       darkmode: false,
       dark_light_icon: 'dark_mode',
-      urnik: ''
+      urnik: '',
     }
   },
   watch: {
@@ -119,13 +119,6 @@ export default {
         }
       }
     }
-
-     axios.get(`https://eportal.sc-celje.si/web-cgi/EviWebPUB.exe/getdata?CID=000:-:0000000000&ACT=EXTGetEnv&PMD=FUN=SchTab;DAT=-S3B:z-frame:2021::;`).then((response) => {
-       console.log(response.data)
-       this.urnik = response.data
-     })
-
-
   },
 
   methods: {

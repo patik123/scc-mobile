@@ -55,7 +55,7 @@
               <v-list-item class="rounded-r-xl" target="_blank" :href="school_website()">
                 <v-list-item-title><v-icon>language</v-icon> Šolska spletna stran</v-list-item-title>
               </v-list-item>
-              
+
               <v-list-item class="rounded-r-xl" to="/about" nuxt>
                 <v-list-item-title><v-icon>info</v-icon> O aplikaciji</v-list-item-title>
               </v-list-item>
@@ -65,17 +65,15 @@
 
         <v-main>
           <v-container fluid>
+            <img src="~/static/SC_Celje.png" alt="Logo Šolskega centra Celje" class="scc-logo" />
 
-            <img src="~/static/SC_Celje.png" alt="Logo Šolskega centra Celje" class="scc-logo">
-
-
-            <p>Verzija: <v-chip>{{config.default.version}}</v-chip></p>
-            <p>Avtor: Patrick KOŠIR </p>
-            <p>E-mail: {{config.default.contact_email}}</p>
-
-            <p>Mobilna aplikacija Šolskega centra Celje je namenjena vsem dijakom vseh dijakov in združuje najpomembnejše informacije
-              potrebne za uspešno opravljanje šolskih obveznosti.
+            <p>
+              Verzija: <v-chip>{{ config.default.version }}</v-chip>
             </p>
+            <p>Avtor: Patrick KOŠIR</p>
+            <p>E-mail: {{ config.default.contact_email }}</p>
+
+            <p>Mobilna aplikacija Šolskega centra Celje je namenjena vsem dijakom vseh dijakov in združuje najpomembnejše informacije potrebne za uspešno opravljanje šolskih obveznosti.</p>
           </v-container>
         </v-main>
       </v-card>

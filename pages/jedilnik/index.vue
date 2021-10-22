@@ -55,7 +55,7 @@
               <v-list-item class="rounded-r-xl" target="_blank" :href="school_website()">
                 <v-list-item-title><v-icon>language</v-icon> Šolska spletna stran</v-list-item-title>
               </v-list-item>
-              
+
               <v-list-item class="rounded-r-xl" to="/about" nuxt>
                 <v-list-item-title><v-icon>info</v-icon> O aplikaciji</v-list-item-title>
               </v-list-item>
