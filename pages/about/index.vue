@@ -69,7 +69,7 @@
             <img src="~/static/SC_Celje.png" alt="Logo Šolskega centra Celje" class="scc-logo">
 
 
-            <p>Verzija: {{config.default.version}}</p>
+            <p>Verzija: <v-chip>{{config.default.version}}</v-chip></p>
             <p>Avtor: Patrick KOŠIR </p>
             <p>E-mail: {{config.default.contact_email}}</p>
 

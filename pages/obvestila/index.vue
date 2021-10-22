@@ -86,7 +86,7 @@
 
               <div class="d-inline">
                 <h1>{{ vsebina_obvestila_title }}</h1>
-                <v-chip>{{ vsebina_obvestila_date }}</v-chip>
+                <v-chip v-if="!vsebina_obvestila_date == ''">{{ vsebina_obvestila_date }}</v-chip>
               </div>
 
               <div class="mt-5 responsive-area">

@@ -63,7 +63,9 @@
         </v-navigation-drawer>
 
         <v-main>
-          <v-container fluid> </v-container>
+          <v-container fluid>
+            <span v-html="urnik"></span>
+             </v-container>
         </v-main>
       </v-card>
     </v-app>
@@ -87,6 +89,7 @@ export default {
       group: null,
       darkmode: false,
       dark_light_icon: 'dark_mode',
+      urnik: ''
     }
   },
   watch: {
@@ -116,6 +119,13 @@ export default {
         }
       }
     }
+
+     axios.get(`https://eportal.sc-celje.si/web-cgi/EviWebPUB.exe/getdata?CID=000:-:0000000000&ACT=EXTGetEnv&PMD=FUN=SchTab;DAT=-S3B:z-frame:2021::;`).then((response) => {
+       console.log(response.data)
+       this.urnik = response.data
+     })
+
+
   },
 
   methods: {
