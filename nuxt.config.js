@@ -29,12 +29,16 @@ export default {
   components: true,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/pwa', '@nuxtjs/style-resources', '@nuxtjs/vuetify'],
+  buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/pwa', '@nuxtjs/style-resources', '@nuxtjs/vuetify',  '@nuxtjs/moment'],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: ['@nuxtjs/axios', '@nuxtjs/pwa', '@nuxtjs/auth-next'],
 
   axios: {},
+
+  moment: {
+    defaultLocale: 'sl'
+  },
 
   pwa: {
     manifest: {
@@ -83,7 +87,7 @@ export default {
         accessType: 'offline',
         clientId: 'ed033b99-1ce6-49c4-a297-5e9bdc24dc5f',
         codeChallengeMethod: 'S256',
-        scope: ['openid', 'profile', 'User.Read', 'Calendars.ReadWrite', 'Tasks.ReadWrite'],
+        scope: ['openid', 'profile', 'User.Read'],
         autoLogout: false,
       },
     },
