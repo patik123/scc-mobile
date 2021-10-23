@@ -20,7 +20,7 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ['@/assets/scss/main.scss'],
+  css: ['@/assets/scss/main.scss', 'vue-pdf-app/dist/icons/main.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: ['~/plugins/barcode.client.js'],
@@ -66,7 +66,7 @@ export default {
           authorization: 'https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize',
           token: 'https://login.microsoftonline.com/organizations/oauth2/v2.0/token',
           userInfo: '',
-          logout: '/',
+          logout: '/logout',
           refresh: 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
         },
         token: {
@@ -83,7 +83,7 @@ export default {
         accessType: 'offline',
         clientId: 'ed033b99-1ce6-49c4-a297-5e9bdc24dc5f',
         codeChallengeMethod: 'S256',
-        scope: ['openid', 'profile', 'User.Read'],
+        scope: ['openid', 'profile', 'User.Read', 'Calendars.ReadWrite', 'Tasks.ReadWrite'],
         autoLogout: false,
       },
     },

@@ -13,7 +13,7 @@
         <img src="~/static/cvet_barvni.png" alt="ŠCC roža" width="100px" height="100px" class="mt-5" />
         <div>
           <h1 v-if="error.statusCode === 404">Zahtevana stran ne obstaja</h1>
-          <h1 v-else>An error occurred</h1>
+          <h1 v-else>Napaka</h1>
           <NuxtLink to="/">Prva stran</NuxtLink>
         </div>
       </v-main>
@@ -140,6 +140,10 @@ export default {
     logout() {
       this.$auth.logout()
       this.$router.push('/')
+    },
+
+    login() {
+      this.$auth.login('aad')
     },
   },
 }

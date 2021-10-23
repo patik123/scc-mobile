@@ -73,7 +73,10 @@
             <p>Avtor: Patrick KOŠIR</p>
             <p>E-mail: {{ config.default.contact_email }}</p>
 
-            <p>Mobilna aplikacija Šolskega centra Celje je namenjena vsem dijakom vseh dijakov in združuje najpomembnejše informacije potrebne za uspešno opravljanje šolskih obveznosti.</p>
+            <p>
+              Mobilna aplikacija Šolskega centra Celje je namenjena vsem dijakom vseh srednjih šol Šolskega centra Celje in združuje najpomembnejše informacije potrebne za uspešno opravljanje šolskih
+              obveznosti.
+            </p>
           </v-container>
         </v-main>
       </v-card>

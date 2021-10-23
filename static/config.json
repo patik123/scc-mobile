@@ -2,32 +2,41 @@
   "KER": {
     "full_school_name": "Srednja šola za kemijo, elektrotehniko in računalništvo",
     "website": "https://ker.sc-celje.si",
-    "show_nadomescanja": false
+    "show_nadomescanja": false,
+    "type_of_nadomescanja": "obvestilo",
+    "nadomescanja_url": ""
   },
   "GL": {
     "full_school_name": "Gimnazija Lava",
     "website": "https://gl.sc-celje.si",
-    "show_nadomescanja": false
+    "show_nadomescanja": false,
+    "type_of_nadomescanja": "obvestilo",
+    "nadomescanja_url": ""
   },
   "GVO": {
     "full_school_name": "Srednja šola za gradbeništvo in varovanje okolja",
     "website": "https://gvo.sc-celje.si",
-    "show_nadomescanja": false
+    "show_nadomescanja": false,
+    "type_of_nadomescanja": "pdf",
+    "nadomescanja_url": "https://gvo.sc-celje.si/nadomescanja-2/"
   },
   "SDL": {
     "full_school_name": "Srednja šola za storitvene dejavnosti in logistiko",
     "website": "https://sdl.sc-celje.si",
-    "show_nadomescanja": true
+    "show_nadomescanja": true,
+    "type_of_nadomescanja": "tabela",
+    "nadomescanja_url": ""
   },
   "SMM": {
-    "full_school_name": "Srednja šola za strojništvo, mehatroniko in mehatroniko",
+    "full_school_name": "Srednja šola za strojništvo, mehatroniko in medije",
     "website": "https://smm.sc-celje.si",
-    "show_nadomescanja": true
+    "show_nadomescanja": true,
+    "type_of_nadomescanja": "pdf",
+    "nadomescanja_url": "https://smm.sc-celje.si/nadomescanja-2/"
   },
   "prehrana_site": "https://prehrana.sc-celje.si",
   "eucilnica_site": "https://eucilnica.sc-celje.si",
   "scc_main_site": "https://www.sc-celje.si/",
   "version": "1.0.0-alfa",
-  "contact_email": "patrick.kosir.16867@dijak.sc-celje.si",
-  "eviweb_urniki_year": "2021"
+  "contact_email": "patrick.kosir.16867@dijak.sc-celje.si"
 }
