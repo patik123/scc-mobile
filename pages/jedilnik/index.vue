@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div>
     <v-app>
       <v-card class="no-radius" height="100%" width="100%">
         <v-app-bar color="">
@@ -37,152 +37,53 @@
               <!-- TAB LAVA 22 -->
               <v-tab-item :v-for="0">
                 <v-tabs v-model="tab_lava">
-                  <v-tab> {{ days[0] }}</v-tab>
-                  <v-tab> {{ days[1] }}</v-tab>
-                  <v-tab> {{ days[2] }} </v-tab>
-                  <v-tab> {{ days[3] }}</v-tab>
-                  <v-tab> {{ days[4] }}</v-tab>
+                  <v-tab v-for="(n, i) in 5" :key="i"> {{ days[i] }}</v-tab>
                 </v-tabs>
 
                 <v-tabs-items v-model="tab_lava">
                   <v-tab-item :v-for="0">
                     <v-expansion-panels accordion>
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 1</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_lava_22[0][days[0]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 2</v-expansion-panel-header>
-                        <v-expansion-panel-content> {{ jedilnik_lava_22[1][days[0]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 3</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_lava_22[2][days[0]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 4</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_lava_22[3][days[0]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 5</v-expansion-panel-header>
-                        <v-expansion-panel-content> {{ jedilnik_lava_22[4][days[0]] }}</v-expansion-panel-content>
-                      </v-expansion-panel>
+                      <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_lava_22[0][days[0]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_lava_22[1][days[0]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_lava_22[2][days[0]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 4" :ime_jedi="jedilnik_lava_22[3][days[0]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 5" :ime_jedi="jedilnik_lava_22[4][days[0]]"></jedilnik-paneli>
                     </v-expansion-panels>
                   </v-tab-item>
                   <v-tab-item :v-for="1">
                     <v-expansion-panels accordion>
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 1</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_lava_22[0][days[1]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 2</v-expansion-panel-header>
-                        <v-expansion-panel-content> {{ jedilnik_lava_22[1][days[1]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 3</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_lava_22[2][days[1]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 4</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_lava_22[3][days[1]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 5</v-expansion-panel-header>
-                        <v-expansion-panel-content> {{ jedilnik_lava_22[4][days[1]] }}</v-expansion-panel-content>
-                      </v-expansion-panel>
+                      <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_lava_22[0][days[1]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_lava_22[1][days[1]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_lava_22[2][days[1]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 4" :ime_jedi="jedilnik_lava_22[3][days[1]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 5" :ime_jedi="jedilnik_lava_22[4][days[1]]"></jedilnik-paneli>
                     </v-expansion-panels>
                   </v-tab-item>
                   <v-tab-item :v-for="2">
                     <v-expansion-panels accordion>
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 1</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_lava_22[0][days[2]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 2</v-expansion-panel-header>
-                        <v-expansion-panel-content> {{ jedilnik_lava_22[1][days[2]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 3</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_lava_22[2][days[2]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 4</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_lava_22[3][days[2]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 5</v-expansion-panel-header>
-                        <v-expansion-panel-content> {{ jedilnik_lava_22[4][days[2]] }}</v-expansion-panel-content>
-                      </v-expansion-panel>
+                      <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_lava_22[0][days[2]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_lava_22[1][days[2]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_lava_22[2][days[2]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 4" :ime_jedi="jedilnik_lava_22[3][days[2]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 5" :ime_jedi="jedilnik_lava_22[4][days[2]]"></jedilnik-paneli>
                     </v-expansion-panels>
                   </v-tab-item>
                   <v-tab-item :v-for="3">
                     <v-expansion-panels accordion>
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 1</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_lava_22[0][days[3]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 2</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_lava_22[1][days[3]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 3</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_lava_22[2][days[3]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 4</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_lava_22[3][days[3]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 5</v-expansion-panel-header>
-                        <v-expansion-panel-content> {{ jedilnik_lava_22[4][days[3]] }}</v-expansion-panel-content>
-                      </v-expansion-panel>
+                      <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_lava_22[0][days[3]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_lava_22[1][days[3]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_lava_22[2][days[3]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 4" :ime_jedi="jedilnik_lava_22[3][days[3]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 5" :ime_jedi="jedilnik_lava_22[4][days[3]]"></jedilnik-paneli>
                     </v-expansion-panels>
                   </v-tab-item>
                   <v-tab-item :v-for="4">
                     <v-expansion-panels accordion>
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 1</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_lava_22[0][days[4]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 2</v-expansion-panel-header>
-                        <v-expansion-panel-content> {{ jedilnik_lava_22[1][days[4]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 3</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_lava_22[2][days[4]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 4</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_lava_22[3][days[4]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 5</v-expansion-panel-header>
-                        <v-expansion-panel-content> {{ jedilnik_lava_22[4][days[4]] }}</v-expansion-panel-content>
-                      </v-expansion-panel>
+                      <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_lava_22[0][days[4]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_lava_22[1][days[4]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_lava_22[2][days[4]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 4" :ime_jedi="jedilnik_lava_22[3][days[4]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 5" :ime_jedi="jedilnik_lava_22[4][days[4]]"></jedilnik-paneli>
                     </v-expansion-panels>
                   </v-tab-item>
                 </v-tabs-items>
@@ -191,127 +92,48 @@
               <!-- TAB Kosovelova 14 (pionirski dom) -->
               <v-tab-item :v-for="1">
                 <v-tabs v-model="tab_kosovelova">
-                  <v-tab> {{ days[0] }}</v-tab>
-                  <v-tab> {{ days[1] }}</v-tab>
-                  <v-tab> {{ days[2] }} </v-tab>
-                  <v-tab> {{ days[3] }}</v-tab>
-                  <v-tab> {{ days[4] }}</v-tab>
+                  <v-tab v-for="(n, i) in 5" :key="i"> {{ days[i] }}</v-tab>
                 </v-tabs>
 
                 <v-tabs-items v-model="tab_kosovelova">
                   <v-tab-item :v-for="0">
                     <v-expansion-panels accordion>
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI TOPLI</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_kosovelova_14[0][days[0]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI HLADNI</v-expansion-panel-header>
-                        <v-expansion-panel-content> {{ jedilnik_kosovelova_14[1][days[0]] }}</v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 3</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_kosovelova_14[2][days[0]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 6</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_kosovelova_14[3][days[0]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
+                      <jedilnik-paneli ime_menija="MENI TOPLI" :ime_jedi="jedilnik_kosovelova_14[0][days[0]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI HLADNI" :ime_jedi="jedilnik_kosovelova_14[1][days[0]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_kosovelova_14[2][days[0]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 6" :ime_jedi="jedilnik_kosovelova_14[3][days[0]]"></jedilnik-paneli>
                     </v-expansion-panels>
                   </v-tab-item>
                   <v-tab-item :v-for="1">
                     <v-expansion-panels accordion>
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI TOPLI</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_kosovelova_14[0][days[1]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI HLADNI</v-expansion-panel-header>
-                        <v-expansion-panel-content> {{ jedilnik_kosovelova_14[1][days[1]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 3</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_kosovelova_14[2][days[1]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 6</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_kosovelova_14[3][days[1]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
+                      <jedilnik-paneli ime_menija="MENI TOPLI" :ime_jedi="jedilnik_kosovelova_14[0][days[1]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI HLADNI" :ime_jedi="jedilnik_kosovelova_14[1][days[1]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_kosovelova_14[2][days[1]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 6" :ime_jedi="jedilnik_kosovelova_14[3][days[1]]"></jedilnik-paneli>
                     </v-expansion-panels>
                   </v-tab-item>
                   <v-tab-item :v-for="2">
                     <v-expansion-panels accordion>
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI TOPLI</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_kosovelova_14[0][days[2]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI HLADNI</v-expansion-panel-header>
-                        <v-expansion-panel-content> {{ jedilnik_kosovelova_14[1][days[2]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 3</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_kosovelova_14[2][days[2]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 6</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_kosovelova_14[3][days[2]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
+                      <jedilnik-paneli ime_menija="MENI TOPLI" :ime_jedi="jedilnik_kosovelova_14[0][days[2]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI HLADNI" :ime_jedi="jedilnik_kosovelova_14[1][days[2]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_kosovelova_14[2][days[2]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 6" :ime_jedi="jedilnik_kosovelova_14[3][days[2]]"></jedilnik-paneli>
                     </v-expansion-panels>
                   </v-tab-item>
                   <v-tab-item :v-for="3">
                     <v-expansion-panels accordion>
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI TOPLI</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_kosovelova_14[0][days[3]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI HLADNI</v-expansion-panel-header>
-                        <v-expansion-panel-content> {{ jedilnik_kosovelova_14[1][days[3]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 3</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_kosovelova_14[2][days[3]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 6</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_kosovelova_14[3][days[3]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
+                      <jedilnik-paneli ime_menija="MENI TOPLI" :ime_jedi="jedilnik_kosovelova_14[0][days[3]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI HLADNI" :ime_jedi="jedilnik_kosovelova_14[1][days[3]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_kosovelova_14[2][days[3]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 6" :ime_jedi="jedilnik_kosovelova_14[3][days[3]]"></jedilnik-paneli>
                     </v-expansion-panels>
                   </v-tab-item>
                   <v-tab-item :v-for="4">
                     <v-expansion-panels accordion>
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI TOPLI</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_kosovelova_14[0][days[4]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI HLADNI</v-expansion-panel-header>
-                        <v-expansion-panel-content> {{ jedilnik_kosovelova_14[1][days[4]] }}</v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 3</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_kosovelova_14[2][days[4]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 6</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_kosovelova_14[3][days[4]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
+                      <jedilnik-paneli ime_menija="MENI TOPLI" :ime_jedi="jedilnik_kosovelova_14[0][days[4]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI HLADNI" :ime_jedi="jedilnik_kosovelova_14[1][days[4]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_kosovelova_14[2][days[4]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 6" :ime_jedi="jedilnik_kosovelova_14[3][days[4]]"></jedilnik-paneli>
                     </v-expansion-panels>
                   </v-tab-item>
                 </v-tabs-items>
@@ -320,127 +142,48 @@
               <!-- TAB Ljubljanska 21 (dijaški dom) -->
               <v-tab-item :v-for="2">
                 <v-tabs v-model="tab_ljubljanska">
-                  <v-tab> {{ days[0] }}</v-tab>
-                  <v-tab> {{ days[1] }}</v-tab>
-                  <v-tab> {{ days[2] }} </v-tab>
-                  <v-tab> {{ days[3] }}</v-tab>
-                  <v-tab> {{ days[4] }}</v-tab>
+                  <v-tab v-for="(n, i) in 5" :key="i"> {{ days[i] }}</v-tab>
                 </v-tabs>
 
                 <v-tabs-items v-model="tab_ljubljanska">
                   <v-tab-item :v-for="0">
                     <v-expansion-panels accordion>
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 1</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_ljubljanska_21[0][days[0]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 2</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_ljubljanska_21[1][days[0]] }}</v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 3 - HLADNI</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_ljubljanska_21[2][days[0]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 6</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_ljubljanska_21[3][days[0]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
+                      <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_ljubljanska_21[0][days[0]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_ljubljanska_21[1][days[0]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 3 - HLADNI" :ime_jedi="jedilnik_ljubljanska_21[2][days[0]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 6" :ime_jedi="jedilnik_ljubljanska_21[3][days[0]]"></jedilnik-paneli>
                     </v-expansion-panels>
                   </v-tab-item>
                   <v-tab-item :v-for="1">
                     <v-expansion-panels accordion>
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 1</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_ljubljanska_21[0][days[1]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 2</v-expansion-panel-header>
-                        <v-expansion-panel-content> {{ jedilnik_ljubljanska_21[1][days[1]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 3 - HLADNI</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_ljubljanska_21[2][days[1]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 6</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_ljubljanska_21[3][days[1]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
+                      <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_ljubljanska_21[0][days[1]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_ljubljanska_21[1][days[1]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 3 - HLADNI" :ime_jedi="jedilnik_ljubljanska_21[2][days[1]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 6" :ime_jedi="jedilnik_ljubljanska_21[3][days[1]]"></jedilnik-paneli>
                     </v-expansion-panels>
                   </v-tab-item>
                   <v-tab-item :v-for="2">
                     <v-expansion-panels accordion>
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 1</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_ljubljanska_21[0][days[2]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 2</v-expansion-panel-header>
-                        <v-expansion-panel-content> {{ jedilnik_ljubljanska_21[1][days[2]] }}</v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 3 - HLADNI</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_ljubljanska_21[2][days[2]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 6</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_ljubljanska_21[3][days[2]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
+                      <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_ljubljanska_21[0][days[2]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_ljubljanska_21[1][days[2]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 3 - HLADNI" :ime_jedi="jedilnik_ljubljanska_21[2][days[2]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 6" :ime_jedi="jedilnik_ljubljanska_21[3][days[2]]"></jedilnik-paneli>
                     </v-expansion-panels>
                   </v-tab-item>
                   <v-tab-item :v-for="3">
                     <v-expansion-panels accordion>
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 1</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_ljubljanska_21[0][days[3]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 2</v-expansion-panel-header>
-                        <v-expansion-panel-content> {{ jedilnik_ljubljanska_21[1][days[3]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 3 - HLADNI</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_ljubljanska_21[2][days[3]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 6</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_ljubljanska_21[3][days[3]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
+                      <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_ljubljanska_21[0][days[3]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_ljubljanska_21[1][days[3]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 3 - HLADNI" :ime_jedi="jedilnik_ljubljanska_21[2][days[3]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 6" :ime_jedi="jedilnik_ljubljanska_21[3][days[3]]"></jedilnik-paneli>
                     </v-expansion-panels>
                   </v-tab-item>
                   <v-tab-item :v-for="4">
                     <v-expansion-panels accordion>
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 1</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_ljubljanska_21[0][days[4]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 2</v-expansion-panel-header>
-                        <v-expansion-panel-content> {{ jedilnik_ljubljanska_21[1][days[4]] }}</v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 3 - HLADNI</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_ljubljanska_21[2][days[4]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
-
-                      <v-expansion-panel>
-                        <v-expansion-panel-header>MENI 6</v-expansion-panel-header>
-                        <v-expansion-panel-content>{{ jedilnik_ljubljanska_21[3][days[4]] }} </v-expansion-panel-content>
-                      </v-expansion-panel>
+                      <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_ljubljanska_21[0][days[4]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_ljubljanska_21[1][days[4]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 3 - HLADNI" :ime_jedi="jedilnik_ljubljanska_21[2][days[4]]"></jedilnik-paneli>
+                      <jedilnik-paneli ime_menija="MENI 6" :ime_jedi="jedilnik_ljubljanska_21[3][days[4]]"></jedilnik-paneli>
                     </v-expansion-panels>
                   </v-tab-item>
                 </v-tabs-items>
@@ -456,7 +199,6 @@
 <script>
 import axios from 'axios'
 import cherio from 'cherio'
-import moment from 'moment'
 import HtmlTableToJson from 'html-table-to-json'
 import basicFunctions from '~/assets/js/basic_functions_other.js'
 
@@ -466,10 +208,10 @@ export default {
   data() {
     return {
       tab: null,
-      tab_lava: moment().day(),
-      tab_kosovelova: moment().day(),
-      tab_ljubljanska: moment().day(),
-      items: ['Lava 22', 'Kosovelova 14 (pionirski dom)', ' Ljubljanska 21 (dijaški dom)'],
+      tab_lava: this.$moment().isoWeekday(), // prevzeto prikaže dan kateri je danes
+      tab_kosovelova: this.$moment().isoWeekday(), // prevzeto prikaže dan kateri je danes
+      tab_ljubljanska: this.$moment().isoWeekday(), // prevzeto prikaže dan kateri je danes
+      items: ['Lava 22', 'Kosovelova 14 (pionirski dom)', ' Ljubljanska 21 (dijaški dom)'], // lokacije prehrane
       jedilnik_lava_22: [],
       jedilnik_kosovelova_14: [],
       jedilnik_ljubljanska_21: [],
@@ -484,23 +226,28 @@ export default {
   },
 
   methods: {
+    // izračun dnevov v tednu
     weekDates() {
-      const currentDate = moment()
+      const currentDate = this.$moment()
       const weekDays = ['Ponedeljek', 'Torek', 'Sreda', 'Četrtek', 'Petek', 'Sobota', 'Nedelja']
 
       const weekStart = currentDate.clone().startOf('isoWeek')
       const weekEnd = currentDate.clone().endOf('isoWeek')
 
+      // ob nedeljah stan prikaže za naslednji teden jedilnik - dodamo sedem dni naprej
       if (currentDate.format('DD.MM.YYYY') === weekEnd.format('DD.MM.YYYY')) {
         weekStart.add(7, 'days')
       }
       for (let i = 0; i <= 6; i++) {
-        this.days.push(weekDays[i] + ' ' + moment(weekStart).add(i, 'days').format('DD.MM.YYYY'))
+        this.days.push(weekDays[i] + ' ' + this.$moment(weekStart).add(i, 'days').format('DD.MM.YYYY'))
       }
     },
 
+    // pridobi jedilnik
     getJedilnik() {
-      const url = this.config.default.prehrana_site
+      this.loaded = false
+
+      const url = this.config.default.prehrana_site // url strani za prehrano definirana v config datoteki
 
       axios.get(`https://api.allorigins.win/raw?url=${url}`).then((response) => {
         const $ = cherio.load(response.data)

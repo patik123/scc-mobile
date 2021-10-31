@@ -28,6 +28,7 @@
         <v-main>
           <v-container fluid>
             <div class="text-center">
+              <span>Trenutno ta izkaznica nima nikakršnega pomena za dijake - mogoče uporabljeno v prihodnosti</span>
               <BarCode :value="sifra_dijaka" font="Nuninto"> Težava s prikazom barcode </BarCode>
               <span class="d-block mb-3 font-weight-bold" style="font-size: 25px">{{ jwt_decoded.given_name + ' ' + jwt_decoded.family_name }}</span>
               <span class="d-block mb-1" style="font-size: 18px">{{ full_school_name() }}</span>

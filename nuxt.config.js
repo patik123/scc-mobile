@@ -1,8 +1,6 @@
 export default {
-  // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
   ssr: false,
-  // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'ŠCC Mobile',
     htmlAttrs: {
@@ -19,19 +17,14 @@ export default {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
-  // Global CSS: https://go.nuxtjs.dev/config-css
   css: ['@/assets/scss/main.scss', 'vue-pdf-app/dist/icons/main.css'],
 
-  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: ['~/plugins/barcode.client.js'],
 
-  // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
-  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/pwa', '@nuxtjs/style-resources', '@nuxtjs/vuetify', '@nuxtjs/moment'],
 
-  // Modules: https://go.nuxtjs.dev/config-modules
   modules: ['@nuxtjs/axios', '@nuxtjs/pwa', '@nuxtjs/auth-next'],
 
   axios: {},
@@ -52,7 +45,7 @@ export default {
       display: 'standalone',
       start_url: '/',
     },
-    /*   workbox: {
+    /*  workbox: {
       dev: process.env.NODE_ENV !== 'production'
     } */
   },
@@ -95,7 +88,6 @@ export default {
 
   router: {},
 
-  // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     sass: {
       implementation: require('sass'),
@@ -103,11 +95,6 @@ export default {
     scss: {
       implementation: require('sass'),
     },
-  },
-
-  bootstrapVue: {
-    bootstrapCSS: false,
-    icons: true,
   },
 
   vuetify: {

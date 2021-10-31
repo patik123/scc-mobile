@@ -1,6 +1,6 @@
 <template>
-  <v-list nav dense>
-    <v-list-item-group v-model="group" active-class="rounded-r-xl">
+  <v-list nav dense shaped>
+    <v-list-item-group v-model="group" active-class="rounded-r-xl" color="primary">
       <v-list-item class="rounded-r-xl" to="/" nuxt>
         <v-list-item-title><v-icon>home</v-icon> Domov</v-list-item-title>
       </v-list-item>
@@ -24,6 +24,7 @@
       <v-list-item class="rounded-r-xl" to="/izkaznica" nuxt>
         <v-list-item-title><v-icon>badge</v-icon> E-izkaznica</v-list-item-title>
       </v-list-item>
+      <!--
       <v-list-item class="rounded-r-xl" to="/koledar" nuxt>
         <v-list-item-title><v-icon>event</v-icon> Koledar</v-list-item-title>
       </v-list-item>
@@ -31,7 +32,7 @@
       <v-list-item class="rounded-r-xl" to="/opravila" nuxt>
         <v-list-item-title><v-icon>task_alt</v-icon> Opravila</v-list-item-title>
       </v-list-item>
-
+      -->
       <v-divider class="mb-1"></v-divider>
       <v-list-item class="rounded-r-xl" target="_blank" :href="config.default.eucilnica_site">
         <v-list-item-title><v-icon>school</v-icon> Spletna učilnica</v-list-item-title>
@@ -53,7 +54,6 @@
 </template>
 
 <script>
-import { props } from 'vue-barcode'
 import * as configData from '~/static/config.json'
 export default {
   props: {

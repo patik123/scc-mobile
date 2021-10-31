@@ -33,7 +33,9 @@
               Verzija: <v-chip>{{ config.default.version }}</v-chip>
             </p>
             <p>Avtor: Patrick KOŠIR</p>
-            <p>E-mail: {{ config.default.contact_email }}</p>
+            <p>
+              E-mail: <a :href="contact_email_link">{{ config.default.contact_email }}</a>
+            </p>
 
             <p>
               Mobilna aplikacija Šolskega centra Celje je namenjena vsem dijakom vseh srednjih šol Šolskega centra Celje in združuje najpomembnejše informacije potrebne za uspešno opravljanje šolskih
@@ -52,6 +54,12 @@ import basicFunctions from '~/assets/js/basic_functions_other.js'
 export default {
   name: 'About',
   mixins: [basicFunctions],
+
+  computed: {
+    contact_email_link: function () {
+      return `mailto:${this.config.default.contact_email}`
+    },
+  },
 }
 </script>
 <style scoped>
