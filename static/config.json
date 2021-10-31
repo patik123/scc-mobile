@@ -16,7 +16,7 @@
   "GVO": {
     "full_school_name": "Srednja šola za gradbeništvo in varovanje okolja",
     "website": "https://gvo.sc-celje.si",
-    "show_nadomescanja": false,
+    "show_nadomescanja": true,
     "type_of_nadomescanja": "pdf",
     "nadomescanja_url": "https://gvo.sc-celje.si/nadomescanja-2/"
   },
@@ -36,6 +36,7 @@
   },
   "prehrana_site": "https://prehrana.sc-celje.si",
   "eucilnica_site": "https://eucilnica.sc-celje.si",
+  "eviweb_public_url": "https://eportal.sc-celje.si/EWePortal/pages/index.html",
   "scc_main_site": "https://www.sc-celje.si/",
   "version": "1.0.0-alfa",
   "contact_email": "patrick.kosir.16867@dijak.sc-celje.si"
