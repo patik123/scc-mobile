@@ -5,10 +5,8 @@ export default {
   lang: {},
   rtl: false,
   theme: {
-    light: {
-    },
-    dark: {
-    },
+    light: {},
+    dark: {},
 
     treeShake: true,
   },

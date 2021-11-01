@@ -208,9 +208,9 @@ export default {
   data() {
     return {
       tab: null,
-      tab_lava: this.$moment().isoWeekday(), // prevzeto prikaže dan kateri je danes
-      tab_kosovelova: this.$moment().isoWeekday(), // prevzeto prikaže dan kateri je danes
-      tab_ljubljanska: this.$moment().isoWeekday(), // prevzeto prikaže dan kateri je danes
+      tab_lava: this.jedilnikGetDay(), // prevzeto prikaže dan kateri je danes
+      tab_kosovelova: this.jedilnikGetDay(), // prevzeto prikaže dan kateri je danes
+      tab_ljubljanska: this.jedilnikGetDay(), // prevzeto prikaže dan kateri je danes
       items: ['Lava 22', 'Kosovelova 14 (pionirski dom)', ' Ljubljanska 21 (dijaški dom)'], // lokacije prehrane
       jedilnik_lava_22: [],
       jedilnik_kosovelova_14: [],
@@ -241,6 +241,17 @@ export default {
       for (let i = 0; i <= 6; i++) {
         this.days.push(weekDays[i] + ' ' + this.$moment(weekStart).add(i, 'days').format('DD.MM.YYYY'))
       }
+    },
+
+    // funkcija za izbiro dneva v jedilniku po 15:00 pokaže prevzeto naslednji dan drugače pokaže isti dan
+    jedilnikGetDay() {
+      const diff = this.$moment(new Date(), 'HH:mm').diff(this.$moment('15:00', 'HH:mm'))
+      if (diff >= 0) {
+        let day = this.$moment().isoWeekday()
+        return day
+      }
+      let day = this.$moment().isoWeekday() - 1
+      return day
     },
 
     // pridobi jedilnik
