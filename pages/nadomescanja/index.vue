@@ -1,7 +1,8 @@
 <template>
   <div class="">
     <v-app>
-      <v-card class="no-radius" height="100%" width="100%">
+      <offline-alert v-if="$nuxt.isOffline"></offline-alert>
+      <v-sheet class="no-radius" height="100%" width="100%">
         <v-app-bar color="">
           <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
@@ -29,7 +30,7 @@
           <v-container fluid>
             <div v-if="!show_nadomescanja()" class="text-center">
               <h3>Ta stran ti ni namenjena. Nadomeščanja so na voljo pod obvestila.</h3>
-              <img src="~/static/access_denied.svg" class="access-denied-img mt-2" alt="Ni dostopa" /><br>
+              <img src="~/static/access_denied.svg" class="access-denied-img mt-2" alt="Ni dostopa" /><br />
 
               <v-btn class="mt-2" to="/" nuxt color="primary">Nazaj na domačo stran</v-btn>
             </div>
@@ -60,7 +61,7 @@
             </div>
           </v-container>
         </v-main>
-      </v-card>
+      </v-sheet>
     </v-app>
   </div>
 </template>

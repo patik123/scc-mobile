@@ -1,7 +1,8 @@
 <template>
-  <div class="">
+  <div>
     <v-app>
-      <v-card v-if="!$auth.loggedIn" class="no-radius" height="100%" width="100%">
+      <offline-alert v-if="$nuxt.isOffline"></offline-alert>
+      <v-sheet v-if="!$auth.loggedIn" class="no-radius" height="100%" width="100%">
         <v-app-bar>
           <v-toolbar-title>Šolski center Celje</v-toolbar-title>
           <v-spacer></v-spacer>
@@ -17,12 +18,11 @@
 
           <img src="~/static/app_img.svg" alt="Aplikacija" class="mt-3 app-img" />
         </v-main>
-      </v-card>
+      </v-sheet>
 
-      <v-card v-else class="no-radius" height="100%" width="100%">
+      <v-sheet v-else class="no-radius" height="100%" width="100%">
         <v-app-bar color="">
           <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-
           <v-toolbar-title>Šolski center Celje</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-icon class="mr-2" @click="darkMode()">{{ dark_light_icon }}</v-icon>
@@ -69,7 +69,7 @@
             <!-- PRIHAJAJOČI DOGODKI -->
           </v-container>
         </v-main>
-      </v-card>
+      </v-sheet>
     </v-app>
   </div>
 </template>

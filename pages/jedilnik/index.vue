@@ -1,7 +1,8 @@
 <template>
   <div>
     <v-app>
-      <v-card class="no-radius" height="100%" width="100%">
+      <offline-alert v-if="$nuxt.isOffline"></offline-alert>
+      <v-sheet class="no-radius" height="100%" width="100%">
         <v-app-bar color="">
           <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
@@ -191,7 +192,7 @@
             </v-tabs-items>
           </div>
         </v-main>
-      </v-card>
+      </v-sheet>
     </v-app>
   </div>
 </template>
@@ -247,10 +248,10 @@ export default {
     jedilnikGetDay() {
       const diff = this.$moment(new Date(), 'HH:mm').diff(this.$moment('15:00', 'HH:mm'))
       if (diff >= 0) {
-        let day = this.$moment().isoWeekday()
+        const day = this.$moment().isoWeekday()
         return day
       }
-      let day = this.$moment().isoWeekday() - 1
+      const day = this.$moment().isoWeekday() - 1
       return day
     },
 

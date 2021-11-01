@@ -1,7 +1,8 @@
 <template>
-  <div class="">
+  <div>
     <v-app>
-      <v-card class="no-radius" height="100%" width="100%">
+      <offline-alert v-if="$nuxt.isOffline"></offline-alert>
+      <v-sheet class="no-radius" height="100%" width="100%">
         <v-app-bar color="">
           <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
@@ -36,7 +37,7 @@
             </div>
           </v-container>
         </v-main>
-      </v-card>
+      </v-sheet>
     </v-app>
   </div>
 </template>
