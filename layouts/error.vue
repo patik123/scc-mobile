@@ -22,7 +22,7 @@
             <h3>Napaka</h3>
             <img src="~/static/warning.svg" class="mt-2 warning-img" alt="Opozorilo" />
           </div>
-          <NuxtLink to="/">Prva stran</NuxtLink>
+          <v-btn class="mt-5" color="primary" to="/" nuxt>Nazaj na domačo stran</v-btn>
         </div>
       </v-main>
     </v-sheet>

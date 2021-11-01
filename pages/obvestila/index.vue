@@ -32,7 +32,7 @@
             <div v-if="show_all_notifications">
               <v-card v-for="obvestilo in obvestila" :key="obvestilo.i" outlined class="margin-card" :data-url="obvestilo.link" :data-id="obvestilo.i" @click="show_obvestilo_func">
                 <v-card-title>
-                  <v-card-title>
+                  <v-card-title class="card-text-title">
                     <span>{{ obvestilo.title }}</span>
                   </v-card-title>
                 </v-card-title>
@@ -141,9 +141,13 @@ export default {
 .margin-card {
   margin-top: 10px !important;
 }
+.card-text-title{
+  word-break: normal !important;
+}
 
 .responsive-area {
   overflow-x: auto !important;
   -webkit-overflow-scrolling: touch;
 }
+
 </style>
