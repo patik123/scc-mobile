@@ -27,6 +27,13 @@
 
         <v-main>
           <v-container fluid>
+            <div v-if="!show_nadomescanja()" class="text-center">
+              <h3>Ta stran ti ni namenjena. Nadomeščanja so na voljo pod obvestila.</h3>
+              <img src="~/static/access_denied.svg" class="access-denied-img mt-2" alt="Ni dostopa" /><br>
+
+              <v-btn class="mt-2" to="/" nuxt color="primary">Nazaj na domačo stran</v-btn>
+            </div>
+
             <div v-if="nadomescanja_pdf">
               <div v-if="seznam_nadomescanj_pdf_load" id="seznam_nadomescanj_pdf">
                 <v-card
@@ -154,5 +161,16 @@ export default {
 <style scoped>
 .margin-card {
   margin-top: 10px !important;
+}
+.access-denied-img {
+  width: 30%;
+  height: 30%;
+}
+
+@media screen and (max-width: 960px) {
+  .access-denied-img {
+    width: 50%;
+    height: 50%;
+  }
 }
 </style>

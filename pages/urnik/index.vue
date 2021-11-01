@@ -26,9 +26,7 @@
         </v-navigation-drawer>
 
         <v-main>
-          <v-container fluid>
-            <span v-html="urnik"></span>
-          </v-container>
+          <v-container fluid> </v-container>
         </v-main>
       </v-card>
     </v-app>

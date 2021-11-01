@@ -14,6 +14,8 @@
 
           <p class="mt-5 font-weight-bold" style="font-size: 25px">Mobilna aplikacija Šolskega centra Celje</p>
           <p class="mt-2" style="font-size: 20px">Aplikacija namenjena dijakom Šolskega centra Celje.</p>
+
+          <img src="~/static/app_img.svg" alt="Aplikacija" class="mt-3 app-img" />
         </v-main>
       </v-card>
 
@@ -41,7 +43,31 @@
         </v-navigation-drawer>
 
         <v-main>
-          <v-container fluid> </v-container>
+          <v-container fluid>
+            <!-- BLIŽNICE DO DELOV APLIKACIJE -->
+            <v-chip-group mandatory>
+              <v-chip @click="goToPath('urnik')">
+                <v-icon left>schedule</v-icon>
+                Urnik
+              </v-chip>
+
+              <v-chip @click="goToPath('obvestila')">
+                <v-icon left>notifications</v-icon>
+                Obvestila
+              </v-chip>
+
+              <v-chip @click="goToPath('jedilnik')">
+                <v-icon left>restaurant_menu</v-icon>
+                Jedilnik
+              </v-chip>
+              <v-chip v-if="show_nadomescanja()" @click="goToPath('nadomescanja')">
+                <v-icon left>shuffle</v-icon>
+                Nadomeščanja
+              </v-chip>
+            </v-chip-group>
+
+            <!-- PRIHAJAJOČI DOGODKI -->
+          </v-container>
         </v-main>
       </v-card>
     </v-app>
@@ -55,5 +81,23 @@ import basicFunctions from '~/assets/js/basic_functions_index.js'
 export default {
   name: 'VstopnaStran',
   mixins: [basicFunctions],
+
+  methods: {
+    goToPath(path) {
+      this.$router.push(`/${path}`)
+    },
+  },
 }
 </script>
+<style scoped>
+.app-img {
+  width: 30%;
+  height: 30%;
+}
+@media screen and (max-width: 960px) {
+  .app-img {
+    width: 50%;
+    height: 50%;
+  }
+}
+</style>
