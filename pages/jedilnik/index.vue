@@ -45,7 +45,7 @@
 
                 <v-tabs-items v-model="tab_lava">
                   <v-tab-item :v-for="0">
-                    <v-expansion-panels accordion>
+                    <v-expansion-panels  v-model="panel_lava_22" multiple>
                       <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_lava_22[0][days[0]]"></jedilnik-paneli>
                       <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_lava_22[1][days[0]]"></jedilnik-paneli>
                       <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_lava_22[2][days[0]]"></jedilnik-paneli>
@@ -54,7 +54,7 @@
                     </v-expansion-panels>
                   </v-tab-item>
                   <v-tab-item :v-for="1">
-                    <v-expansion-panels accordion>
+                    <v-expansion-panels  v-model="panel_lava_22" multiple>
                       <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_lava_22[0][days[1]]"></jedilnik-paneli>
                       <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_lava_22[1][days[1]]"></jedilnik-paneli>
                       <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_lava_22[2][days[1]]"></jedilnik-paneli>
@@ -63,7 +63,7 @@
                     </v-expansion-panels>
                   </v-tab-item>
                   <v-tab-item :v-for="2">
-                    <v-expansion-panels accordion>
+                    <v-expansion-panels  v-model="panel_lava_22" multiple>
                       <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_lava_22[0][days[2]]"></jedilnik-paneli>
                       <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_lava_22[1][days[2]]"></jedilnik-paneli>
                       <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_lava_22[2][days[2]]"></jedilnik-paneli>
@@ -72,7 +72,7 @@
                     </v-expansion-panels>
                   </v-tab-item>
                   <v-tab-item :v-for="3">
-                    <v-expansion-panels accordion>
+                    <v-expansion-panels  v-model="panel_lava_22" multiple>
                       <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_lava_22[0][days[3]]"></jedilnik-paneli>
                       <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_lava_22[1][days[3]]"></jedilnik-paneli>
                       <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_lava_22[2][days[3]]"></jedilnik-paneli>
@@ -81,7 +81,7 @@
                     </v-expansion-panels>
                   </v-tab-item>
                   <v-tab-item :v-for="4">
-                    <v-expansion-panels accordion>
+                    <v-expansion-panels  v-model="panel_lava_22" multiple>
                       <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_lava_22[0][days[4]]"></jedilnik-paneli>
                       <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_lava_22[1][days[4]]"></jedilnik-paneli>
                       <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_lava_22[2][days[4]]"></jedilnik-paneli>
@@ -100,7 +100,7 @@
 
                 <v-tabs-items v-model="tab_kosovelova">
                   <v-tab-item :v-for="0">
-                    <v-expansion-panels accordion>
+                    <v-expansion-panels v-model="panel_kosovelova_14" multiple>
                       <jedilnik-paneli ime_menija="MENI TOPLI" :ime_jedi="jedilnik_kosovelova_14[0][days[0]]"></jedilnik-paneli>
                       <jedilnik-paneli ime_menija="MENI HLADNI" :ime_jedi="jedilnik_kosovelova_14[1][days[0]]"></jedilnik-paneli>
                       <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_kosovelova_14[2][days[0]]"></jedilnik-paneli>
@@ -108,7 +108,7 @@
                     </v-expansion-panels>
                   </v-tab-item>
                   <v-tab-item :v-for="1">
-                    <v-expansion-panels accordion>
+                    <v-expansion-panels v-model="panel_kosovelova_14" multiple>
                       <jedilnik-paneli ime_menija="MENI TOPLI" :ime_jedi="jedilnik_kosovelova_14[0][days[1]]"></jedilnik-paneli>
                       <jedilnik-paneli ime_menija="MENI HLADNI" :ime_jedi="jedilnik_kosovelova_14[1][days[1]]"></jedilnik-paneli>
                       <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_kosovelova_14[2][days[1]]"></jedilnik-paneli>
@@ -116,7 +116,7 @@
                     </v-expansion-panels>
                   </v-tab-item>
                   <v-tab-item :v-for="2">
-                    <v-expansion-panels accordion>
+                    <v-expansion-panels v-model="panel_kosovelova_14" multiple>
                       <jedilnik-paneli ime_menija="MENI TOPLI" :ime_jedi="jedilnik_kosovelova_14[0][days[2]]"></jedilnik-paneli>
                       <jedilnik-paneli ime_menija="MENI HLADNI" :ime_jedi="jedilnik_kosovelova_14[1][days[2]]"></jedilnik-paneli>
                       <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_kosovelova_14[2][days[2]]"></jedilnik-paneli>
@@ -124,7 +124,7 @@
                     </v-expansion-panels>
                   </v-tab-item>
                   <v-tab-item :v-for="3">
-                    <v-expansion-panels accordion>
+                    <v-expansion-panels v-model="panel_kosovelova_14" multiple>
                       <jedilnik-paneli ime_menija="MENI TOPLI" :ime_jedi="jedilnik_kosovelova_14[0][days[3]]"></jedilnik-paneli>
                       <jedilnik-paneli ime_menija="MENI HLADNI" :ime_jedi="jedilnik_kosovelova_14[1][days[3]]"></jedilnik-paneli>
                       <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_kosovelova_14[2][days[3]]"></jedilnik-paneli>
@@ -132,7 +132,7 @@
                     </v-expansion-panels>
                   </v-tab-item>
                   <v-tab-item :v-for="4">
-                    <v-expansion-panels accordion>
+                    <v-expansion-panels v-model="panel_kosovelova_14" multiple>
                       <jedilnik-paneli ime_menija="MENI TOPLI" :ime_jedi="jedilnik_kosovelova_14[0][days[4]]"></jedilnik-paneli>
                       <jedilnik-paneli ime_menija="MENI HLADNI" :ime_jedi="jedilnik_kosovelova_14[1][days[4]]"></jedilnik-paneli>
                       <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_kosovelova_14[2][days[4]]"></jedilnik-paneli>
@@ -150,7 +150,7 @@
 
                 <v-tabs-items v-model="tab_ljubljanska">
                   <v-tab-item :v-for="0">
-                    <v-expansion-panels accordion>
+                    <v-expansion-panels v-model="panel_ljubljanska_21" multiple>
                       <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_ljubljanska_21[0][days[0]]"></jedilnik-paneli>
                       <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_ljubljanska_21[1][days[0]]"></jedilnik-paneli>
                       <jedilnik-paneli ime_menija="MENI 3 - HLADNI" :ime_jedi="jedilnik_ljubljanska_21[2][days[0]]"></jedilnik-paneli>
@@ -158,7 +158,7 @@
                     </v-expansion-panels>
                   </v-tab-item>
                   <v-tab-item :v-for="1">
-                    <v-expansion-panels accordion>
+                    <v-expansion-panels v-model="panel_ljubljanska_21" multiple>
                       <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_ljubljanska_21[0][days[1]]"></jedilnik-paneli>
                       <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_ljubljanska_21[1][days[1]]"></jedilnik-paneli>
                       <jedilnik-paneli ime_menija="MENI 3 - HLADNI" :ime_jedi="jedilnik_ljubljanska_21[2][days[1]]"></jedilnik-paneli>
@@ -166,7 +166,7 @@
                     </v-expansion-panels>
                   </v-tab-item>
                   <v-tab-item :v-for="2">
-                    <v-expansion-panels accordion>
+                    <v-expansion-panels v-model="panel_ljubljanska_21" multiple>
                       <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_ljubljanska_21[0][days[2]]"></jedilnik-paneli>
                       <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_ljubljanska_21[1][days[2]]"></jedilnik-paneli>
                       <jedilnik-paneli ime_menija="MENI 3 - HLADNI" :ime_jedi="jedilnik_ljubljanska_21[2][days[2]]"></jedilnik-paneli>
@@ -174,7 +174,7 @@
                     </v-expansion-panels>
                   </v-tab-item>
                   <v-tab-item :v-for="3">
-                    <v-expansion-panels accordion>
+                    <v-expansion-panels v-model="panel_ljubljanska_21" multiple>
                       <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_ljubljanska_21[0][days[3]]"></jedilnik-paneli>
                       <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_ljubljanska_21[1][days[3]]"></jedilnik-paneli>
                       <jedilnik-paneli ime_menija="MENI 3 - HLADNI" :ime_jedi="jedilnik_ljubljanska_21[2][days[3]]"></jedilnik-paneli>
@@ -182,7 +182,7 @@
                     </v-expansion-panels>
                   </v-tab-item>
                   <v-tab-item :v-for="4">
-                    <v-expansion-panels accordion>
+                    <v-expansion-panels v-model="panel_ljubljanska_21" multiple>
                       <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_ljubljanska_21[0][days[4]]"></jedilnik-paneli>
                       <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_ljubljanska_21[1][days[4]]"></jedilnik-paneli>
                       <jedilnik-paneli ime_menija="MENI 3 - HLADNI" :ime_jedi="jedilnik_ljubljanska_21[2][days[4]]"></jedilnik-paneli>
@@ -219,6 +219,9 @@ export default {
       jedilnik_lava_22: [],
       jedilnik_kosovelova_14: [],
       jedilnik_ljubljanska_21: [],
+      panel_lava_22: [0, 1, 2], // kateri paneli so odprti
+      panel_kosovelova_14: [0, 1], // kateri paneli so odprti
+      panel_ljubljanska_21: [0, 1], // kateri paneli so odprti
       days: [], // prikaže dneve v tednu
       loaded: false, // znak da je jedilnik pridobljen zaradi tega ker v nasprotnem rimeru napiše error
     }

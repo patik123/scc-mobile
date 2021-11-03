@@ -28,6 +28,9 @@
 
         <v-main class="mt-2">
           <v-container fluid>
+            <div v-if="loading">
+               <v-skeleton-loader v-for="i in 10" :key="i" type="card-heading" ></v-skeleton-loader>
+            </div>
             <!-- Vsa obvestila dialog -->
             <div v-if="show_all_notifications">
               <v-card v-for="obvestilo in obvestila" :key="obvestilo.i" outlined class="margin-card" :data-url="obvestilo.link" :data-id="obvestilo.i" @click="show_obvestilo_func">
@@ -44,6 +47,13 @@
             <div v-if="show_notification">
               <div>
                 <v-btn color="primary" class="mb-4" @click="back_to_obvestila">Nazaj</v-btn>
+              </div>
+
+              <!-- Ne dela trenutno -->
+              <div v-if="loading_obvestilo" ref="loading_obvestilo1">
+                <v-skeleton-loader class="mb-2" type="heading"></v-skeleton-loader>
+                <v-skeleton-loader class="mb-2" type="chip"></v-skeleton-loader>
+                <v-skeleton-loader type="paragraph,paragraph,paragraph,paragraph,paragraph,paragraph,paragraph"></v-skeleton-loader>
               </div>
 
               <div class="d-inline">
@@ -79,6 +89,8 @@ export default {
       vsebina_obvestila_title: '',
       vsebina_obvestila_body: '',
       vsebina_obvestila_date: '',
+      loading: true,
+      loading_obvestilo: true,
     }
   },
 
@@ -92,17 +104,24 @@ export default {
 
   methods: {
     show_obvestilo_func(e) {
+      console.log(this.loading_obvestilo)
+      this.loading_obvestilo = true
+
+      console.log(this.loading_obvestilo)
       // eslint-disable-next-line no-console
       const url = e.currentTarget.dataset.url
 
-      axios.get(`https://api.allorigins.win/get?url=${url}`).then((response) => {
-        const $ = cherio.load(response.data.contents)
+      axios.get(`https://api.allorigins.win/raw?url=${url}`).then((response) => {
+        const $ = cherio.load(response.data)
         this.vsebina_obvestila_title = $('.post-title').text()
         this.vsebina_obvestila_body = $('.entry-inner').html()
         this.vsebina_obvestila_date = $('.post-byline').text()
       })
       this.show_notification = true
       this.show_all_notifications = false
+      this.loading_obvestilo = false
+
+      console.log(this.loading_obvestilo)
     },
 
     back_to_obvestila() {
@@ -111,17 +130,11 @@ export default {
       this.vsebina_obvestila_date = ''
       this.show_notification = false
       this.show_all_notifications = true
-    },
-    show_nadomescanja() {
-      if (this.$auth.loggedIn) {
-        const school = this.school
-        return this.config.default[school].show_nadomescanja
-      }
-      return null
+      this.loading_obvestilo = false
     },
     getObvestila() {
-      axios.get(`https://api.allorigins.win/get?url=${this.school_website()}`).then((response) => {
-        const $ = cherio.load(response.data.contents)
+      axios.get(`https://api.allorigins.win/raw?url=${this.school_website()}`).then((response) => {
+        const $ = cherio.load(response.data)
         $('#my_custom_widget-2 a').each((i, el) => {
           if ($(el).text() !== '(novo)') {
             this.obvestila.push({
@@ -131,6 +144,7 @@ export default {
             })
           }
         })
+        this.loading = false
       })
     },
   },
