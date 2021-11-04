@@ -49,7 +49,7 @@
                 <v-btn color="primary" class="mb-4" @click="back_to_obvestila">Nazaj</v-btn>
               </div>
 
-              <div v-if="loading_obvestilo" ref="loading_obvestilo">
+              <div v-if="loading_obvestilo">
                 <v-skeleton-loader class="mb-2" type="heading"></v-skeleton-loader>
                 <v-skeleton-loader class="mb-2" type="chip"></v-skeleton-loader>
                 <v-skeleton-loader type="paragraph,paragraph,paragraph,paragraph,paragraph,paragraph,paragraph"></v-skeleton-loader>

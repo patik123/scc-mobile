@@ -36,7 +36,7 @@
             </v-tab>
           </v-tabs>
           <!-- KONEC TABI -->
-          <div v-if="!loaded" class="mt-2" id="loading_jedilnik">
+          <div v-if="!loaded" id="loading_jedilnik" class="mt-2" >
             <v-skeleton-loader type="paragraph,paragraph,paragraph,paragraph,paragraph,paragraph,paragraph"></v-skeleton-loader>
           </div>
           <div v-if="loaded">
