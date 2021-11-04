@@ -49,8 +49,7 @@
                 <v-btn color="primary" class="mb-4" @click="back_to_obvestila">Nazaj</v-btn>
               </div>
 
-              <!-- Ne dela trenutno -->
-              <div v-if="loading_obvestilo" ref="loading_obvestilo1">
+              <div v-if="loading_obvestilo" ref="loading_obvestilo">
                 <v-skeleton-loader class="mb-2" type="heading"></v-skeleton-loader>
                 <v-skeleton-loader class="mb-2" type="chip"></v-skeleton-loader>
                 <v-skeleton-loader type="paragraph,paragraph,paragraph,paragraph,paragraph,paragraph,paragraph"></v-skeleton-loader>
@@ -104,24 +103,21 @@ export default {
 
   methods: {
     show_obvestilo_func(e) {
-      console.log(this.loading_obvestilo)
       this.loading_obvestilo = true
-
-      console.log(this.loading_obvestilo)
       // eslint-disable-next-line no-console
       const url = e.currentTarget.dataset.url
+
+
 
       axios.get(`https://api.allorigins.win/raw?url=${url}`).then((response) => {
         const $ = cherio.load(response.data)
         this.vsebina_obvestila_title = $('.post-title').text()
         this.vsebina_obvestila_body = $('.entry-inner').html()
         this.vsebina_obvestila_date = $('.post-byline').text()
+        this.loading_obvestilo = false
       })
       this.show_notification = true
       this.show_all_notifications = false
-      this.loading_obvestilo = false
-
-      console.log(this.loading_obvestilo)
     },
 
     back_to_obvestila() {

@@ -25,7 +25,7 @@ export default {
 
   buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/pwa', '@nuxtjs/style-resources', '@nuxtjs/vuetify', '@nuxtjs/moment'],
 
-  modules: ['@nuxtjs/axios', '@nuxtjs/pwa', '@nuxtjs/auth-next'],
+  modules: ['@nuxtjs/axios', '@nuxtjs/pwa', '@nuxtjs/auth-next','@nuxtjs/universal-storage',],
 
   axios: {},
 
@@ -40,8 +40,8 @@ export default {
       short_name: 'ŠCC Mobile',
       lang: 'si',
       description: 'ŠCC Mobile',
-      background_color: '#ffffff',
-      theme_color: '#ffffff',
+      background_color: '#002f5f',
+      theme_color: '#002f5f',
       display: 'standalone',
       start_url: '/',
     },

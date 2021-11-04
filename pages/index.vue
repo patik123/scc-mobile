@@ -67,6 +67,8 @@
             </v-chip-group>
 
             <!-- PRIHAJAJOČI DOGODKI -->
+
+            <!-- OPRAVILA -->
           </v-container>
         </v-main>
       </v-sheet>

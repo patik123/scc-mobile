@@ -35,6 +35,10 @@
               {{ item }}
             </v-tab>
           </v-tabs>
+          <!-- KONEC TABI -->
+          <div v-if="!loaded" class="mt-2" id="loading_jedilnik">
+            <v-skeleton-loader type="paragraph,paragraph,paragraph,paragraph,paragraph,paragraph,paragraph"></v-skeleton-loader>
+          </div>
           <div v-if="loaded">
             <v-tabs-items v-model="tab">
               <!-- TAB LAVA 22 -->
