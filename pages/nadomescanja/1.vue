@@ -28,23 +28,27 @@
 
         <v-main>
           <v-container fluid>
-             <v-tabs v-model="tab" background-color="transparent" right grow>
-            <v-tab >
-            Danes
-            </v-tab>
-                 <v-tab >
-            Jutri
-            </v-tab>
-          </v-tabs>
+  <v-tabs v-model="tab">
+      <v-tab>
+        Option 1
+      </v-tab>
+      <v-tab>
+        Option 2
+      </v-tab>
+ <v-tabs-items v-model="tab">
+      <v-tab-item
+        v-for="0"
+      >
+      Test 1
+      </v-tab-item>
 
-            <v-tabs-items v-model="tab">
-                  <v-tab-item :v-for="0">
-Tab 1
-                    <v-tab-item>
-                                      <v-tab-item :v-for="1">
-Tab 2
-                    <v-tab-item>
-                  </v-tabs-items>
+            <v-tab-item
+        v-for="1"
+      >
+      Test 2
+      </v-tab-item>
+    </v-tabs-items>
+          
           </v-container>
         </v-main>
       </v-sheet>
