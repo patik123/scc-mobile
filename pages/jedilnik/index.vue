@@ -271,17 +271,6 @@ export default {
 
       const url = this.config.default.prehrana_site // url strani za prehrano definirana v config datoteki
 
-
-// LE ZA TESTIRANJE 
-      axios.get('https://ker.sc-celje.si', {
-        headers:{
-          'origin': 'https://ker.sc-celje.si',
-          'referer': 'https://ker.sc-celje.si'
-        }
-      }).then((response) => {
-        console.log(response)
-      })
-
       axios.get(`https://api.allorigins.win/raw?url=${url}`).then((response) => {
         const $ = cherio.load(response.data)
 
