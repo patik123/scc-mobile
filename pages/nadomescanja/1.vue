@@ -38,10 +38,10 @@
           </v-tabs>
 
             <v-tabs-items v-model="tab">
-                  <v-tab-item v-for="0">
+                  <v-tab-item :v-for="0">
 Tab 1
                     <v-tab-item>
-                                      <v-tab-item v-for="1">
+                                      <v-tab-item :v-for="1">
 Tab 2
                     <v-tab-item>
                   </v-tabs-items>
