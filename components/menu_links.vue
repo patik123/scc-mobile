@@ -17,6 +17,10 @@
         <v-list-item-title><v-icon>shuffle</v-icon> Nadomeščanja</v-list-item-title>
       </v-list-item>
 
+      <v-list-item to="/nadomescanja/nova" nuxt>
+        <v-list-item-title><v-icon>shuffle</v-icon> Nadomeščanja (nova)</v-list-item-title>
+      </v-list-item>
+
       <v-list-item to="/jedilnik" nuxt>
         <v-list-item-title><v-icon>restaurant_menu</v-icon> Jedilnik</v-list-item-title>
       </v-list-item>
@@ -46,7 +50,7 @@
         <v-list-item-title><v-icon>language</v-icon> EviWeb</v-list-item-title>
       </v-list-item>
 
-            <v-list-item target="_blank" :href="config.default.prehrana_site">
+      <v-list-item target="_blank" :href="config.default.prehrana_site">
         <v-list-item-title><v-icon>language</v-icon> Šolska prehrana</v-list-item-title>
       </v-list-item>
 

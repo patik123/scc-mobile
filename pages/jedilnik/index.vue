@@ -28,175 +28,175 @@
 
         <v-main>
           <v-container fluid>
-            <v-alert type="error" dismissible text dense >Prehrano je potrebno za naslednji dan urediti do 14. ure tekočega dne.</v-alert>
-          <!-- TABI -->
-           <v-tabs v-model="tab" background-color="transparent" right grow>
-            <v-tab v-for="item in items" :key="item">
-              {{ item }}
-            </v-tab>
-          </v-tabs>
-          <!-- KONEC TABI -->
-          <div v-if="!loaded" id="loading_jedilnik" class="mt-2" >
-            <v-skeleton-loader type="paragraph,paragraph,paragraph,paragraph,paragraph,paragraph,paragraph"></v-skeleton-loader>
-          </div>
-          <div v-if="loaded">
-            <v-tabs-items v-model="tab">
-              <!-- TAB LAVA 22 -->
-              <v-tab-item :v-for="0">
-                <v-tabs v-model="tab_lava" grow right>
-                  <v-tab v-for="(n, i) in 5" :key="i"> {{ days[i] }}</v-tab>
-                </v-tabs>
+            <v-alert type="error" dismissible text dense>Prehrano je potrebno za naslednji dan urediti do 14. ure tekočega dne.</v-alert>
+            <!-- TABI -->
+            <v-tabs v-model="tab" background-color="transparent" right grow>
+              <v-tab v-for="item in items" :key="item">
+                {{ item }}
+              </v-tab>
+            </v-tabs>
+            <!-- KONEC TABI -->
+            <div v-if="!loaded" id="loading_jedilnik" class="mt-2">
+              <v-skeleton-loader type="paragraph,paragraph,paragraph,paragraph,paragraph,paragraph,paragraph"></v-skeleton-loader>
+            </div>
+            <div v-if="loaded">
+              <v-tabs-items v-model="tab">
+                <!-- TAB LAVA 22 -->
+                <v-tab-item :v-for="0">
+                  <v-tabs v-model="tab_lava" grow right>
+                    <v-tab v-for="(n, i) in 5" :key="i"> {{ days[i] }}</v-tab>
+                  </v-tabs>
 
-                <v-tabs-items v-model="tab_lava">
-                  <v-tab-item :v-for="0">
-                    <v-expansion-panels  v-model="panel_lava_22" multiple>
-                      <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_lava_22[0][days[0]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_lava_22[1][days[0]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_lava_22[2][days[0]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 4" :ime_jedi="jedilnik_lava_22[3][days[0]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 5" :ime_jedi="jedilnik_lava_22[4][days[0]]"></jedilnik-paneli>
-                    </v-expansion-panels>
-                  </v-tab-item>
-                  <v-tab-item :v-for="1">
-                    <v-expansion-panels  v-model="panel_lava_22" multiple>
-                      <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_lava_22[0][days[1]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_lava_22[1][days[1]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_lava_22[2][days[1]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 4" :ime_jedi="jedilnik_lava_22[3][days[1]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 5" :ime_jedi="jedilnik_lava_22[4][days[1]]"></jedilnik-paneli>
-                    </v-expansion-panels>
-                  </v-tab-item>
-                  <v-tab-item :v-for="2">
-                    <v-expansion-panels  v-model="panel_lava_22" multiple>
-                      <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_lava_22[0][days[2]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_lava_22[1][days[2]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_lava_22[2][days[2]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 4" :ime_jedi="jedilnik_lava_22[3][days[2]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 5" :ime_jedi="jedilnik_lava_22[4][days[2]]"></jedilnik-paneli>
-                    </v-expansion-panels>
-                  </v-tab-item>
-                  <v-tab-item :v-for="3">
-                    <v-expansion-panels  v-model="panel_lava_22" multiple>
-                      <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_lava_22[0][days[3]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_lava_22[1][days[3]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_lava_22[2][days[3]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 4" :ime_jedi="jedilnik_lava_22[3][days[3]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 5" :ime_jedi="jedilnik_lava_22[4][days[3]]"></jedilnik-paneli>
-                    </v-expansion-panels>
-                  </v-tab-item>
-                  <v-tab-item :v-for="4">
-                    <v-expansion-panels  v-model="panel_lava_22" multiple>
-                      <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_lava_22[0][days[4]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_lava_22[1][days[4]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_lava_22[2][days[4]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 4" :ime_jedi="jedilnik_lava_22[3][days[4]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 5" :ime_jedi="jedilnik_lava_22[4][days[4]]"></jedilnik-paneli>
-                    </v-expansion-panels>
-                  </v-tab-item>
-                </v-tabs-items>
-              </v-tab-item>
+                  <v-tabs-items v-model="tab_lava">
+                    <v-tab-item :v-for="0">
+                      <v-expansion-panels v-model="panel_lava_22" multiple>
+                        <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_lava_22[0][days[0]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_lava_22[1][days[0]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_lava_22[2][days[0]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 4" :ime_jedi="jedilnik_lava_22[3][days[0]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 5" :ime_jedi="jedilnik_lava_22[4][days[0]]"></jedilnik-paneli>
+                      </v-expansion-panels>
+                    </v-tab-item>
+                    <v-tab-item :v-for="1">
+                      <v-expansion-panels v-model="panel_lava_22" multiple>
+                        <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_lava_22[0][days[1]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_lava_22[1][days[1]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_lava_22[2][days[1]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 4" :ime_jedi="jedilnik_lava_22[3][days[1]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 5" :ime_jedi="jedilnik_lava_22[4][days[1]]"></jedilnik-paneli>
+                      </v-expansion-panels>
+                    </v-tab-item>
+                    <v-tab-item :v-for="2">
+                      <v-expansion-panels v-model="panel_lava_22" multiple>
+                        <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_lava_22[0][days[2]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_lava_22[1][days[2]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_lava_22[2][days[2]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 4" :ime_jedi="jedilnik_lava_22[3][days[2]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 5" :ime_jedi="jedilnik_lava_22[4][days[2]]"></jedilnik-paneli>
+                      </v-expansion-panels>
+                    </v-tab-item>
+                    <v-tab-item :v-for="3">
+                      <v-expansion-panels v-model="panel_lava_22" multiple>
+                        <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_lava_22[0][days[3]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_lava_22[1][days[3]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_lava_22[2][days[3]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 4" :ime_jedi="jedilnik_lava_22[3][days[3]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 5" :ime_jedi="jedilnik_lava_22[4][days[3]]"></jedilnik-paneli>
+                      </v-expansion-panels>
+                    </v-tab-item>
+                    <v-tab-item :v-for="4">
+                      <v-expansion-panels v-model="panel_lava_22" multiple>
+                        <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_lava_22[0][days[4]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_lava_22[1][days[4]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_lava_22[2][days[4]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 4" :ime_jedi="jedilnik_lava_22[3][days[4]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 5" :ime_jedi="jedilnik_lava_22[4][days[4]]"></jedilnik-paneli>
+                      </v-expansion-panels>
+                    </v-tab-item>
+                  </v-tabs-items>
+                </v-tab-item>
 
-              <!-- TAB Kosovelova 14 (pionirski dom) -->
-              <v-tab-item :v-for="1">
-                <v-tabs v-model="tab_kosovelova" right grow>
-                  <v-tab v-for="(n, i) in 5" :key="i"> {{ days[i] }}</v-tab>
-                </v-tabs>
+                <!-- TAB Kosovelova 14 (pionirski dom) -->
+                <v-tab-item :v-for="1">
+                  <v-tabs v-model="tab_kosovelova" right grow>
+                    <v-tab v-for="(n, i) in 5" :key="i"> {{ days[i] }}</v-tab>
+                  </v-tabs>
 
-                <v-tabs-items v-model="tab_kosovelova">
-                  <v-tab-item :v-for="0">
-                    <v-expansion-panels v-model="panel_kosovelova_14" multiple>
-                      <jedilnik-paneli ime_menija="MENI TOPLI" :ime_jedi="jedilnik_kosovelova_14[0][days[0]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI HLADNI" :ime_jedi="jedilnik_kosovelova_14[1][days[0]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_kosovelova_14[2][days[0]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 6" :ime_jedi="jedilnik_kosovelova_14[3][days[0]]"></jedilnik-paneli>
-                    </v-expansion-panels>
-                  </v-tab-item>
-                  <v-tab-item :v-for="1">
-                    <v-expansion-panels v-model="panel_kosovelova_14" multiple>
-                      <jedilnik-paneli ime_menija="MENI TOPLI" :ime_jedi="jedilnik_kosovelova_14[0][days[1]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI HLADNI" :ime_jedi="jedilnik_kosovelova_14[1][days[1]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_kosovelova_14[2][days[1]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 6" :ime_jedi="jedilnik_kosovelova_14[3][days[1]]"></jedilnik-paneli>
-                    </v-expansion-panels>
-                  </v-tab-item>
-                  <v-tab-item :v-for="2">
-                    <v-expansion-panels v-model="panel_kosovelova_14" multiple>
-                      <jedilnik-paneli ime_menija="MENI TOPLI" :ime_jedi="jedilnik_kosovelova_14[0][days[2]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI HLADNI" :ime_jedi="jedilnik_kosovelova_14[1][days[2]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_kosovelova_14[2][days[2]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 6" :ime_jedi="jedilnik_kosovelova_14[3][days[2]]"></jedilnik-paneli>
-                    </v-expansion-panels>
-                  </v-tab-item>
-                  <v-tab-item :v-for="3">
-                    <v-expansion-panels v-model="panel_kosovelova_14" multiple>
-                      <jedilnik-paneli ime_menija="MENI TOPLI" :ime_jedi="jedilnik_kosovelova_14[0][days[3]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI HLADNI" :ime_jedi="jedilnik_kosovelova_14[1][days[3]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_kosovelova_14[2][days[3]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 6" :ime_jedi="jedilnik_kosovelova_14[3][days[3]]"></jedilnik-paneli>
-                    </v-expansion-panels>
-                  </v-tab-item>
-                  <v-tab-item :v-for="4">
-                    <v-expansion-panels v-model="panel_kosovelova_14" multiple>
-                      <jedilnik-paneli ime_menija="MENI TOPLI" :ime_jedi="jedilnik_kosovelova_14[0][days[4]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI HLADNI" :ime_jedi="jedilnik_kosovelova_14[1][days[4]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_kosovelova_14[2][days[4]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 6" :ime_jedi="jedilnik_kosovelova_14[3][days[4]]"></jedilnik-paneli>
-                    </v-expansion-panels>
-                  </v-tab-item>
-                </v-tabs-items>
-              </v-tab-item>
+                  <v-tabs-items v-model="tab_kosovelova">
+                    <v-tab-item :v-for="0">
+                      <v-expansion-panels v-model="panel_kosovelova_14" multiple>
+                        <jedilnik-paneli ime_menija="MENI TOPLI" :ime_jedi="jedilnik_kosovelova_14[0][days[0]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI HLADNI" :ime_jedi="jedilnik_kosovelova_14[1][days[0]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_kosovelova_14[2][days[0]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 6" :ime_jedi="jedilnik_kosovelova_14[3][days[0]]"></jedilnik-paneli>
+                      </v-expansion-panels>
+                    </v-tab-item>
+                    <v-tab-item :v-for="1">
+                      <v-expansion-panels v-model="panel_kosovelova_14" multiple>
+                        <jedilnik-paneli ime_menija="MENI TOPLI" :ime_jedi="jedilnik_kosovelova_14[0][days[1]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI HLADNI" :ime_jedi="jedilnik_kosovelova_14[1][days[1]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_kosovelova_14[2][days[1]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 6" :ime_jedi="jedilnik_kosovelova_14[3][days[1]]"></jedilnik-paneli>
+                      </v-expansion-panels>
+                    </v-tab-item>
+                    <v-tab-item :v-for="2">
+                      <v-expansion-panels v-model="panel_kosovelova_14" multiple>
+                        <jedilnik-paneli ime_menija="MENI TOPLI" :ime_jedi="jedilnik_kosovelova_14[0][days[2]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI HLADNI" :ime_jedi="jedilnik_kosovelova_14[1][days[2]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_kosovelova_14[2][days[2]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 6" :ime_jedi="jedilnik_kosovelova_14[3][days[2]]"></jedilnik-paneli>
+                      </v-expansion-panels>
+                    </v-tab-item>
+                    <v-tab-item :v-for="3">
+                      <v-expansion-panels v-model="panel_kosovelova_14" multiple>
+                        <jedilnik-paneli ime_menija="MENI TOPLI" :ime_jedi="jedilnik_kosovelova_14[0][days[3]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI HLADNI" :ime_jedi="jedilnik_kosovelova_14[1][days[3]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_kosovelova_14[2][days[3]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 6" :ime_jedi="jedilnik_kosovelova_14[3][days[3]]"></jedilnik-paneli>
+                      </v-expansion-panels>
+                    </v-tab-item>
+                    <v-tab-item :v-for="4">
+                      <v-expansion-panels v-model="panel_kosovelova_14" multiple>
+                        <jedilnik-paneli ime_menija="MENI TOPLI" :ime_jedi="jedilnik_kosovelova_14[0][days[4]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI HLADNI" :ime_jedi="jedilnik_kosovelova_14[1][days[4]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 3" :ime_jedi="jedilnik_kosovelova_14[2][days[4]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 6" :ime_jedi="jedilnik_kosovelova_14[3][days[4]]"></jedilnik-paneli>
+                      </v-expansion-panels>
+                    </v-tab-item>
+                  </v-tabs-items>
+                </v-tab-item>
 
-              <!-- TAB Ljubljanska 21 (dijaški dom) -->
-              <v-tab-item :v-for="2">
-                <v-tabs v-model="tab_ljubljanska" right grow>
-                  <v-tab v-for="(n, i) in 5" :key="i"> {{ days[i] }}</v-tab>
-                </v-tabs>
+                <!-- TAB Ljubljanska 21 (dijaški dom) -->
+                <v-tab-item :v-for="2">
+                  <v-tabs v-model="tab_ljubljanska" right grow>
+                    <v-tab v-for="(n, i) in 5" :key="i"> {{ days[i] }}</v-tab>
+                  </v-tabs>
 
-                <v-tabs-items v-model="tab_ljubljanska">
-                  <v-tab-item :v-for="0">
-                    <v-expansion-panels v-model="panel_ljubljanska_21" multiple>
-                      <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_ljubljanska_21[0][days[0]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_ljubljanska_21[1][days[0]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 3 - HLADNI" :ime_jedi="jedilnik_ljubljanska_21[2][days[0]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 6" :ime_jedi="jedilnik_ljubljanska_21[3][days[0]]"></jedilnik-paneli>
-                    </v-expansion-panels>
-                  </v-tab-item>
-                  <v-tab-item :v-for="1">
-                    <v-expansion-panels v-model="panel_ljubljanska_21" multiple>
-                      <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_ljubljanska_21[0][days[1]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_ljubljanska_21[1][days[1]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 3 - HLADNI" :ime_jedi="jedilnik_ljubljanska_21[2][days[1]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 6" :ime_jedi="jedilnik_ljubljanska_21[3][days[1]]"></jedilnik-paneli>
-                    </v-expansion-panels>
-                  </v-tab-item>
-                  <v-tab-item :v-for="2">
-                    <v-expansion-panels v-model="panel_ljubljanska_21" multiple>
-                      <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_ljubljanska_21[0][days[2]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_ljubljanska_21[1][days[2]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 3 - HLADNI" :ime_jedi="jedilnik_ljubljanska_21[2][days[2]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 6" :ime_jedi="jedilnik_ljubljanska_21[3][days[2]]"></jedilnik-paneli>
-                    </v-expansion-panels>
-                  </v-tab-item>
-                  <v-tab-item :v-for="3">
-                    <v-expansion-panels v-model="panel_ljubljanska_21" multiple>
-                      <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_ljubljanska_21[0][days[3]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_ljubljanska_21[1][days[3]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 3 - HLADNI" :ime_jedi="jedilnik_ljubljanska_21[2][days[3]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 6" :ime_jedi="jedilnik_ljubljanska_21[3][days[3]]"></jedilnik-paneli>
-                    </v-expansion-panels>
-                  </v-tab-item>
-                  <v-tab-item :v-for="4">
-                    <v-expansion-panels v-model="panel_ljubljanska_21" multiple>
-                      <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_ljubljanska_21[0][days[4]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_ljubljanska_21[1][days[4]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 3 - HLADNI" :ime_jedi="jedilnik_ljubljanska_21[2][days[4]]"></jedilnik-paneli>
-                      <jedilnik-paneli ime_menija="MENI 6" :ime_jedi="jedilnik_ljubljanska_21[3][days[4]]"></jedilnik-paneli>
-                    </v-expansion-panels>
-                  </v-tab-item>
-                </v-tabs-items>
-              </v-tab-item>
-            </v-tabs-items>
-          </div>
+                  <v-tabs-items v-model="tab_ljubljanska">
+                    <v-tab-item :v-for="0">
+                      <v-expansion-panels v-model="panel_ljubljanska_21" multiple>
+                        <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_ljubljanska_21[0][days[0]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_ljubljanska_21[1][days[0]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 3 - HLADNI" :ime_jedi="jedilnik_ljubljanska_21[2][days[0]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 6" :ime_jedi="jedilnik_ljubljanska_21[3][days[0]]"></jedilnik-paneli>
+                      </v-expansion-panels>
+                    </v-tab-item>
+                    <v-tab-item :v-for="1">
+                      <v-expansion-panels v-model="panel_ljubljanska_21" multiple>
+                        <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_ljubljanska_21[0][days[1]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_ljubljanska_21[1][days[1]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 3 - HLADNI" :ime_jedi="jedilnik_ljubljanska_21[2][days[1]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 6" :ime_jedi="jedilnik_ljubljanska_21[3][days[1]]"></jedilnik-paneli>
+                      </v-expansion-panels>
+                    </v-tab-item>
+                    <v-tab-item :v-for="2">
+                      <v-expansion-panels v-model="panel_ljubljanska_21" multiple>
+                        <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_ljubljanska_21[0][days[2]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_ljubljanska_21[1][days[2]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 3 - HLADNI" :ime_jedi="jedilnik_ljubljanska_21[2][days[2]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 6" :ime_jedi="jedilnik_ljubljanska_21[3][days[2]]"></jedilnik-paneli>
+                      </v-expansion-panels>
+                    </v-tab-item>
+                    <v-tab-item :v-for="3">
+                      <v-expansion-panels v-model="panel_ljubljanska_21" multiple>
+                        <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_ljubljanska_21[0][days[3]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_ljubljanska_21[1][days[3]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 3 - HLADNI" :ime_jedi="jedilnik_ljubljanska_21[2][days[3]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 6" :ime_jedi="jedilnik_ljubljanska_21[3][days[3]]"></jedilnik-paneli>
+                      </v-expansion-panels>
+                    </v-tab-item>
+                    <v-tab-item :v-for="4">
+                      <v-expansion-panels v-model="panel_ljubljanska_21" multiple>
+                        <jedilnik-paneli ime_menija="MENI 1" :ime_jedi="jedilnik_ljubljanska_21[0][days[4]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 2" :ime_jedi="jedilnik_ljubljanska_21[1][days[4]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 3 - HLADNI" :ime_jedi="jedilnik_ljubljanska_21[2][days[4]]"></jedilnik-paneli>
+                        <jedilnik-paneli ime_menija="MENI 6" :ime_jedi="jedilnik_ljubljanska_21[3][days[4]]"></jedilnik-paneli>
+                      </v-expansion-panels>
+                    </v-tab-item>
+                  </v-tabs-items>
+                </v-tab-item>
+              </v-tabs-items>
+            </div>
           </v-container>
         </v-main>
       </v-sheet>

@@ -29,7 +29,7 @@
         <v-main class="mt-2">
           <v-container fluid>
             <div v-if="loading">
-               <v-skeleton-loader v-for="i in 10" :key="i" type="card-heading" ></v-skeleton-loader>
+              <v-skeleton-loader v-for="i in 10" :key="i" type="card-heading"></v-skeleton-loader>
             </div>
             <!-- Vsa obvestila dialog -->
             <div v-if="show_all_notifications">
@@ -107,8 +107,6 @@ export default {
       // eslint-disable-next-line no-console
       const url = e.currentTarget.dataset.url
 
-
-
       axios.get(`https://api.allorigins.win/raw?url=${url}`).then((response) => {
         const $ = cherio.load(response.data)
         this.vsebina_obvestila_title = $('.post-title').text()
@@ -151,7 +149,7 @@ export default {
 .margin-card {
   margin-top: 10px !important;
 }
-.card-text-title{
+.card-text-title {
   word-break: normal !important;
 }
 
@@ -159,5 +157,4 @@ export default {
   overflow-x: auto !important;
   -webkit-overflow-scrolling: touch;
 }
-
 </style>

@@ -64,6 +64,11 @@
                 <v-icon left>shuffle</v-icon>
                 Nadomeščanja
               </v-chip>
+
+              <v-chip @click="goToPath('nadomescanja/nova')">
+                <v-icon left>shuffle</v-icon>
+                Nadomeščanja (nova)
+              </v-chip>
             </v-chip-group>
 
             <!-- PRIHAJAJOČI DOGODKI -->
