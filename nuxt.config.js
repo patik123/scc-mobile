@@ -80,7 +80,7 @@ export default {
         accessType: 'offline',
         clientId: '4d004a0f-f841-4bfd-bc00-0ab1ee7e5bf4',
         codeChallengeMethod: 'S256',
-        scope: ['openid', 'profile', 'User.Read'],
+        scope: ['openid', 'profile', 'User.Read', 'Calendars.ReadWrite', 'Tasks.ReadWrite'],
         autoLogout: false,
       },
     },
