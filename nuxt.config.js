@@ -78,7 +78,7 @@ export default {
         responseType: 'code',
         grantType: 'authorization_code',
         accessType: 'offline',
-        clientId: 'ed033b99-1ce6-49c4-a297-5e9bdc24dc5f',
+        clientId: '4d004a0f-f841-4bfd-bc00-0ab1ee7e5bf4',
         codeChallengeMethod: 'S256',
         scope: ['openid', 'profile', 'User.Read'],
         autoLogout: false,
