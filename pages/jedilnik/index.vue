@@ -30,7 +30,7 @@
           <v-container fluid>
             <v-alert type="error" dismissible text dense>Prehrano je potrebno za naslednji dan urediti do 14. ure tekočega dne.</v-alert>
             <!-- TABI -->
-            <v-tabs v-model="tab" background-color="transparent" right grow>
+            <v-tabs v-model="tab" background-color="transparent" right grow :active-class="getSchoolColor()" :slider-color="getSchoolColor()">
               <v-tab v-for="item in items" :key="item">
                 {{ item }}
               </v-tab>
@@ -43,7 +43,7 @@
               <v-tabs-items v-model="tab">
                 <!-- TAB LAVA 22 -->
                 <v-tab-item :v-for="0">
-                  <v-tabs v-model="tab_lava" grow right>
+                  <v-tabs v-model="tab_lava" grow right :active-class="getSchoolColor()" :slider-color="getSchoolColor()">
                     <v-tab v-for="(n, i) in 5" :key="i"> {{ days[i] }}</v-tab>
                   </v-tabs>
 
@@ -98,7 +98,7 @@
 
                 <!-- TAB Kosovelova 14 (pionirski dom) -->
                 <v-tab-item :v-for="1">
-                  <v-tabs v-model="tab_kosovelova" right grow>
+                  <v-tabs v-model="tab_kosovelova" right grow :active-class="getSchoolColor()" :slider-color="getSchoolColor()">
                     <v-tab v-for="(n, i) in 5" :key="i"> {{ days[i] }}</v-tab>
                   </v-tabs>
 
@@ -148,7 +148,7 @@
 
                 <!-- TAB Ljubljanska 21 (dijaški dom) -->
                 <v-tab-item :v-for="2">
-                  <v-tabs v-model="tab_ljubljanska" right grow>
+                  <v-tabs v-model="tab_ljubljanska" right grow :active-class="getSchoolColor()" :slider-color="getSchoolColor()">
                     <v-tab v-for="(n, i) in 5" :key="i"> {{ days[i] }}</v-tab>
                   </v-tabs>
 

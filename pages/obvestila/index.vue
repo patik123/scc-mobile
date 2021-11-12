@@ -33,7 +33,16 @@
             </div>
             <!-- Vsa obvestila dialog -->
             <div v-if="show_all_notifications">
-              <v-card v-for="obvestilo in obvestila" :key="obvestilo.i" outlined class="margin-card" :data-url="obvestilo.link" :data-id="obvestilo.i" @click="show_obvestilo_func">
+              <v-card
+                v-for="obvestilo in obvestila"
+                :key="obvestilo.i"
+                outlined
+                class="margin-card"
+                :data-url="obvestilo.link"
+                :data-id="obvestilo.i"
+                :class="getSchoolColor()"
+                @click="show_obvestilo_func"
+              >
                 <v-card-title>
                   <v-card-title class="card-text-title">
                     <span>{{ obvestilo.title }}</span>
@@ -46,7 +55,7 @@
 
             <div v-if="show_notification">
               <div>
-                <v-btn color="primary" class="mb-4" @click="back_to_obvestila">Nazaj</v-btn>
+                <v-btn :color="getSchoolColor()" class="mb-4" @click="back_to_obvestila">Nazaj</v-btn>
               </div>
 
               <div v-if="loading_obvestilo">

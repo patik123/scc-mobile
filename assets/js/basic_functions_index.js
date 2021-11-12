@@ -64,6 +64,14 @@ export default {
         this.dark_light_icon = 'light_mode'
       }
     },
+    // Vrne CSS razred katere barve je šola
+    getSchoolColor() {
+      if (this.$auth.loggedIn) {
+        const school = this.school
+        return `${school}-color`
+      }
+      return null
+    },
 
     /* ERROR OB USMERITVI NA STRAN SE POJAVI UNTABLE ERROR */
     full_school_name() {

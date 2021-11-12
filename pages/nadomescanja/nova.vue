@@ -28,7 +28,7 @@
 
         <v-main>
           <v-container fluid>
-            <v-tabs v-model="tab" grow right>
+            <v-tabs v-model="tab" grow right :active-class="getSchoolColor()" :slider-color="getSchoolColor()">
               <v-tab> Danes </v-tab>
               <v-tab> Jutri </v-tab>
               <v-tabs-items v-model="tab">
@@ -56,7 +56,7 @@
 import basicFunctions from '~/assets/js/basic_functions_other.js'
 
 export default {
-  name: 'Nadomescanja1',
+  name: 'NadomescanjaNova',
   mixins: [basicFunctions],
   data() {
     return {
