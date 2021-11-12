@@ -27,19 +27,7 @@
         </v-navigation-drawer>
 
         <v-main>
-          <v-container fluid>
-            <v-btn class="ma-2" @click="$refs.calendar.prev()"><v-icon>chevron_left</v-icon></v-btn>
-            <v-calendar
-              ref="calendar"
-              v-model="value"
-              :weekdays="weekday"
-              :type="type"
-              :events="events"
-              :event-overlap-mode="mode"
-              :event-overlap-threshold="30"
-              :event-color="getEventColor"
-            ></v-calendar>
-          </v-container>
+          <v-container fluid> </v-container>
         </v-main>
       </v-sheet>
     </v-app>
@@ -52,5 +40,48 @@ import basicFunctions from '~/assets/js/basic_functions_other.js'
 export default {
   name: 'Koledar',
   mixins: [basicFunctions],
+  data() {
+    return {
+      calendar_id: '',
+      calendar_events: [],
+    }
+  },
+  created() {
+    this.getUserCalendarEvents()
+  },
+
+  methods: {
+    getUserCalendarEvents() {
+      this.$axios
+        .get('https://graph.microsoft.com/beta/me/calendars', {
+          headers: {
+            Authorization: this.$auth.$storage.getUniversal('_token.aad'),
+          },
+        })
+        .then((response) => {
+          this.calendar_id = response.data.value[0].id
+          console.log(response.data)
+          this.getCalendarEvents()
+        })
+    },
+
+    getCalendarEvents() {
+      this.$axios
+        .get(
+          'https://graph.microsoft.com/beta/me/calendars/' +
+            this.calendar_id +
+            '/events?$select=subject,body,bodyPreview,start,end,location&startdatetime=2021-11-12T11:29:18.417Z&enddatetime=2021-11-19T11:29:18.417Z',
+          {
+            headers: {
+              Authorization: this.$auth.$storage.getUniversal('_token.aad'),
+            },
+          }
+        )
+        .then((response) => {
+          this.calendar_events = response.data.value
+          console.log(response.data)
+        })
+    },
+  },
 }
 </script>

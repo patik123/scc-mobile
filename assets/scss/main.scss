@@ -2,7 +2,6 @@
 .no-radius {
   border-radius: 0 !important;
 }
-
 // BARVE ŠOL
 
 $KER: #6a7f10;
@@ -13,4 +12,50 @@ $SMM: #766a62;
 $SCC-default: #002f5f;
 $SCC-secondary: #8996a0;
 
+// CUSTOM CSS
+
+.KER-background {
+  background-color: $KER;
+  color: white;
+}
+
+.KER-color {
+  color: $KER;
+}
+
+.GL-background {
+  background-color: $GL;
+  color: white;
+}
+
+.GL-color {
+  color: $GL;
+}
+
+.GVO-background {
+  background-color: $GVO;
+  color: white;
+}
+
+.GVO-color {
+  color: $GVO;
+}
+
+.SDL-background {
+  background-color: $SDL;
+  color: white;
+}
+
+.SDL-color {
+  color: $SDL;
+}
+
+.SMM-background {
+  background-color: $SMM;
+  color: white;
+}
+
+.SMM-color {
+  color: $SMM;
+}
 // VUETIFY CONFIG

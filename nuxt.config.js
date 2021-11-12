@@ -11,7 +11,7 @@ export default {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: 'Mobilna aplikacija Šolskega centra Celja' },
       { name: 'format-detection', content: 'telephone=no' },
-      { name: 'Author', content: 'Patrick Košir' },
+      { name: 'author', content: 'Patrick Košir' },
       { name: 'google', content: 'notranslate' }, // Disable Google Translate
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],

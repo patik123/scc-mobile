@@ -12,7 +12,7 @@ export default {
       SDL: '#ff6319',
       SMM: '#766a62',
       SCCdefault: '#002f5f',
-      SCCsecondary: '#8996a0'
+      SCCsecondary: '#8996a0',
     },
     dark: {
       KER: '#6a7f10',
@@ -21,7 +21,7 @@ export default {
       SDL: '#ff6319',
       SMM: '#766a62',
       SCCdefault: '#002f5f',
-      SCCsecondary: '#8996a0'
+      SCCsecondary: '#8996a0',
     },
     options: { customProperties: true },
 

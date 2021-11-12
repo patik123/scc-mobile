@@ -1,6 +1,6 @@
 <template>
   <v-list nav dense shaped>
-    <v-list-item-group v-model="group" active color="primary">
+    <v-list-item-group v-model="group" :active-class="schoolBGColor()">
       <v-list-item to="/" nuxt>
         <v-list-item-title><v-icon>home</v-icon> Domov</v-list-item-title>
       </v-list-item>
@@ -28,7 +28,7 @@
       <v-list-item to="/izkaznica" nuxt>
         <v-list-item-title><v-icon>badge</v-icon> E-izkaznica</v-list-item-title>
       </v-list-item>
-      <!--
+
       <v-list-item to="/koledar" nuxt>
         <v-list-item-title><v-icon>event</v-icon> Koledar</v-list-item-title>
       </v-list-item>
@@ -36,7 +36,7 @@
       <v-list-item to="/opravila" nuxt>
         <v-list-item-title><v-icon>task_alt</v-icon> Opravila</v-list-item-title>
       </v-list-item>
-      -->
+
       <v-divider class="mb-1"></v-divider>
       <v-list-item target="_blank" :href="config.default.eucilnica_site">
         <v-list-item-title><v-icon>school</v-icon> Spletna učilnica</v-list-item-title>
@@ -73,6 +73,10 @@ export default {
       type: Boolean,
       required: true,
     },
+    school: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {
@@ -83,6 +87,12 @@ export default {
   watch: {
     group() {
       this.drawer = false
+    },
+  },
+  methods: {
+    schoolBGColor() {
+      const school = this.$props.school
+      return `${school}-background`
     },
   },
 }
