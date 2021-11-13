@@ -50,11 +50,12 @@
 </template>
 
 <script>
-import basicFunctions from '~/assets/js/basic_functions_other.js'
+import basicFunctions from '~/assets/js/basic_functions.js'
+import authMiddleware from '~/assets/js/auth_middleware.js'
 
 export default {
   name: 'About',
-  mixins: [basicFunctions],
+  mixins: [basicFunctions, authMiddleware],
 
   computed: {
     contact_email_link: function () {

@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import basicFunctions from '~/assets/js/basic_functions_index.js'
+import basicFunctions from '~/assets/js/basic_functions.js'
 export default {
   name: 'Error',
   mixins: [basicFunctions],

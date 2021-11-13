@@ -15,6 +15,8 @@ export default {
       drawer: false,
       group: null,
       darkmode: false,
+      ucitelj: false,
+      dijak: false,
       dark_light_icon: 'dark_mode',
     }
   },
@@ -25,21 +27,17 @@ export default {
   },
 
   created() {
-    if (!this.$auth.loggedIn) {
-      this.$router.push('/')
-    } else {
-      this.jwt_decoded = this.$auth.$storage.getUniversal('jwt_decoded')
-      this.jwt_token = this.$auth.$storage.getUniversal('_token.aad')
-      this.config = configData
-      if (this.$auth.loggedIn && !localStorage.getItem('user')) {
-        this.getUserData()
-      }
-      if (localStorage.getItem('DarkMode')) {
-        if (localStorage.getItem('DarkMode') === 'true') {
-          this.darkmode = true
-        } else {
-          this.handledarkmode()
-        }
+    this.jwt_decoded = this.$auth.$storage.getUniversal('jwt_decoded')
+    this.jwt_token = this.$auth.$storage.getUniversal('_token.aad')
+    this.config = configData
+    if (this.$auth.loggedIn && !localStorage.getItem('user')) {
+      this.getUserData()
+    }
+    if (localStorage.getItem('DarkMode')) {
+      if (localStorage.getItem('DarkMode') === 'true') {
+        this.darkmode = true
+      } else {
+        this.handledarkmode()
       }
     }
   },

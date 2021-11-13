@@ -208,11 +208,12 @@
 import axios from 'axios'
 import cherio from 'cherio'
 import HtmlTableToJson from 'html-table-to-json'
-import basicFunctions from '~/assets/js/basic_functions_other.js'
+import basicFunctions from '~/assets/js/basic_functions.js'
+import authMiddleware from '~/assets/js/auth_middleware.js'
 
 export default {
   name: 'Jedilnik',
-  mixins: [basicFunctions],
+  mixins: [basicFunctions, authMiddleware],
   data() {
     return {
       tab: null,

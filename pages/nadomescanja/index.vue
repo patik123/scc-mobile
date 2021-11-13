@@ -32,7 +32,7 @@
               <h3>Ta stran ti ni namenjena. Nadomeščanja so na voljo pod obvestila.</h3>
               <img src="~/static/access_denied.svg" class="access-denied-img mt-2" alt="Ni dostopa" /><br />
 
-              <v-btn class="mt-2" to="/" nuxt color="primary">Nazaj na domačo stran</v-btn>
+              <v-btn class="mt-2" to="/" nuxt :color="getSchoolColor()">Nazaj na domačo stran</v-btn>
             </div>
 
             <div v-if="nadomescanja_pdf">
@@ -55,7 +55,7 @@
               </div>
 
               <div v-if="show_nadomescanja_pdf_view" id="nadomescanje_pdf">
-                <v-btn color="primary" class="mb-4" @click="nadomescanja_back">Nazaj</v-btn>
+                <v-btn :color="getSchoolColor()" class="mb-4" @click="nadomescanja_back">Nazaj</v-btn>
                 <vue-pdf-app v-if="show_nadomescanja_pdf_view" style="height: 100vh" :pdf="pdf" :config="pdf_viewer_config"></vue-pdf-app>
               </div>
             </div>
@@ -70,14 +70,15 @@
 import axios from 'axios'
 import cherio from 'cherio'
 import VuePdfApp from 'vue-pdf-app'
-import basicFunctions from '~/assets/js/basic_functions_other.js'
+import basicFunctions from '~/assets/js/basic_functions.js'
+import authMiddleware from '~/assets/js/auth_middleware.js'
 
 export default {
   name: 'Nadomescanja',
   components: {
     VuePdfApp,
   },
-  mixins: [basicFunctions],
+  mixins: [basicFunctions, authMiddleware],
 
   data() {
     return {

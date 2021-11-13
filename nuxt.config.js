@@ -1,3 +1,4 @@
+
 export default {
   target: 'static',
   ssr: false,
@@ -13,6 +14,14 @@ export default {
       { name: 'format-detection', content: 'telephone=no' },
       { name: 'author', content: 'Patrick Košir' },
       { name: 'google', content: 'notranslate' }, // Disable Google Translate
+      { name: 'robots', content: 'noindex, nofollow' }, // V produkciji se mora spremeniti na index, follow
+      { name: 'googlebot', content: 'noindex, nofollow' }, // V produkciji se mora spremeniti na index, follow
+      // Default Open Graph
+      { property: 'og:title', content: 'ŠCC Mobile' }, 
+      { property: 'og:description', content: 'Mobilna aplikacija Šolskega centra Celja' },
+      { property: 'og:type', content: 'website' },
+      { property: 'og:url', content: 'https://scc-mobile.pages.dev' }, // V produkciji se mora spremeniti na URL strani
+      { property: 'og:image', content: 'https://scc-mobile.pages.dev/icon.png' }, // V produkciji spremeni na URL strani
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },

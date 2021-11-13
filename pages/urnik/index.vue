@@ -35,10 +35,11 @@
 </template>
 
 <script>
-import basicFunctions from '~/assets/js/basic_functions_other.js'
+import basicFunctions from '~/assets/js/basic_functions.js'
+import authMiddleware from '~/assets/js/auth_middleware.js'
 
 export default {
   name: 'Urnik',
-  mixins: [basicFunctions],
+  mixins: [basicFunctions, authMiddleware],
 }
 </script>
