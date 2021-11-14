@@ -117,8 +117,8 @@ export default {
     getPdfNadomescanja() {
       const school = localStorage.getItem('school')
       if (this.config.default[school].type_of_nadomescanja === 'pdf') {
-        this.$axios.get(`https://api.allorigins.win/get?url=${this.config.default[school].nadomescanja_url}`).then((response) => {
-          const $ = cherio.load(response.data.contents)
+        this.$axios.get(`https://api.allorigins.win/raw?url=${encodeURIComponent(this.config.default[school].nadomescanja_url)}`).then((response) => {
+          const $ = cherio.load(response.data)
           const vsebina = $('.content')
           $(vsebina)
             .find('a')
@@ -153,7 +153,7 @@ export default {
     show_nadomescanja_pdf(e) {
       this.seznam_nadomescanj_pdf_load = false
       const url = e.currentTarget.dataset.url
-      this.pdf = `https://api.allorigins.win/raw?url=${url}`
+      this.pdf = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`
       this.show_nadomescanja_pdf_view = true
     },
   },

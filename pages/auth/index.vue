@@ -20,7 +20,7 @@ export default {
     }
   },
   methods: {
-       detect_user_type(userEmail) {
+    detect_user_type(userEmail) {
       if (userEmail.includes('@sc-celje.si')) {
         this.ucitelj = true
         this.dijak = false
@@ -29,12 +29,11 @@ export default {
         this.ucitelj = false
         this.dijak = true
         localStorage.setItem('user_type', 'dijak')
-      }
-      else {
+      } else {
         this.ucitelj = false
         this.dijak = false
       }
     },
-  }
+  },
 }
 </script>

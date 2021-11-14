@@ -33,17 +33,15 @@ export default {
       this.getUserData()
     }
     // DARK MODE DETECT
-    if(localStorage.getItem('DarkMode')){
-      if(localStorage.getItem('DarkMode') === 'true'){
+    if (localStorage.getItem('DarkMode')) {
+      if (localStorage.getItem('DarkMode') === 'true') {
         this.darkmode = true
         this.handledarkmode()
-      }
-      else if(localStorage.getItem('DarkMode') === 'false'){
+      } else if (localStorage.getItem('DarkMode') === 'false') {
         this.darkmode = false
         this.handledarkmode()
       }
-    }
-    else{
+    } else {
       localStorage.setItem('DarkMode', false)
       this.darkmode = false
       this.handledarkmode()
@@ -73,7 +71,6 @@ export default {
           // eslint-disable-next-line no-console
           console.log(error)
         })
-
     },
 
     darkMode() {
@@ -99,8 +96,6 @@ export default {
         this.dark_light_icon = 'light_mode'
       }
     },
-
-
 
     logout() {
       this.$auth.logout()
