@@ -205,7 +205,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import cherio from 'cherio'
 import HtmlTableToJson from 'html-table-to-json'
 import basicFunctions from '~/assets/js/basic_functions.js'
@@ -272,7 +271,7 @@ export default {
 
       const url = this.config.default.prehrana_site // url strani za prehrano definirana v config datoteki
 
-      axios.get(`https://api.allorigins.win/raw?url=${url}`).then((response) => {
+      this.$axios.get(`https://api.allorigins.win/raw?url=${url}`).then((response) => {
         const $ = cherio.load(response.data)
 
         // Ustvari presledek za vsak break v tabeli (za lepši izpis)

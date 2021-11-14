@@ -78,16 +78,6 @@ import basicFunctions from '~/assets/js/basic_functions.js'
 export default {
   name: 'Error',
   mixins: [basicFunctions],
-  methods: {
-    logout() {
-      this.$auth.logout()
-      this.$router.push('/')
-    },
-
-    login() {
-      this.$auth.login('aad')
-    },
-  },
 }
 </script>
 <style scoped></style>

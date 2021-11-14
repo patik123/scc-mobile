@@ -40,12 +40,6 @@ export default {
       required: true,
     },
   },
-  methods: {
-    logout() {
-      this.$auth.logout()
-      this.$router.push('/')
-    },
-  },
 }
 </script>
 <style scoped>

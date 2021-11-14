@@ -1,4 +1,3 @@
-
 export default {
   target: 'static',
   ssr: false,
@@ -17,7 +16,7 @@ export default {
       { name: 'robots', content: 'noindex, nofollow' }, // V produkciji se mora spremeniti na index, follow
       { name: 'googlebot', content: 'noindex, nofollow' }, // V produkciji se mora spremeniti na index, follow
       // Default Open Graph
-      { property: 'og:title', content: 'ŠCC Mobile' }, 
+      { property: 'og:title', content: 'ŠCC Mobile' },
       { property: 'og:description', content: 'Mobilna aplikacija Šolskega centra Celja' },
       { property: 'og:type', content: 'website' },
       { property: 'og:url', content: 'https://scc-mobile.pages.dev' }, // V produkciji se mora spremeniti na URL strani

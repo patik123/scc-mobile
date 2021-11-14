@@ -15,8 +15,7 @@ export default {
       drawer: false,
       group: null,
       darkmode: false,
-      ucitelj: false,
-      dijak: false,
+      user_type: localStorage.getItem('user_type'),
       dark_light_icon: 'dark_mode',
     }
   },
@@ -33,12 +32,21 @@ export default {
     if (this.$auth.loggedIn && !localStorage.getItem('user')) {
       this.getUserData()
     }
-    if (localStorage.getItem('DarkMode')) {
-      if (localStorage.getItem('DarkMode') === 'true') {
+    // DARK MODE DETECT
+    if(localStorage.getItem('DarkMode')){
+      if(localStorage.getItem('DarkMode') === 'true'){
         this.darkmode = true
-      } else {
         this.handledarkmode()
       }
+      else if(localStorage.getItem('DarkMode') === 'false'){
+        this.darkmode = false
+        this.handledarkmode()
+      }
+    }
+    else{
+      localStorage.setItem('DarkMode', false)
+      this.darkmode = false
+      this.handledarkmode()
     }
   },
 
@@ -65,12 +73,13 @@ export default {
           // eslint-disable-next-line no-console
           console.log(error)
         })
+
     },
 
     darkMode() {
       this.darkmode = !this.darkmode
-      localStorage.setItem('DarkMode', this.darkmode)
     },
+
     show_nadomescanja() {
       if (this.$auth.loggedIn) {
         const school = this.school
@@ -78,6 +87,7 @@ export default {
       }
       return null
     },
+
     handledarkmode() {
       if (this.darkmode === true) {
         this.$vuetify.theme.dark = true
@@ -88,6 +98,13 @@ export default {
         localStorage.setItem('DarkMode', false)
         this.dark_light_icon = 'light_mode'
       }
+    },
+
+
+
+    logout() {
+      this.$auth.logout()
+      this.$router.push('/')
     },
 
     // Vrne CSS razred katere barve je šola

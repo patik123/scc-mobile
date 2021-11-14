@@ -67,7 +67,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import cherio from 'cherio'
 import VuePdfApp from 'vue-pdf-app'
 import basicFunctions from '~/assets/js/basic_functions.js'
@@ -118,7 +117,7 @@ export default {
     getPdfNadomescanja() {
       const school = localStorage.getItem('school')
       if (this.config.default[school].type_of_nadomescanja === 'pdf') {
-        axios.get(`https://api.allorigins.win/get?url=${this.config.default[school].nadomescanja_url}`).then((response) => {
+        this.$axios.get(`https://api.allorigins.win/get?url=${this.config.default[school].nadomescanja_url}`).then((response) => {
           const $ = cherio.load(response.data.contents)
           const vsebina = $('.content')
           $(vsebina)
