@@ -108,6 +108,10 @@ export default {
       return null
     },
 
+    login() {
+      this.$auth.login('aad')
+    },
+
     school_website() {
       if (this.$auth.loggedIn) {
         const school = this.school

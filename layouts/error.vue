@@ -45,10 +45,6 @@ export default {
       this.$auth.logout()
       this.$router.push('/')
     },
-
-    login() {
-      this.$auth.login('aad')
-    },
   },
 }
 </script>
