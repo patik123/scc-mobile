@@ -38,7 +38,7 @@
               v-model="calendar"
               :events="calendar_events"
               type="week"
-               v-touch="{ left: () => $refs.calendar.prev(), right: () => $refs.calendar.next() }"
+               v-touch="{ left: () => $refs.calendar.next(), right: () => $refs.calendar.prev() }"
               @click:event="eventClick"
               @click:time="createNewEvent"
               @click:interval="createNewEvent"
