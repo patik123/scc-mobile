@@ -205,7 +205,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from 'axios'
 import cherio from 'cherio'
 import HtmlTableToJson from 'html-table-to-json'
 import basicFunctions from '~/assets/js/basic_functions.js'

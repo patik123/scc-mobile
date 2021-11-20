@@ -32,7 +32,7 @@ export default {
     if (this.$auth.loggedIn && !localStorage.getItem('user')) {
       this.getUserData()
     }
-    // DARK MODE DETECT
+    // DARK MODE DETECT - Switch to dark mode if user has dark mode enabled
     if (localStorage.getItem('DarkMode')) {
       if (localStorage.getItem('DarkMode') === 'true') {
         this.darkmode = true
@@ -49,6 +49,7 @@ export default {
   },
 
   methods: {
+    // Get user data from Microsoft Graph API and store in local storage
     getUserData() {
       axios({
         method: 'GET',
@@ -77,6 +78,7 @@ export default {
       this.darkmode = !this.darkmode
     },
 
+    // Prikaže nadomeščanja v meniju - ko bo podatke prejemal iz WebUntisa je funkcija odstranjena
     show_nadomescanja() {
       if (this.$auth.loggedIn) {
         const school = this.school
@@ -85,6 +87,7 @@ export default {
       return null
     },
 
+    // Spreminja med temnim in svetlim načinom
     handledarkmode() {
       if (this.darkmode === true) {
         this.$vuetify.theme.dark = true
@@ -97,6 +100,7 @@ export default {
       }
     },
 
+    // Odjava iz aplikacije
     logout() {
       this.$auth.logout()
       this.$router.push('/')
@@ -112,6 +116,7 @@ export default {
     },
 
     /* ERROR OB USMERITVI NA STRAN SE POJAVI UNTABLE ERROR */
+    // Vrne ime šole
     full_school_name() {
       if (this.$auth.loggedIn) {
         const school = this.school
@@ -120,10 +125,12 @@ export default {
       return null
     },
 
+    // Prijava v aplikacijo
     login() {
       this.$auth.login('aad')
     },
 
+    // Vrne spletno stran šole
     school_website() {
       if (this.$auth.loggedIn) {
         const school = this.school
