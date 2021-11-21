@@ -138,5 +138,10 @@ export default {
       }
       return null
     },
+
+    schoolBGColor() {
+      const school = this.school
+      return `${school}-background`
+    },
   },
 }

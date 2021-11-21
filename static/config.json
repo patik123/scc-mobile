@@ -23,8 +23,8 @@
   "SDL": {
     "full_school_name": "Srednja šola za storitvene dejavnosti in logistiko",
     "website": "https://sdl.sc-celje.si",
-    "show_nadomescanja": true,
-    "type_of_nadomescanja": "tabela",
+    "show_nadomescanja": false,
+    "type_of_nadomescanja": "",
     "nadomescanja_url": ""
   },
   "SMM": {

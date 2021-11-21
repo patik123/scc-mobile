@@ -48,7 +48,7 @@ export default {
       short_name: 'ŠCC Mobile',
       lang: 'si',
       description: 'ŠCC Mobile',
-      background_color: '#002f5f',
+      background_color: '#ffffff',
       theme_color: '#002f5f',
       display: 'standalone',
       start_url: '/',

@@ -37,15 +37,7 @@
 
             <div v-if="nadomescanja_pdf">
               <div v-if="seznam_nadomescanj_pdf_load" id="seznam_nadomescanj_pdf">
-                <v-card
-                  v-for="nadomescanje in seznam_nadomescanj_pdf"
-                  :key="nadomescanje.i"
-                  outlined
-                  class="margin-card"
-                  :data-url="nadomescanje.link"
-                  :data-id="nadomescanje.i"
-                  @click="show_nadomescanja_pdf"
-                >
+                <v-card v-for="nadomescanje in seznam_nadomescanj_pdf" :key="nadomescanje.i" outlined class="margin-card" :data-url="nadomescanje.link" :data-id="nadomescanje.i" @click="show_nadomescanja_pdf">
                   <v-card-title>
                     <v-card-title>
                       <span>{{ nadomescanje.date }}</span>

@@ -29,16 +29,16 @@
         <v-main>
           <v-container fluid>
             <div>
-              <v-btn :color="getSchoolColor()" class="mb-3" @click="new_event_dialog = true"><v-icon>add</v-icon>Dodaj dogodek</v-btn>
-              <v-btn :color="getSchoolColor()" class="mb-3" @click="$refs.calendar.prev()"><v-icon>navigate_before</v-icon>Nazaj</v-btn>
-              <v-btn :color="getSchoolColor()" class="mb-3" @click="$refs.calendar.next()">Naprej<v-icon>navigate_next</v-icon></v-btn>
+              <v-btn :color="getSchoolColor()" class="mb-3" @click="new_event_dialog = true"><v-icon>add</v-icon><span class="d-none d-sm-flex">Dodaj dogodek</span></v-btn>
+              <v-btn :color="getSchoolColor()" class="mb-3" @click="$refs.calendar.prev()"><v-icon>navigate_before</v-icon><span class="d-none d-sm-flex">Nazaj</span></v-btn>
+              <v-btn :color="getSchoolColor()" class="mb-3" @click="$refs.calendar.next()"><span class="d-none d-sm-flex">Naprej</span><v-icon>navigate_next</v-icon></v-btn>
             </div>
             <v-calendar
               ref="calendar"
               v-model="calendar"
               :events="calendar_events"
               type="week"
-               v-touch="{ left: () => $refs.calendar.next(), right: () => $refs.calendar.prev() }"
+              v-touch="{ left: () => $refs.calendar.next(), right: () => $refs.calendar.prev() }"
               @click:event="eventClick"
               @click:time="createNewEvent"
               @click:interval="createNewEvent"
@@ -50,29 +50,80 @@
         <!-- Modal for new event -->
         <v-dialog v-model="new_event_dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
           <v-card>
-            <v-toolbar dark :color="getSchoolColor()">
-              <v-btn icon dark @click="new_event_dialog = false">
+            <v-toolbar :color="getSchoolColor()">
+              <v-btn icon @click="createNewEventClose()">
                 <v-icon>close</v-icon>
               </v-btn>
               <v-toolbar-title>Nov dogodek</v-toolbar-title>
               <v-spacer></v-spacer>
               <v-toolbar-items>
-                <v-btn dark text @click="new_event_dialog = false"> Save </v-btn>
+                <v-btn text @click="createNewEventSave()"> Save </v-btn>
               </v-toolbar-items>
             </v-toolbar>
             <v-card-text class="mt-3">
-              <v-text-field label="Naziv dogodka" outlined></v-text-field>
+              <v-text-field :color="getSchoolColor()" :background-color="getSchoolColor()" label="Naziv dogodka" outlined></v-text-field>
 
-              <!-- Čas začetka -->
+              <!-- Datum in čas začetka -->
+              <v-row>
+                <v-col>
+                  <v-menu ref="new_event_start_date_menu" :close-on-content-click="false" transition="scale-transition" offset-y min-width="auto">
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field :color="getSchoolColor()" :background-color="getSchoolColor()" v-model="new_event_start_date" label="Datum začetka" readonly outlined v-bind="attrs" v-on="on"></v-text-field>
+                    </template>
+                    <v-date-picker v-model="new_event_start_date" no-title :color="getSchoolColor()" first-day-of-week="1"></v-date-picker>
+                  </v-menu>
+                </v-col>
+
+                <v-col>
+                  <v-menu ref="new_event_start_time_menu" :close-on-content-click="false" :return-value.sync="new_event_start_time" transition="scale-transition" offset-y min-width="auto">
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field v-model="new_event_start_time" :color="getSchoolColor()" :background-color="getSchoolColor()" label="Čas začetka" readonly outlined v-bind="attrs" v-on="on"></v-text-field>
+                    </template>
+                    <v-time-picker v-model="new_event_start_time" :color="getSchoolColor()" format="24hr" @click:minute="$refs.new_event_start_time_menu.save(new_event_start_time)"></v-time-picker>
+                  </v-menu>
+                </v-col>
+              </v-row>
               <!-- Celodnevni dogodek -->
               <div></div>
               <!-- Čas konca -->
-              <div></div>
+              <v-row>
+                <v-col>
+                  <v-menu ref="new_event_end_date_menu" :close-on-content-click="false" transition="scale-transition" offset-y min-width="auto">
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field :color="getSchoolColor()" :background-color="getSchoolColor()" v-model="new_event_end_date" label="Datum zaključka" readonly outlined v-bind="attrs" v-on="on"></v-text-field>
+                    </template>
+                    <v-date-picker v-model="new_event_end_date" :min="new_event_start_date" no-title :color="getSchoolColor()" first-day-of-week="1"></v-date-picker>
+                  </v-menu>
+                </v-col>
+
+                <v-col>
+                  <v-menu ref="new_event_end_time_menu" :close-on-content-click="false" :return-value.sync="new_event_end_time" transition="scale-transition" offset-y min-width="auto">
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field v-model="new_event_end_time" :color="getSchoolColor()" :background-color="getSchoolColor()" label="Čas zaključka" readonly outlined v-bind="attrs" v-on="on"></v-text-field>
+                    </template>
+                    <v-time-picker v-model="new_event_end_time" :min="new_event_start_time" :color="getSchoolColor()" format="24hr" @click:minute="$refs.new_event_end_time_menu.save(new_event_end_time)"></v-time-picker>
+                  </v-menu>
+                </v-col>
+              </v-row>
 
               <!-- Opomnik -->
-              <div></div>
+              <div>
+                <v-select
+                  :items="[
+                    { text: 'Nikoli', value: 0 },
+                    { text: '15 minut pred', value: 15 },
+                    { text: '30 min pred', value: 30 },
+                  ]"
+                  label="Opomnik"
+                  :color="getSchoolColor()"
+                  :item-color="schoolBGColor()"
+                  outlined
+                ></v-select>
+              </div>
               <!-- Opis dogodka -->
-              <div></div>
+              <div>
+                <v-textarea outlined label="Opis dogodka" :color="getSchoolColor()" :background-color="getSchoolColor()"></v-textarea>
+              </div>
             </v-card-text>
           </v-card>
         </v-dialog>
@@ -81,17 +132,19 @@
         <!-- Modal for editing events -->
         <v-dialog v-model="edit_event_dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
           <v-card>
-            <v-toolbar dark color="primary">
-              <v-btn icon dark @click="edit_event_dialog = false">
+            <v-toolbar :color="getSchoolColor()">
+              <v-btn icon @click="edit_event_dialog = false">
                 <v-icon>close</v-icon>
               </v-btn>
               <v-toolbar-title>Uredi dogodek</v-toolbar-title>
               <v-spacer></v-spacer>
               <v-toolbar-items>
-                <v-btn dark text @click="edit_event_dialog = false"> Save </v-btn>
+                <v-btn text @click="edit_event_dialog = false"> Save </v-btn>
               </v-toolbar-items>
             </v-toolbar>
-            <v-card-text> Please stand by </v-card-text>
+            <v-card-text class="mt-3">
+              <v-text-field label="Naziv dogodka" :value="edit_modal_polja.name" outlined></v-text-field>
+            </v-card-text>
           </v-card>
         </v-dialog>
         <!-- End of modal for editing events -->
@@ -113,7 +166,14 @@ export default {
       calendar_events: [],
       new_event_dialog: false,
       edit_event_dialog: false,
-      menu1: false,
+      edit_modal_polja: [],
+      new_modal_polja: [],
+
+      // New event modal variables
+      new_event_start_date: null,
+      new_event_end_date: null,
+      new_event_start_time: null,
+      new_event_end_time: null,
     }
   },
   created() {
@@ -123,23 +183,33 @@ export default {
   methods: {
     eventClick(event) {
       console.log(event.event)
+      this.edit_event_dialog = true
+      this.edit_modal_polja = event.event
     },
 
     createNewEvent(event) {
       this.new_event_dialog = true
+      this.new_modal_polja = event
+      console.log(event)
+    },
+
+    createNewEventClose() {
+      this.new_event_dialog = false
+      this.new_modal_polja = []
+      this.new_event_start_date = null
+      this.new_event_end_date = null
+      this.new_event_start_time = null
+      this.new_event_end_time = null
     },
 
     getCalendarEvents({ start, end }) {
       this.calendar_events = []
       this.$axios
-        .get(
-          `https://graph.microsoft.com/v1.0/me/calendarview?$select=id,subject,body,bodyPreview,start,end,location,webLink,isOnlineMeeting,onlineMeeting&startdatetime=${start.date}T00:00:00Z&enddatetime=${end.date}T00:00:00Z`,
-          {
-            headers: {
-              Authorization: this.$auth.$storage.getUniversal('_token.aad'),
-            },
-          }
-        )
+        .get(`https://graph.microsoft.com/v1.0/me/calendarview?$select=id,subject,body,bodyPreview,start,end,location,webLink,isOnlineMeeting,onlineMeeting&startdatetime=${start.date}T00:00:00Z&enddatetime=${end.date}T00:00:00Z`, {
+          headers: {
+            Authorization: this.$auth.$storage.getUniversal('_token.aad'),
+          },
+        })
         .then((response) => {
           const events = response.data.value
           events.forEach((event) => {

@@ -3,7 +3,7 @@ export default {
     if (!$auth.loggedIn) {
       redirect({ path: '/', params: { reason: 'neprijavljen' } })
     }
-    if($auth.strategy.refreshToken.status().expired()){
+    if ($auth.strategy.refreshToken.status().expired()) {
       redirect({ path: '/', params: { reason: 'expired' } })
     }
     $auth.refreshTokens()

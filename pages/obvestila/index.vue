@@ -33,16 +33,7 @@
             </div>
             <!-- Vsa obvestila dialog -->
             <div v-if="show_all_notifications">
-              <v-card
-                v-for="obvestilo in obvestila"
-                :key="obvestilo.i"
-                outlined
-                class="margin-card"
-                :data-url="obvestilo.link"
-                :data-id="obvestilo.i"
-                :class="getSchoolColor()"
-                @click="show_obvestilo_func"
-              >
+              <v-card v-for="obvestilo in obvestila" :key="obvestilo.i" outlined class="margin-card" :data-url="obvestilo.link" :data-id="obvestilo.i" :class="getSchoolColor()" @click="show_obvestilo_func">
                 <v-card-title>
                   <v-card-title class="card-text-title">
                     <span>{{ obvestilo.title }}</span>
