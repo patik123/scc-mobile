@@ -66,7 +66,7 @@
               <!-- Datum in čas začetka -->
               <v-row>
                 <v-col>
-                  <v-menu ref="new_event_start_date_menu" :close-on-content-click="false" transition="scale-transition" offset-y min-width="auto">
+                  <v-menu ref="new_event_start_date_menu" :close-on-content-click="false" left transition="scale-transition" offset-y min-width="auto">
                     <template v-slot:activator="{ on, attrs }">
                       <v-text-field :color="getSchoolColor()" :background-color="getSchoolColor()" v-model="new_event_start_date" label="Datum začetka" readonly outlined v-bind="attrs" v-on="on"></v-text-field>
                     </template>
@@ -75,11 +75,11 @@
                 </v-col>
 
                 <v-col>
-                  <v-menu ref="new_event_start_time_menu" :close-on-content-click="false" :return-value.sync="new_event_start_time" transition="scale-transition" offset-y min-width="auto">
+                  <v-menu ref="new_event_start_time_menu" :close-on-content-click="false" left :return-value.sync="new_event_start_time" transition="scale-transition" offset-y min-width="auto">
                     <template v-slot:activator="{ on, attrs }">
                       <v-text-field v-model="new_event_start_time" :color="getSchoolColor()" :background-color="getSchoolColor()" label="Čas začetka" readonly outlined v-bind="attrs" v-on="on"></v-text-field>
                     </template>
-                    <v-time-picker v-model="new_event_start_time" :color="getSchoolColor()" format="24hr" @click:minute="$refs.new_event_start_time_menu.save(new_event_start_time)"></v-time-picker>
+                    <v-time-picker  v-model="new_event_start_time" :color="getSchoolColor()" flat format="24hr" @click:minute="$refs.new_event_start_time_menu.save(new_event_start_time)"></v-time-picker>
                   </v-menu>
                 </v-col>
               </v-row>
@@ -88,7 +88,7 @@
               <!-- Čas konca -->
               <v-row>
                 <v-col>
-                  <v-menu ref="new_event_end_date_menu" :close-on-content-click="false" transition="scale-transition" offset-y min-width="auto">
+                  <v-menu ref="new_event_end_date_menu" :close-on-content-click="false" transition="scale-transition" left offset-y min-width="auto">
                     <template v-slot:activator="{ on, attrs }">
                       <v-text-field :color="getSchoolColor()" :background-color="getSchoolColor()" v-model="new_event_end_date" label="Datum zaključka" readonly outlined v-bind="attrs" v-on="on"></v-text-field>
                     </template>
@@ -97,11 +97,11 @@
                 </v-col>
 
                 <v-col>
-                  <v-menu ref="new_event_end_time_menu" :close-on-content-click="false" :return-value.sync="new_event_end_time" transition="scale-transition" offset-y min-width="auto">
+                  <v-menu ref="new_event_end_time_menu" :close-on-content-click="false" :return-value.sync="new_event_end_time" left  transition="scale-transition" offset-y min-width="auto">
                     <template v-slot:activator="{ on, attrs }">
                       <v-text-field v-model="new_event_end_time" :color="getSchoolColor()" :background-color="getSchoolColor()" label="Čas zaključka" readonly outlined v-bind="attrs" v-on="on"></v-text-field>
                     </template>
-                    <v-time-picker v-model="new_event_end_time" :min="new_event_start_time" :color="getSchoolColor()" format="24hr" @click:minute="$refs.new_event_end_time_menu.save(new_event_end_time)"></v-time-picker>
+                    <v-time-picker  v-model="new_event_end_time" :min="new_event_start_time" flat :color="getSchoolColor()" format="24hr" @click:minute="$refs.new_event_end_time_menu.save(new_event_end_time)"></v-time-picker>
                   </v-menu>
                 </v-col>
               </v-row>
