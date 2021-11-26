@@ -35,7 +35,7 @@
             </p>
             <p>Avtor: Patrick KOŠIR</p>
             <p>
-              E-mail: <a :href="contact_email_link">{{ config.default.contact_email }}</a>
+              E-mail: <a :href="contactEmailLink">{{ config.default.contact_email }}</a>
             </p>
 
             <p>Mobilna aplikacija Šolskega centra Celje je namenjena vsem dijakom vseh srednjih šol Šolskega centra Celje in združuje najpomembnejše informacije potrebne za uspešno opravljanje šolskih obveznosti.</p>
@@ -55,7 +55,7 @@ export default {
   mixins: [basicFunctions, authMiddleware],
 
   computed: {
-    contact_email_link: function () {
+    contactEmailLink: function () {
       return `mailto:${this.config.default.contact_email}`
     },
   },

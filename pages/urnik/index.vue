@@ -27,7 +27,13 @@
         </v-navigation-drawer>
 
         <v-main>
-          <v-container fluid> </v-container>
+          <v-container fluid>
+            <div>
+              <v-btn :color="getSchoolColor()" class="mb-3" @click="$refs.calendar.prev()"><v-icon>navigate_before</v-icon><span class="d-none d-sm-flex">Nazaj</span></v-btn>
+              <v-btn :color="getSchoolColor()" class="mb-3" @click="$refs.calendar.next()"><span class="d-none d-sm-flex">Naprej</span><v-icon>navigate_next</v-icon></v-btn>
+            </div>
+            <v-calendar ref="calendar" v-model="calendar" v-if="user_razred != ''" v-touch="{ left: () => $refs.calendar.next(), right: () => $refs.calendar.prev() }" :events="timetable" type="day" @change="getTimetableEvents"></v-calendar>
+          </v-container>
         </v-main>
       </v-sheet>
     </v-app>
@@ -35,11 +41,51 @@
 </template>
 
 <script>
+import axios from 'axios'
 import basicFunctions from '~/assets/js/basic_functions.js'
 import authMiddleware from '~/assets/js/auth_middleware.js'
 
 export default {
   name: 'Urnik',
   mixins: [basicFunctions, authMiddleware],
+  data() {
+    return {
+      user_razred: '',
+      timetable: [],
+      calendar: null,
+    }
+  },
+  created() {
+    this.getClasses()
+  },
+
+  methods: {
+    getClasses() {
+      this.$axios.get(this.config.default.url_backend_aplikacije + 'untis/get_classes').then((response) => {
+        const classes = response.data.result
+
+        classes.forEach((element) => {
+          if (element.name === this.user_class) {
+            this.user_razred = element
+          }
+        })
+      })
+    },
+    getTimetableEvents({ start, end }) {
+      const startDate = this.$moment(start.date).format('YYYYMMDD')
+      const endDate = this.$moment(end.date).format('YYYYMMDD')
+      const classId = this.user_razred.id
+      axios.get(`${this.config.default.url_backend_aplikacije}untis/get_class_timetable?class_id=${classId}&start_date=${startDate}&end_date=${endDate}`).then((response) => {
+        const lessons = response.data.result
+        lessons.forEach((lesson) => {
+         this.timetable.push({
+           name: lesson.su[0].longname,
+           start: this.$moment(lesson.date +'T' + lesson.startTime, 'YYYYMMDDTHmm').format('YYYY-MM-DDTH:mm'),
+           end: this.$moment(lesson.date +'T' + lesson.endTime, 'YYYYMMDDTHmm').format('YYYY-MM-DDTH:mm'),
+         })
+        })
+      })
+    },
+  },
 }
 </script>
