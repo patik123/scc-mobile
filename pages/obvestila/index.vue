@@ -108,7 +108,7 @@ export default {
       // eslint-disable-next-line no-console
       const url = e.currentTarget.dataset.url
 
-      axios.get(`https://api.allorigins.win/raw?url=${url}`).then((response) => {
+      axios.get(`${this.config.default.url_backend_aplikacije}/sites/school?url=${url}`).then((response) => {
         const $ = cherio.load(response.data)
         this.vsebina_obvestila_title = $('.post-title').text()
         this.vsebina_obvestila_body = $('.entry-inner').html()
@@ -128,7 +128,7 @@ export default {
       this.loading_obvestilo = false
     },
     getObvestila() {
-      axios.get(`https://api.allorigins.win/raw?url=${this.school_website()}`).then((response) => {
+      axios.get(`${this.config.default.url_backend_aplikacije}/sites/school?url=${this.school_website()}`).then((response) => {
         const $ = cherio.load(response.data)
         $('#my_custom_widget-2 a').each((i, el) => {
           if ($(el).text() !== '(novo)') {

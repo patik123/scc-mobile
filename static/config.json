@@ -40,6 +40,6 @@
   "scc_main_site": "https://www.sc-celje.si/",
   "version": "1.0.0-alfa",
   "contact_email": "patrick.kosir.16867@dijak.sc-celje.si",
-  "url_frontend_aplikacije": "https://scc-mobile.pages.dev/",
-  "url_backend_aplikacije": "https://scc-mobile-api.thepatik.eu.org/"
+  "url_frontend_aplikacije": "https://scc-mobile.pages.dev",
+  "url_backend_aplikacije": "https://scc-mobile-api.thepatik.eu.org"
 }

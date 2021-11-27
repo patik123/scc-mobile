@@ -24,11 +24,11 @@
       <v-list-item to="/jedilnik" nuxt>
         <v-list-item-title><v-icon>restaurant_menu</v-icon> Jedilnik</v-list-item-title>
       </v-list-item>
-
+<!--
       <v-list-item to="/izkaznica" nuxt>
         <v-list-item-title><v-icon>badge</v-icon> E-izkaznica</v-list-item-title>
       </v-list-item>
-
+-->
       <v-list-item to="/koledar" nuxt>
         <v-list-item-title><v-icon>event</v-icon> Koledar</v-list-item-title>
       </v-list-item>

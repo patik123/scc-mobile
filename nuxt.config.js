@@ -33,7 +33,7 @@ export default {
 
   buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/pwa', '@nuxtjs/style-resources', '@nuxtjs/vuetify', '@nuxtjs/moment'],
 
-  modules: ['@nuxtjs/axios', '@nuxtjs/pwa', '@nuxtjs/auth-next', '@nuxtjs/universal-storage'],
+  modules: ['@nuxtjs/axios', '@nuxtjs/pwa', '@nuxtjs/auth-next', '@nuxtjs/universal-storage', 'nuxt-polyfill'],
 
   axios: {},
 
@@ -111,5 +111,18 @@ export default {
       icons: 'md',
     },
     customVariables: ['~/assets/scss/variables.scss'],
+  },
+
+  // Configure polyfills:
+  polyfill: {
+    features: [],
+  },
+
+  // COnfigure loading indicator
+  loading: {
+    color: '#002f5f',
+    height: '5px',
+    continuous: true,
+    failedColor: '#ff5252',
   },
 }

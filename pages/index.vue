@@ -20,7 +20,7 @@
         </v-main>
       </v-sheet>
 
-      <v-sheet v-else class="no-radius" height="100%" width="100%">
+      <v-sheet v-if="$auth.loggedIn" class="no-radius" height="100%" width="100%">
         <v-app-bar color="">
           <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
           <v-toolbar-title>Šolski center Celje</v-toolbar-title>
@@ -70,6 +70,8 @@
                 Nadomeščanja (nova)
               </v-chip>
             </v-chip-group>
+
+            <!-- TRENUTNA URA -->
 
             <!-- PRIHAJAJOČI DOGODKI -->
 
