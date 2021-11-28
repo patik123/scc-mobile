@@ -272,7 +272,7 @@ export default {
 
       const url = this.config.default.prehrana_site // url strani za prehrano definirana v config datoteki
 
-      axios.get(`https://api.allorigins.win/raw?url=${url}`).then((response) => {
+      axios.get(`${this.config.default.url_backend_aplikacije}/sites/prehrana`).then((response) => {
         const $ = cherio.load(response.data)
 
         // Ustvari presledek za vsak break v tabeli (za lepši izpis)
