@@ -151,7 +151,6 @@ export default {
   created() {
     this.getClasses()
     this.getTimetableColors()
-    console.log(this.request_error)
   },
 
   mounted() {},
