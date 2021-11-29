@@ -1,7 +1,8 @@
 <template>
   <div>
     <v-app>
-      <offline-alert v-if="$nuxt.isOffline"></offline-alert>
+      <offlineAlter v-if="$nuxt.isOffline"></offlineAlter>
+      <errorRequestAlter v-if="request_error"></errorRequestAlter>
       <v-sheet v-if="!$auth.loggedIn" class="no-radius" height="100%" width="100%">
         <v-app-bar>
           <v-toolbar-title>Šolski center Celje</v-toolbar-title>

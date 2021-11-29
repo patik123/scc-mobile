@@ -1,7 +1,8 @@
 <template>
   <div>
     <v-app>
-      <offline-alert v-if="$nuxt.isOffline"></offline-alert>
+      <offlineAlter v-if="$nuxt.isOffline"></offlineAlter>
+      <errorRequestAlter v-if="request_error"></errorRequestAlter>
       <v-sheet class="no-radius" height="100%" width="100%">
         <v-app-bar color="">
           <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
@@ -269,38 +270,42 @@ export default {
     // pridobi jedilnik
     getJedilnik() {
       this.loaded = false
+      this.restartErrorRequestNotification()
 
-      const url = this.config.default.prehrana_site // url strani za prehrano definirana v config datoteki
+      axios
+        .get(`${this.config.default.url_backend_aplikacije}/sites/prehrana`)
+        .then((response) => {
+          const $ = cherio.load(response.data)
 
-      axios.get(`${this.config.default.url_backend_aplikacije}/sites/prehrana`).then((response) => {
-        const $ = cherio.load(response.data)
+          // Ustvari presledek za vsak break v tabeli (za lepši izpis)
+          $('table br').each(function (e, el) {
+            $(el).replaceWith(' ')
+          })
 
-        // Ustvari presledek za vsak break v tabeli (za lepši izpis)
-        $('table br').each(function (e, el) {
-          $(el).replaceWith(' ')
+          /* eslint-disable no-alert, no-console */
+          // Lava 22
+          const table_lava_22 = $('.content')[0]
+          const table_lava_22_result = HtmlTableToJson.parse($(table_lava_22).html())
+          this.jedilnik_lava_22 = table_lava_22_result.results
+          this.jedilnik_lava_22 = this.jedilnik_lava_22[0]
+
+          // Kosovelova 14
+          const table_kosovelova_14 = $('.content')[1]
+          const table_kosovelova_14_result = HtmlTableToJson.parse($(table_kosovelova_14).html())
+          this.jedilnik_kosovelova_14 = table_kosovelova_14_result.results
+          this.jedilnik_kosovelova_14 = this.jedilnik_kosovelova_14[0]
+
+          // Ljubljanska 21
+          const table_ljubljanska_21 = $('.content')[2]
+          const table_ljubljanska_21_result = HtmlTableToJson.parse($(table_ljubljanska_21).html())
+          this.jedilnik_ljubljanska_21 = table_ljubljanska_21_result.results
+          this.jedilnik_ljubljanska_21 = this.jedilnik_ljubljanska_21[0]
+          this.loaded = true
         })
-
-        /* eslint-disable no-alert, no-console */
-        // Lava 22
-        const table_lava_22 = $('.content')[0]
-        const table_lava_22_result = HtmlTableToJson.parse($(table_lava_22).html())
-        this.jedilnik_lava_22 = table_lava_22_result.results
-        this.jedilnik_lava_22 = this.jedilnik_lava_22[0]
-
-        // Kosovelova 14
-        const table_kosovelova_14 = $('.content')[1]
-        const table_kosovelova_14_result = HtmlTableToJson.parse($(table_kosovelova_14).html())
-        this.jedilnik_kosovelova_14 = table_kosovelova_14_result.results
-        this.jedilnik_kosovelova_14 = this.jedilnik_kosovelova_14[0]
-
-        // Ljubljanska 21
-        const table_ljubljanska_21 = $('.content')[2]
-        const table_ljubljanska_21_result = HtmlTableToJson.parse($(table_ljubljanska_21).html())
-        this.jedilnik_ljubljanska_21 = table_ljubljanska_21_result.results
-        this.jedilnik_ljubljanska_21 = this.jedilnik_ljubljanska_21[0]
-        this.loaded = true
-        /* eslint-enable no-alert, no-console */
-      })
+        .catch((error) => {
+          console.log(error)
+          this.setRequestError()
+        })
     },
   },
 }

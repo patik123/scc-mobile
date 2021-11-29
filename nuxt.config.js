@@ -118,7 +118,7 @@ export default {
     features: [],
   },
 
-  // COnfigure loading indicator
+  // Configure loading indicator
   loading: {
     color: '#002f5f',
     height: '5px',

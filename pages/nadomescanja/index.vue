@@ -1,7 +1,8 @@
 <template>
-  <div class="">
+  <div>
     <v-app>
-      <offline-alert v-if="$nuxt.isOffline"></offline-alert>
+      <offlineAlter v-if="$nuxt.isOffline"></offlineAlter>
+      <errorRequestAlter v-if="request_error"></errorRequestAlter>
       <v-sheet class="no-radius" height="100%" width="100%">
         <v-app-bar color="">
           <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
@@ -28,29 +29,23 @@
 
         <v-main>
           <v-container fluid>
-            <div v-if="!show_nadomescanja()" class="text-center">
-              <h3>Ta stran ti ni namenjena. Nadomeščanja so na voljo pod obvestila.</h3>
-              <img src="~/static/access_denied.svg" class="access-denied-img mt-2" alt="Ni dostopa" /><br />
+            <v-tabs v-model="tab" grow right :active-class="getSchoolColor()" :slider-color="getSchoolColor()">
+              <v-tab> Danes </v-tab>
+              <v-tab> Jutri </v-tab>
+              <v-tabs-items v-model="tab">
+                <v-tab-item>
+                  <div class="mt-2" style="margin: 0px; padding: 0px; overflow: hidden">
+                    <iframe class="mt-2" :src="nadomescanjaDanesUrl()" frameborder="0" width="98%" height="1000"></iframe>
+                  </div>
+                </v-tab-item>
 
-              <v-btn class="mt-2" to="/" nuxt :color="getSchoolColor()">Nazaj na domačo stran</v-btn>
-            </div>
-
-            <div v-if="nadomescanja_pdf">
-              <div v-if="seznam_nadomescanj_pdf_load" id="seznam_nadomescanj_pdf">
-                <v-card v-for="nadomescanje in seznam_nadomescanj_pdf" :key="nadomescanje.i" outlined class="margin-card" :data-url="nadomescanje.link" :data-id="nadomescanje.i" @click="show_nadomescanja_pdf">
-                  <v-card-title>
-                    <v-card-title>
-                      <span>{{ nadomescanje.date }}</span>
-                    </v-card-title>
-                  </v-card-title>
-                </v-card>
-              </div>
-
-              <div v-if="show_nadomescanja_pdf_view" id="nadomescanje_pdf">
-                <v-btn :color="getSchoolColor()" class="mb-4" @click="nadomescanja_back">Nazaj</v-btn>
-                <vue-pdf-app v-if="show_nadomescanja_pdf_view" style="height: 100vh" :pdf="pdf" :config="pdf_viewer_config"></vue-pdf-app>
-              </div>
-            </div>
+                <v-tab-item>
+                  <div class="mt-2" style="margin: 0px; padding: 0px; overflow: hidden">
+                    <iframe class="mt-2" :src="nadomescanjaJutriUrl()" frameborder="0" width="98%" height="1000"></iframe>
+                  </div>
+                </v-tab-item>
+              </v-tabs-items>
+            </v-tabs>
           </v-container>
         </v-main>
       </v-sheet>
@@ -59,112 +54,26 @@
 </template>
 
 <script>
-import axios from 'axios'
-import cherio from 'cherio'
-import VuePdfApp from 'vue-pdf-app'
 import basicFunctions from '~/assets/js/basic_functions.js'
 import authMiddleware from '~/assets/js/auth_middleware.js'
 
 export default {
-  name: 'Nadomescanja',
-  components: {
-    VuePdfApp,
-  },
+  name: 'NadomescanjaNova',
   mixins: [basicFunctions, authMiddleware],
-
   data() {
     return {
-      pdf: '',
-      seznam_nadomescanj_pdf: [],
-      seznam_nadomescanj_pdf_load: true,
-      show_nadomescanja_pdf_view: false,
-      pdf_viewer_config: {
-        sidebar: false,
-        secondaryToolbar: false,
-        toolbar: {
-          toolbarViewerLeft: {
-            findbar: false,
-            previous: true,
-            next: true,
-            pageNumber: true,
-          },
-          toolbarViewerRight: false,
-          toolbarViewerMiddle: {
-            zoomOut: true,
-            zoomIn: true,
-            scaleSelectContainer: false,
-          },
-        },
-        errorWrapper: true,
-      },
+      tab: null,
     }
   },
-
-  created() {
-    if (this.nadomescanja_pdf() === true) {
-      this.getPdfNadomescanja()
-    }
-  },
-
   methods: {
-    getPdfNadomescanja() {
-      const school = localStorage.getItem('school')
-      if (this.config.default[school].type_of_nadomescanja === 'pdf') {
-        axios.get(`https://api.allorigins.win/raw?url=${this.config.default[school].nadomescanja_url}`).then((response) => {
-          const $ = cherio.load(response.data)
-          const vsebina = $('.content')
-          $(vsebina)
-            .find('a')
-            .each((i, el) => {
-              const href = $(el).attr('href')
-              const text = $(el).text()
-              this.seznam_nadomescanj_pdf.push({
-                id: i,
-                link: href,
-                date: text,
-              })
-            })
-        })
-        this.seznam_nadomescanj_pdf_load = true
-      }
+    nadomescanjaDanesUrl() {
+      return `https://ajax.webuntis.com/WebUntis/monitor?school=sc-celje&monitorType=subst&format=Nadome%C5%A1%C4%8Danja%20-%20${this.school}`
     },
 
-    nadomescanja_pdf() {
-      const school = localStorage.getItem('school')
-      if (this.config.default[school].type_of_nadomescanja === 'pdf') {
-        return true
-      }
-      return false
-    },
-
-    nadomescanja_back() {
-      this.pdf = ''
-      this.seznam_nadomescanj_pdf_load = true
-      this.show_nadomescanja_pdf_view = false
-    },
-
-    show_nadomescanja_pdf(e) {
-      this.seznam_nadomescanj_pdf_load = false
-      const url = e.currentTarget.dataset.url
-      this.pdf = `https://api.allorigins.win/raw?url=${url}`
-      this.show_nadomescanja_pdf_view = true
+    nadomescanjaJutriUrl() {
+      return `https://ajax.webuntis.com/WebUntis/monitor?school=sc-celje&monitorType=subst&format=Nadome%C5%A1%C4%8Danja%20-%20${this.school}1`
     },
   },
 }
 </script>
-<style scoped>
-.margin-card {
-  margin-top: 10px !important;
-}
-.access-denied-img {
-  width: 30%;
-  height: 30%;
-}
-
-@media screen and (max-width: 960px) {
-  .access-denied-img {
-    width: 50%;
-    height: 50%;
-  }
-}
-</style>
+<style scoped></style>

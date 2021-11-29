@@ -17,6 +17,7 @@ export default {
       darkmode: false,
       user_type: localStorage.getItem('user_type'),
       dark_light_icon: 'dark_mode',
+      request_error: false,
     }
   },
   watch: {
@@ -46,6 +47,7 @@ export default {
       this.darkmode = false
       this.handledarkmode()
     }
+    this.request_error = false
   },
 
   methods: {
@@ -72,6 +74,14 @@ export default {
           // eslint-disable-next-line no-console
           console.log(error)
         })
+    },
+
+    restartErrorRequestNotification() {
+      this.request_error = false
+    },
+
+    setRequestError() {
+      this.request_error = true
     },
 
     darkMode() {

@@ -1,7 +1,8 @@
 <template>
   <div>
     <v-app>
-      <offline-alert v-if="$nuxt.isOffline"></offline-alert>
+      <offlineAlter v-if="$nuxt.isOffline"></offlineAlter>
+      <errorRequestAlter v-if="request_error"></errorRequestAlter>
       <v-sheet class="no-radius" height="100%" width="100%">
         <v-app-bar color="">
           <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
@@ -95,26 +96,29 @@ export default {
   },
 
   created() {
-    if (!this.$auth.loggedIn) {
-      this.$router.push('/')
-    } else {
-      this.getObvestila()
-    }
+    this.getObvestila()
   },
 
   methods: {
     show_obvestilo_func(e) {
+      this.restartErrorRequestNotification()
       this.loading_obvestilo = true
       // eslint-disable-next-line no-console
       const url = e.currentTarget.dataset.url
 
-      axios.get(`${this.config.default.url_backend_aplikacije}/sites/school?url=${url}`).then((response) => {
-        const $ = cherio.load(response.data)
-        this.vsebina_obvestila_title = $('.post-title').text()
-        this.vsebina_obvestila_body = $('.entry-inner').html()
-        this.vsebina_obvestila_date = $('.post-byline').text()
-        this.loading_obvestilo = false
-      })
+      axios
+        .get(`${this.config.default.url_backend_aplikacije}/sites/school?url=${url}`)
+        .then((response) => {
+          const $ = cherio.load(response.data)
+          this.vsebina_obvestila_title = $('.post-title').text()
+          this.vsebina_obvestila_body = $('.entry-inner').html()
+          this.vsebina_obvestila_date = $('.post-byline').text()
+          this.loading_obvestilo = false
+        })
+        .catch((error) => {
+          console.log(error)
+          this.setRequestError()
+        })
       this.show_notification = true
       this.show_all_notifications = false
     },
@@ -128,19 +132,26 @@ export default {
       this.loading_obvestilo = false
     },
     getObvestila() {
-      axios.get(`${this.config.default.url_backend_aplikacije}/sites/school?url=${this.school_website()}`).then((response) => {
-        const $ = cherio.load(response.data)
-        $('#my_custom_widget-2 a').each((i, el) => {
-          if ($(el).text() !== '(novo)') {
-            this.obvestila.push({
-              id: i,
-              title: $(el).text(),
-              link: $(el).attr('href'),
-            })
-          }
+      this.restartErrorRequestNotification()
+      axios
+        .get(`${this.config.default.url_backend_aplikacije}/sites/school?url=${this.school_website()}`)
+        .then((response) => {
+          const $ = cherio.load(response.data)
+          $('#my_custom_widget-2 a').each((i, el) => {
+            if ($(el).text() !== '(novo)') {
+              this.obvestila.push({
+                id: i,
+                title: $(el).text(),
+                link: $(el).attr('href'),
+              })
+            }
+          })
+          this.loading = false
         })
-        this.loading = false
-      })
+        .catch((error) => {
+          console.log(error)
+          this.setRequestError()
+        })
     },
   },
 }

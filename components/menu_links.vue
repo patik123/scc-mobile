@@ -12,19 +12,19 @@
       <v-list-item to="/obvestila" nuxt>
         <v-list-item-title><v-icon>notifications</v-icon> Obvestila</v-list-item-title>
       </v-list-item>
-
-      <v-list-item v-if="showNadomescanja" to="/nadomescanja" nuxt>
-        <v-list-item-title><v-icon>shuffle</v-icon> Nadomeščanja</v-list-item-title>
+      <!--
+      <v-list-item v-if="showNadomescanja" to="/nadomescanja/stara" nuxt>
+        <v-list-item-title><v-icon>shuffle</v-icon> Nadomeščanja </v-list-item-title>
       </v-list-item>
-
-      <v-list-item to="/nadomescanja/nova" nuxt>
-        <v-list-item-title><v-icon>shuffle</v-icon> Nadomeščanja (nova)</v-list-item-title>
+-->
+      <v-list-item to="/nadomescanja" nuxt>
+        <v-list-item-title><v-icon>shuffle</v-icon> Nadomeščanja</v-list-item-title>
       </v-list-item>
 
       <v-list-item to="/jedilnik" nuxt>
         <v-list-item-title><v-icon>restaurant_menu</v-icon> Jedilnik</v-list-item-title>
       </v-list-item>
-<!--
+      <!--
       <v-list-item to="/izkaznica" nuxt>
         <v-list-item-title><v-icon>badge</v-icon> E-izkaznica</v-list-item-title>
       </v-list-item>

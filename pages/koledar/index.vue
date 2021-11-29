@@ -1,7 +1,8 @@
 <template>
   <div>
     <v-app>
-      <offline-alert v-if="$nuxt.isOffline"></offline-alert>
+      <offlineAlter v-if="$nuxt.isOffline"></offlineAlter>
+      <errorRequestAlter v-if="request_error"></errorRequestAlter>
       <v-sheet class="no-radius" height="100%" width="100%">
         <v-app-bar color="">
           <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
@@ -82,7 +83,7 @@
                           v-on="on"
                         ></v-text-field>
                       </template>
-                      <v-date-picker v-model="new_event_start_date" no-title :color="getSchoolColor()" first-day-of-week="1"></v-date-picker>
+                      <v-date-picker v-model="new_event_start_date" no-title color="#002f5f" background-color="#002f5f" first-day-of-week="1"></v-date-picker>
                     </v-menu>
                   </v-col>
 
@@ -101,7 +102,7 @@
                           v-on="on"
                         ></v-text-field>
                       </template>
-                      <v-time-picker v-model="new_event_start_time" :color="getSchoolColor()" flat format="24hr" @click:minute="$refs.new_event_start_time_menu.save(new_event_start_time)"></v-time-picker>
+                      <v-time-picker v-model="new_event_start_time" color="#002f5f" background-color="#002f5f" format="24hr" @click:minute="$refs.new_event_start_time_menu.save(new_event_start_time)"></v-time-picker>
                     </v-menu>
                   </v-col>
                 </v-row>
@@ -124,7 +125,7 @@
                           v-on="on"
                         ></v-text-field>
                       </template>
-                      <v-date-picker v-model="new_event_end_date" :min="new_event_start_date" no-title :color="getSchoolColor()" first-day-of-week="1"></v-date-picker>
+                      <v-date-picker v-model="new_event_end_date" :min="new_event_start_date" no-title color="#002f5f" background-color="#002f5f" first-day-of-week="1"></v-date-picker>
                     </v-menu>
                   </v-col>
 
@@ -143,7 +144,7 @@
                           v-on="on"
                         ></v-text-field>
                       </template>
-                      <v-time-picker v-model="new_event_end_time" :min="new_event_start_time" flat :color="getSchoolColor()" format="24hr" @click:minute="$refs.new_event_end_time_menu.save(new_event_end_time)"></v-time-picker>
+                      <v-time-picker v-model="new_event_end_time" :min="new_event_start_time" flat color="#002f5f" background-color="#002f5f" format="24hr" @click:minute="$refs.new_event_end_time_menu.save(new_event_end_time)"></v-time-picker>
                     </v-menu>
                   </v-col>
                 </v-row>
@@ -251,6 +252,7 @@ export default {
     },
 
     createNewEventSave() {
+      this.restartErrorRequestNotification()
       this.$axios({
         url: 'https://graph.microsoft.com/v1.0/me/events',
         method: 'POST',
@@ -288,6 +290,7 @@ export default {
     },
 
     getCalendarEvents({ start, end }) {
+      this.restartErrorRequestNotification()
       this.calendar_events = []
       this.$axios
         .get(`https://graph.microsoft.com/v1.0/me/calendarview?$select=id,subject,body,bodyPreview,start,end,location,webLink,isOnlineMeeting,onlineMeeting&startdatetime=${start.date}T00:00:00Z&enddatetime=${end.date}T00:00:00Z`, {
@@ -309,6 +312,9 @@ export default {
               isOnlineMeeting: event.isOnlineMeeting,
             })
           })
+        })
+        .catch(function (error) {
+          this.request_error = true
         })
     },
   },

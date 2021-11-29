@@ -1,7 +1,8 @@
 <template>
   <div>
     <v-app>
-      <offline-alert v-if="$nuxt.isOffline"></offline-alert>
+      <offlineAlter v-if="$nuxt.isOffline"></offlineAlter>
+      <errorRequestAlter v-if="request_error"></errorRequestAlter>
       <v-sheet class="no-radius" height="100%" width="100%">
         <v-app-bar color="">
           <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
@@ -44,8 +45,8 @@
               <v-calendar
                 ref="timetable"
                 v-model="timetable"
-                :weekdays="[1, 2, 3, 4, 5]"
                 v-touch="{ left: () => $refs.timetable.next(), right: () => $refs.timetable.prev() }"
+                :weekdays="[1, 2, 3, 4, 5]"
                 locale="sl"
                 :max-days="5"
                 first-interval="6"
@@ -72,33 +73,53 @@
               <v-btn icon @click="closeTimetableDialog()">
                 <v-icon>close</v-icon>
               </v-btn>
-              <v-toolbar-title>{{ timetable_dialog_event.name }}</v-toolbar-title>
-              <v-spacer></v-spacer>
-              <v-toolbar-items> </v-toolbar-items>
+              <v-toolbar-title>{{ timetable_dialog_event.activity }}</v-toolbar-title>
             </v-toolbar>
             <v-card-text class="mt-3">
               <v-list-item>
-                <v-list-item-content >
-                 <v-list-item-title><v-icon>person</v-icon></v-list-item-title>
-                  <v-list-item-title v-for="element in timetable_dialog_event['teacher']" :key="element.id">{{ element.longname }}</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-
-              <v-list-item>
-                <v-list-item-content >
-                  <v-list-item-title><v-icon>school</v-icon></v-list-item-title>
-                  <v-list-item-title v-for="element in timetable_dialog_event['classes']" :key="element.id">{{ element.name }}</v-list-item-title>
+                <v-list-item-content>
+                  <v-list-item-title>
+                    <v-icon class="mr-2">subject</v-icon>
+                    <span class="mr-3" :class="timetable_dialog_content_class">{{ timetable_dialog_event.lesson_name }}</span>
+                  </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
 
               <v-list-item>
                 <v-list-item-content>
-                  <v-list-item-title><v-icon>meeting_room</v-icon></v-list-item-title>
-                  <v-list-item-title v-for="element in timetable_dialog_event['room']" :key="element.id">{{ element.name }}</v-list-item-title>
+                  <v-list-item-title>
+                    <v-icon class="mr-2">person</v-icon>
+                    <span v-for="element in timetable_dialog_event['teacher']" :id="element.id" :key="element.id" :class="timetable_dialog_content_class" class="mr-3">{{ element.longname }}</span>
+                  </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
 
-     
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>
+                    <v-icon class="mr-2">school</v-icon>
+                    <span v-for="element in timetable_dialog_event['classes']" :id="element.id" :key="element.id" :class="timetable_dialog_content_class" class="mr-3">{{ element.name }}</span>
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>
+                    <v-icon class="mr-2">meeting_room</v-icon>
+                    <span v-for="element in timetable_dialog_event['room']" :id="element.id" :key="element.id" :class="timetable_dialog_content_class" class="mr-3">{{ element.name }}</span>
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+
+              <v-list-item v-if="timetable_dialog_event.substText !== ''">
+                <v-list-item-content>
+                  <v-list-item-title>
+                    <v-icon class="mr-2">description</v-icon>
+                    <span class="mr-3">{{ timetable_dialog_event.substText }}</span>
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
             </v-card-text>
           </v-card>
         </v-dialog>
@@ -124,11 +145,13 @@ export default {
       timetable_view_icon: 'calendar_view_day',
       timetable_dialog: false,
       timetable_dialog_event: {},
+      timetable_dialog_content_class: '',
     }
   },
   created() {
     this.getClasses()
     this.getTimetableColors()
+    console.log(this.request_error)
   },
 
   mounted() {},
@@ -156,7 +179,11 @@ export default {
     },
 
     openTimetableDialog(event) {
+      this.timetable_dialog_content_class = ''
       this.timetable_dialog_event = event.event
+      if (event.event.cancelled === true) {
+        this.timetable_dialog_content_class = 'text-decoration-line-through'
+      }
       this.timetable_dialog = true
     },
 
@@ -175,14 +202,21 @@ export default {
 
       this.$refs.timetable.scrollToTime(first)
     },
+
     updateTime() {
       setInterval(() => this.$refs.timetable.updateTimes(), 60 * 1000)
     },
 
     getTimetableColors() {
-      this.$axios.get(this.config.default.url_backend_aplikacije + '/untis/get_status_data').then((response) => {
-        this.timetable_colors = response.data.result
-      })
+      this.$axios
+        .get(this.config.default.url_backend_aplikacije + '/untis/get_status_data')
+        .then((response) => {
+          this.timetable_colors = response.data.result
+        })
+        .catch((error) => {
+          console.log(error)
+          this.setRequestError()
+        })
     },
 
     changeTimetableView() {
@@ -208,21 +242,49 @@ export default {
       const endDate = this.$moment(end.date).format('YYYYMMDD')
       const classId = this.user_razred.id
       this.scrollToTime()
-      this.updateTime()
-      this.$axios.get(`${this.config.default.url_backend_aplikacije}/untis/get_class_timetable?class_id=${classId}&start_date=${startDate}&end_date=${endDate}`).then((response) => {
-        const lessons = response.data.result
-        lessons.forEach((lesson) => {
-          this.timetable_events.push({
-            name: lesson.su[0].longname,
-            start: this.$moment(lesson.date + 'T' + lesson.startTime, 'YYYYMMDDTHmm').format('YYYY-MM-DDTH:mm'),
-            end: this.$moment(lesson.date + 'T' + lesson.endTime, 'YYYYMMDDTHmm').format('YYYY-MM-DDTH:mm'),
-            color: `#${this.timetable_colors.lstypes[0].ls.backColor}`,
-            classes: lesson.kl,
-            room: lesson.ro,
-            teacher: lesson.te,
+      this.$axios
+        .get(`${this.config.default.url_backend_aplikacije}/untis/get_class_timetable?class_id=${classId}&start_date=${startDate}&end_date=${endDate}`)
+        .then((response) => {
+          const lessons = response.data.result
+          lessons.forEach((lesson) => {
+            let eventColor
+            let nadomescanje = false
+            let odpadla = false
+            const code = lesson.code ? lesson.code : ''
+
+            // Določitev barve dogodka v urniku
+            if (code === 'cancelled') {
+              eventColor = `#${this.timetable_colors.codes[0].cancelled.backColor}`
+              odpadla = true
+            } else if (code === 'irregular') {
+              eventColor = `#${this.timetable_colors.codes[1].irregular.backColor}`
+              nadomescanje = true
+            } else if (lesson.te[0].orgname) {
+              eventColor = `#${this.timetable_colors.codes[1].irregular.backColor}`
+              nadomescanje = true
+            } else eventColor = `#${this.timetable_colors.lstypes[0].ls.backColor}`
+
+            // Dodajanje dogodka v urnik
+            this.timetable_events.push({
+              name: lesson.su[0].name + ' ' + lesson.ro[0].name,
+              lesson_name: lesson.su[0].longname,
+              activity: lesson.activityType,
+              start: this.$moment(lesson.date + 'T' + lesson.startTime, 'YYYYMMDDTHmm').format('YYYY-MM-DDTH:mm'),
+              end: this.$moment(lesson.date + 'T' + lesson.endTime, 'YYYYMMDDTHmm').format('YYYY-MM-DDTH:mm'),
+              color: eventColor,
+              classes: lesson.kl,
+              room: lesson.ro,
+              teacher: lesson.te,
+              cancelled: odpadla,
+              substitution: nadomescanje,
+              substText: lesson.substText ? lesson.substText : '',
+            })
           })
         })
-      })
+        .catch((error) => {
+          console.log(error)
+          this.setRequestError()
+        })
     },
   },
 }
