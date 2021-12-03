@@ -40,7 +40,7 @@
             </v-list-item>
           </v-list>
           <v-divider></v-divider>
-          <MenuLinks :school-website="school_website()" :school="school" :show-nadomescanja="show_nadomescanja()" />
+          <MenuLinks :school-website="school_website()" :school="school" />
         </v-navigation-drawer>
 
         <v-main>
@@ -61,14 +61,10 @@
                 <v-icon left>restaurant_menu</v-icon>
                 Jedilnik
               </v-chip>
-              <v-chip v-if="show_nadomescanja()" @click="goToPath('nadomescanja')">
+
+              <v-chip @click="goToPath('nadomescanja')">
                 <v-icon left>shuffle</v-icon>
                 Nadomeščanja
-              </v-chip>
-
-              <v-chip @click="goToPath('nadomescanja/nova')">
-                <v-icon left>shuffle</v-icon>
-                Nadomeščanja (nova)
               </v-chip>
             </v-chip-group>
 

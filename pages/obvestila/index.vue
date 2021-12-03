@@ -24,7 +24,7 @@
           </v-list>
 
           <v-divider></v-divider>
-          <MenuLinks :school-website="school_website()" :school="school" :show-nadomescanja="show_nadomescanja()" />
+          <MenuLinks :school-website="school_website()" :school="school" />
         </v-navigation-drawer>
 
         <v-main class="mt-2">
@@ -74,7 +74,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import cherio from 'cherio'
 import basicFunctions from '~/assets/js/basic_functions.js'
 import authMiddleware from '~/assets/js/auth_middleware.js'
@@ -106,8 +105,8 @@ export default {
       // eslint-disable-next-line no-console
       const url = e.currentTarget.dataset.url
 
-      axios
-        .get(`${this.config.default.url_backend_aplikacije}/sites/school?url=${url}`)
+      this.$axios
+        .get(`${this.config.url_backend_aplikacije}/sites/school?url=${url}`)
         .then((response) => {
           const $ = cherio.load(response.data)
           this.vsebina_obvestila_title = $('.post-title').text()
@@ -133,8 +132,8 @@ export default {
     },
     getObvestila() {
       this.restartErrorRequestNotification()
-      axios
-        .get(`${this.config.default.url_backend_aplikacije}/sites/school?url=${this.school_website()}`)
+      this.$axios
+        .get(`${this.config.url_backend_aplikacije}/sites/school?url=${this.school_website()}`)
         .then((response) => {
           const $ = cherio.load(response.data)
           $('#my_custom_widget-2 a').each((i, el) => {

@@ -24,16 +24,16 @@
           </v-list>
 
           <v-divider></v-divider>
-          <MenuLinks :school-website="school_website()" :school="school" :show-nadomescanja="show_nadomescanja()" />
+          <MenuLinks :school-website="school_website()" :school="school" />
         </v-navigation-drawer>
 
         <v-main>
           <v-container fluid>
-            <div v-if="user_razred == ''">
+            <div v-if="timetable_class == ''">
               <v-skeleton-loader type="paragraph,paragraph,paragraph,paragraph,paragraph,paragraph,paragraph"></v-skeleton-loader>
             </div>
 
-            <div v-if="user_razred != ''">
+            <div v-if="timetable_class != ''">
               <div>
                 <v-btn :color="getSchoolColor()" class="mb-3" @click="$refs.timetable.prev()"><v-icon>navigate_before</v-icon><span class="d-none d-sm-flex">Nazaj</span></v-btn>
                 <v-btn :color="getSchoolColor()" class="mb-3" @click="$refs.timetable.next()"><span class="d-none d-sm-flex">Naprej</span><v-icon>navigate_next</v-icon></v-btn>
@@ -137,7 +137,7 @@ export default {
   mixins: [basicFunctions, authMiddleware],
   data() {
     return {
-      user_razred: '',
+      request_class: '',
       timetable_events: [],
       timetable: null,
       timetable_colors: [],
@@ -146,23 +146,30 @@ export default {
       timetable_dialog: false,
       timetable_dialog_event: {},
       timetable_dialog_content_class: '',
+      timetable_class: '',
     }
   },
   created() {
     this.getClasses()
     this.getTimetableColors()
+
+    if (this.$router.currentRoute.query.class) {
+      this.request_class = this.$router.currentRoute.query.class
+    } else {
+      this.request_class = this.user_class
+    }
   },
 
   mounted() {},
 
   methods: {
     getClasses() {
-      this.$axios.get(this.config.default.url_backend_aplikacije + '/untis/get_classes').then((response) => {
+      this.$axios.get(this.config.url_backend_aplikacije + '/untis/get_classes').then((response) => {
         const classes = response.data.result
 
         classes.forEach((element) => {
-          if (element.name === this.user_class) {
-            this.user_razred = element
+          if (element.name === this.request_class) {
+            this.timetable_class = element
           }
         })
       })
@@ -208,7 +215,7 @@ export default {
 
     getTimetableColors() {
       this.$axios
-        .get(this.config.default.url_backend_aplikacije + '/untis/get_status_data')
+        .get(this.config.url_backend_aplikacije + '/untis/get_status_data')
         .then((response) => {
           this.timetable_colors = response.data.result
         })
@@ -236,15 +243,22 @@ export default {
     },
 
     getTimetableEvents({ start, end }) {
+      this.restartErrorRequestNotification()
       this.timetable_events = []
       const startDate = this.$moment(start.date).format('YYYYMMDD')
       const endDate = this.$moment(end.date).format('YYYYMMDD')
-      const classId = this.user_razred.id
+      const classId = this.timetable_class.id
       this.scrollToTime()
+      this.updateTime()
       this.$axios
-        .get(`${this.config.default.url_backend_aplikacije}/untis/get_class_timetable?class_id=${classId}&start_date=${startDate}&end_date=${endDate}`)
+        .get(`${this.config.url_backend_aplikacije}/untis/get_class_timetable?class_id=${classId}&start_date=${startDate}&end_date=${endDate}`)
         .then((response) => {
           const lessons = response.data.result
+
+          if (lessons.error) {
+            this.setRequestError()
+            return
+          }
           lessons.forEach((lesson) => {
             let eventColor
             let nadomescanje = false

@@ -24,7 +24,7 @@
           </v-list>
 
           <v-divider></v-divider>
-          <MenuLinks :school-website="school_website()" :school="school" :show-nadomescanja="show_nadomescanja()" />
+          <MenuLinks :school-website="school_website()" :school="school" />
         </v-navigation-drawer>
 
         <v-main>
@@ -273,7 +273,7 @@ export default {
       this.restartErrorRequestNotification()
 
       axios
-        .get(`${this.config.default.url_backend_aplikacije}/sites/prehrana`)
+        .get(`${this.config.url_backend_aplikacije}/sites/prehrana`)
         .then((response) => {
           const $ = cherio.load(response.data)
 

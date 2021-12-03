@@ -24,7 +24,7 @@
           </v-list>
 
           <v-divider></v-divider>
-          <MenuLinks :school-website="school_website()" :school="school" :show-nadomescanja="show_nadomescanja()" />
+          <MenuLinks :school-website="school_website()" :school="school" />
         </v-navigation-drawer>
 
         <v-main>
@@ -45,7 +45,11 @@
               @click:time="createNewEvent"
               @click:interval="createNewEvent"
               @change="getCalendarEvents"
-            ></v-calendar>
+            >
+              <template #day-body="{ date, week }">
+                <div class="v-current-time" :class="{ first: date === week[0].date }" :style="{ top: nowY() }"></div>
+              </template>
+            </v-calendar>
           </v-container>
         </v-main>
 
@@ -59,7 +63,7 @@
               <v-toolbar-title>Nov dogodek</v-toolbar-title>
               <v-spacer></v-spacer>
               <v-toolbar-items>
-                <v-btn text @click="createNewEventSave()"> Save </v-btn>
+                <v-btn text @click="createNewEventSave()"> <v-icon>save</v-icon> </v-btn>
               </v-toolbar-items>
             </v-toolbar>
             <v-card-text class="mt-3">
@@ -184,11 +188,12 @@
               <v-toolbar-title>Uredi dogodek</v-toolbar-title>
               <v-spacer></v-spacer>
               <v-toolbar-items>
-                <v-btn text @click="edit_event_dialog = false"> Save </v-btn>
+                <v-btn icon @click="edit_event_dialog = false"> <v-icon>save</v-icon> </v-btn>
+                <v-btn icon @click="edit_event_dialog = false"> <v-icon>delete</v-icon> </v-btn>
               </v-toolbar-items>
             </v-toolbar>
             <v-card-text class="mt-3">
-              <v-text-field label="Naziv dogodka" :value="edit_modal_polja.name" outlined></v-text-field>
+              <v-text-field label="Naziv dogodka" :value="edit_modal_polja.subject" outlined></v-text-field>
             </v-card-text>
           </v-card>
         </v-dialog>
@@ -231,9 +236,39 @@ export default {
 
   methods: {
     eventClick(event) {
-      console.log(event.event)
-      this.edit_event_dialog = true
-      this.edit_modal_polja = event.event
+      const eventId = event.event.id
+      this.$axios
+        .get(`https://graph.microsoft.com/v1.0/me/events/${eventId}`)
+        .then((response) => {
+          console.log(response.data)
+          this.edit_modal_polja = response.data
+          this.edit_event_dialog = true
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+    setToday() {
+      this.calendar = ''
+    },
+
+    getCurrentTime() {
+      return this.$refs.calendar ? this.$refs.calendar.times.now.hour * 60 + this.$refs.calendar.times.now.minute : 0
+    },
+    scrollToTime() {
+      const time = this.getCurrentTime()
+      const first = Math.max(0, time - (time % 30) - 30)
+
+      this.$refs.calendar.scrollToTime(first)
+    },
+
+    updateTime() {
+      setInterval(() => this.$refs.calendar.updateTimes(), 60 * 1000)
+    },
+
+    nowY() {
+      if (!this.$refs.calendar) return '-10px'
+      return this.$refs.calendar.timeToY(this.$refs.calendar.times.now) + 'px'
     },
 
     createNewEvent(event) {
@@ -300,6 +335,8 @@ export default {
         })
         .then((response) => {
           const events = response.data.value
+          this.scrollToTime()
+          this.updateTime()
           events.forEach((event) => {
             this.calendar_events.push({
               id: event.id,
@@ -315,8 +352,30 @@ export default {
         })
         .catch(function (error) {
           this.request_error = true
+          console.log(error)
         })
     },
   },
 }
 </script>
+<style lang="scss">
+.v-current-time {
+  height: 2px;
+  background-color: #ea4335;
+  position: absolute;
+  left: -1px;
+  right: 0;
+  pointer-events: none;
+
+  &.first::before {
+    content: '';
+    position: absolute;
+    background-color: #ea4335;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-top: -5px;
+    margin-left: -6.5px;
+  }
+}
+</style>

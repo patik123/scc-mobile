@@ -11,7 +11,7 @@ export default {
       user: localStorage.getItem('user'),
       school: localStorage.getItem('school'),
       user_class: localStorage.getItem('class'),
-      config: configData,
+      config: configData.default,
       drawer: false,
       group: null,
       darkmode: false,
@@ -29,7 +29,7 @@ export default {
   created() {
     this.jwt_decoded = this.$auth.$storage.getUniversal('jwt_decoded')
     this.jwt_token = this.$auth.$storage.getUniversal('_token.aad')
-    this.config = configData
+    this.config = configData.default
     if (this.$auth.loggedIn && !localStorage.getItem('user')) {
       this.getUserData()
     }
@@ -88,15 +88,6 @@ export default {
       this.darkmode = !this.darkmode
     },
 
-    // Prikaže nadomeščanja v meniju - ko bo podatke prejemal iz WebUntisa je funkcija odstranjena
-    show_nadomescanja() {
-      if (this.$auth.loggedIn) {
-        const school = this.school
-        return this.config.default[school].show_nadomescanja
-      }
-      return null
-    },
-
     // Spreminja med temnim in svetlim načinom
     handledarkmode() {
       if (this.darkmode === true) {
@@ -130,7 +121,7 @@ export default {
     full_school_name() {
       if (this.$auth.loggedIn) {
         const school = this.school
-        return this.config.default[school].full_school_name
+        return this.config[school].full_school_name
       }
       return null
     },
@@ -144,11 +135,12 @@ export default {
     school_website() {
       if (this.$auth.loggedIn) {
         const school = this.school
-        return this.config.default[school].website
+        return this.config[school].website
       }
       return null
     },
 
+    // Vrne background-color šole
     schoolBGColor() {
       const school = this.school
       return `${school}-background`

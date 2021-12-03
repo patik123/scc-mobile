@@ -22,16 +22,11 @@ export default {
   methods: {
     detect_user_type(userEmail) {
       if (userEmail.includes('@sc-celje.si')) {
-        this.ucitelj = true
-        this.dijak = false
         localStorage.setItem('user_type', 'ucitelj')
       } else if (userEmail.includes('@dijak.sc-celje.si')) {
-        this.ucitelj = false
-        this.dijak = true
         localStorage.setItem('user_type', 'dijak')
       } else {
-        this.ucitelj = false
-        this.dijak = false
+        localStorage.setItem('user_type', 'neznano')
       }
     },
   },
