@@ -33,14 +33,19 @@
               <v-btn :color="getSchoolColor()" class="mb-3" @click="new_event_dialog = true"><v-icon>add</v-icon><span class="d-none d-sm-flex">Dodaj dogodek</span></v-btn>
               <v-btn :color="getSchoolColor()" class="mb-3" @click="$refs.calendar.prev()"><v-icon>navigate_before</v-icon><span class="d-none d-sm-flex">Nazaj</span></v-btn>
               <v-btn :color="getSchoolColor()" class="mb-3" @click="$refs.calendar.next()"><span class="d-none d-sm-flex">Naprej</span><v-icon>navigate_next</v-icon></v-btn>
+                            <v-btn :color="getSchoolColor()" class="mb-3" @click="changeCalendarView"
+                  ><span class="d-none d-sm-flex"></span><v-icon>{{ calendar_view_icon }}</v-icon></v-btn
+                >
+                <v-btn :color="getSchoolColor()" class="mb-3" @click="setToday"><v-icon>today</v-icon><span class="d-none d-sm-flex">Danes</span></v-btn>
             </div>
             <v-calendar
               ref="calendar"
               v-model="calendar"
               v-touch="{ left: () => $refs.calendar.next(), right: () => $refs.calendar.prev() }"
               :events="calendar_events"
-              type="week"
+              :type="calendar_view"
               :weekdays="[1, 2, 3, 4, 5, 6, 0]"
+              @click:date="viewDay"
               @click:event="eventClick"
               @click:time="createNewEvent"
               @click:interval="createNewEvent"
@@ -218,6 +223,8 @@ export default {
       edit_event_dialog: false,
       edit_modal_polja: [],
       new_modal_polja: [],
+      calendar_view_icon: 'calendar_view_week',
+      calendar_view: 'week',
 
       // New event modal variables
       new_event_valid: true,
@@ -260,6 +267,23 @@ export default {
       const first = Math.max(0, time - (time % 30) - 30)
 
       this.$refs.calendar.scrollToTime(first)
+    },
+
+        viewDay({ date }) {
+      this.calendar = date
+      this.changeCalendarView()
+    },
+
+        changeCalendarView() {
+      if (this.calendar_view === 'week') {
+        this.calendar_view = 'day'
+        this.calendar_view_icon = 'calendar_view_week'
+        this.scrollToTime()
+      } else {
+        this.calendar_view = 'week'
+        this.calendar_view_icon = 'calendar_view_day'
+        this.scrollToTime()
+      }
     },
 
     updateTime() {
@@ -319,6 +343,7 @@ export default {
           this.new_event_end_date = null
         },
         (error) => {
+          this.setRequestError()
           console.log(error)
         }
       )
@@ -328,7 +353,7 @@ export default {
       this.restartErrorRequestNotification()
       this.calendar_events = []
       this.$axios
-        .get(`https://graph.microsoft.com/v1.0/me/calendarview?$select=id,subject,body,bodyPreview,start,end,location,webLink,isOnlineMeeting,onlineMeeting&startdatetime=${start.date}T00:00:00Z&enddatetime=${end.date}T00:00:00Z`, {
+        .get(`https://graph.microsoft.com/v1.0/me/calendarview?$select=id,subject,body,bodyPreview,start,end,location,webLink,isOnlineMeeting,onlineMeeting&startdatetime=${start.date}T00:00:00Z&enddatetime=${end.date}T23:59:00Z`, {
           headers: {
             Authorization: this.$auth.$storage.getUniversal('_token.aad'),
           },
@@ -350,9 +375,10 @@ export default {
             })
           })
         })
-        .catch(function (error) {
-          this.request_error = true
+ .catch((error) => {
+          // eslint-disable-next-line
           console.log(error)
+          this.setRequestError()
         })
     },
   },

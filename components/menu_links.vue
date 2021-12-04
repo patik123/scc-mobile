@@ -73,7 +73,7 @@ export default {
   },
   data() {
     return {
-      config: configData,
+      config: configData.default,
       group: null,
     }
   },

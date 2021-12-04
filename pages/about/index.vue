@@ -32,11 +32,11 @@
             <img src="~/static/SC_Celje.png" alt="Logo Šolskega centra Celje" class="scc-logo" />
 
             <p>
-              Verzija: <v-chip>{{ config.default.version }}</v-chip>
+              Verzija: <v-chip>{{ config.version }}</v-chip>
             </p>
             <p>Avtor: Patrick KOŠIR</p>
             <p>
-              E-mail: <a :href="contactEmailLink">{{ config.default.contact_email }}</a>
+              E-mail: <a :href="contactEmailLink">{{ config.contact_email }}</a>
             </p>
 
             <p>Mobilna aplikacija Šolskega centra Celje je namenjena vsem dijakom vseh srednjih šol Šolskega centra Celje in združuje najpomembnejše informacije potrebne za uspešno opravljanje šolskih obveznosti.</p>
@@ -57,7 +57,7 @@ export default {
 
   computed: {
     contactEmailLink: function () {
-      return `mailto:${this.config.default.contact_email}`
+      return `mailto:${this.config.contact_email}`
     },
   },
 }
