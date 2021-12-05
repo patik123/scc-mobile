@@ -72,7 +72,7 @@
             <div id="lesson-now">
               <v-card>
                 <v-card-title class="title">Trenutna uro</v-card-title>
-                <v-card-text> </v-card-text>
+                <v-card-text> {{current_lesson}}</v-card-text>
               </v-card>
             </div>
 
@@ -131,6 +131,7 @@ export default {
       events: [],
       timetable_class: '',
       timetable_events: [],
+      current_lesson: '',
     }
   },
 
@@ -230,6 +231,7 @@ export default {
       this.timetable_events.forEach((event) => {
         if (this.$moment(event.start,'YYYY-MM-DDTH:mm').format('HH:mm') <= currentTime && this.$moment(event.end, 'YYYY-MM-DDTH:mm').format('HH:mm') >= currentTime) {
           console.log(event)
+          this.current_lesson = event
         }
       })
     }
