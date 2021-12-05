@@ -33,10 +33,10 @@
               <v-btn :color="getSchoolColor()" class="mb-3" @click="new_event_dialog = true"><v-icon>add</v-icon><span class="d-none d-sm-flex">Dodaj dogodek</span></v-btn>
               <v-btn :color="getSchoolColor()" class="mb-3" @click="$refs.calendar.prev()"><v-icon>navigate_before</v-icon><span class="d-none d-sm-flex">Nazaj</span></v-btn>
               <v-btn :color="getSchoolColor()" class="mb-3" @click="$refs.calendar.next()"><span class="d-none d-sm-flex">Naprej</span><v-icon>navigate_next</v-icon></v-btn>
-                            <v-btn :color="getSchoolColor()" class="mb-3" @click="changeCalendarView"
-                  ><span class="d-none d-sm-flex"></span><v-icon>{{ calendar_view_icon }}</v-icon></v-btn
-                >
-                <v-btn :color="getSchoolColor()" class="mb-3" @click="setToday"><v-icon>today</v-icon><span class="d-none d-sm-flex">Danes</span></v-btn>
+              <v-btn :color="getSchoolColor()" class="mb-3" @click="changeCalendarView"
+                ><span class="d-none d-sm-flex"></span><v-icon>{{ calendar_view_icon }}</v-icon></v-btn
+              >
+              <v-btn :color="getSchoolColor()" class="mb-3" @click="setToday"><v-icon>today</v-icon><span class="d-none d-sm-flex">Danes</span></v-btn>
             </div>
             <v-calendar
               ref="calendar"
@@ -166,6 +166,12 @@
                       { text: 'Nikoli', value: 0 },
                       { text: '15 minut pred', value: 15 },
                       { text: '30 min pred', value: 30 },
+                      { text: '1 ura pred', value: 60 },
+                      { text: '2 uri pred', value: 120 },
+                      { text: '4 uri pred', value: 240 },
+                      {text: '8 ur pred', value: 480 },
+                      {text: '12 ur pred', value: 720 },
+                      {text: '1 dan pred', value: 1440},
                     ]"
                     label="Opomnik"
                     :color="getSchoolColor()"
@@ -193,12 +199,82 @@
               <v-toolbar-title>Uredi dogodek</v-toolbar-title>
               <v-spacer></v-spacer>
               <v-toolbar-items>
-                <v-btn icon @click="edit_event_dialog = false"> <v-icon>save</v-icon> </v-btn>
-                <v-btn icon @click="edit_event_dialog = false"> <v-icon>delete</v-icon> </v-btn>
+                <v-btn icon :disabled="edit_isConference" @click="edit_event_update"> <v-icon>save</v-icon> </v-btn>
+                <v-btn icon @click="edit_delete_event"> <v-icon>delete</v-icon> </v-btn>
               </v-toolbar-items>
             </v-toolbar>
             <v-card-text class="mt-3">
-              <v-text-field label="Naziv dogodka" :value="edit_modal_polja.subject" outlined></v-text-field>
+              <v-form>
+                <v-text-field label="Naziv dogodka" :value="edit_event_event_name" :disabled="edit_isConference" outlined :color="getSchoolColor()" :background-color="getSchoolColor()" ></v-text-field>
+                <!-- Datum in čas začetka -->
+                <v-row>
+                  <v-col>
+                    <v-menu ref="edit_event_start_date_menu" :close-on-content-click="false" left transition="scale-transition" offset-y min-width="auto">
+                      <template #activator="{ on, attrs }">
+                        <v-text-field v-model="edit_event_start_date" :color="getSchoolColor()" :disabled="edit_isConference" :background-color="getSchoolColor()" label="Datum začetka" readonly outlined v-bind="attrs" v-on="on"></v-text-field>
+                      </template>
+                      <v-date-picker v-model="edit_event_start_date" no-title color="#002f5f" background-color="#002f5f" first-day-of-week="1"></v-date-picker>
+                    </v-menu>
+                  </v-col>
+
+                  <v-col>
+                    <v-menu ref="edit_event_start_time_menu" :close-on-content-click="false" left :return-value.sync="edit_event_start_time" transition="scale-transition" offset-y min-width="auto">
+                      <template #activator="{ on, attrs }">
+                        <v-text-field v-model="edit_event_start_time" :color="getSchoolColor()" :disabled="edit_isConference" :background-color="getSchoolColor()" label="Čas začetka" readonly outlined v-bind="attrs" v-on="on"></v-text-field>
+                      </template>
+                      <v-time-picker v-model="edit_event_start_time" color="#002f5f" background-color="#002f5f" format="24hr" @click:minute="$refs.edit_event_start_time_menu.save(edit_event_start_time)"></v-time-picker>
+                    </v-menu>
+                  </v-col>
+                </v-row>
+                <!-- Celodnevni dogodek -->
+                <div></div>
+                <!-- Čas konca -->
+                <v-row>
+                  <v-col>
+                    <v-menu ref="edit_event_end_date_menu" :close-on-content-click="false" transition="scale-transition" left offset-y min-width="auto">
+                      <template #activator="{ on, attrs }">
+                        <v-text-field v-model="edit_event_end_date" :color="getSchoolColor()" :disabled="edit_isConference" :background-color="getSchoolColor()" label="Datum zaključka" readonly outlined v-bind="attrs" v-on="on"></v-text-field>
+                      </template>
+                      <v-date-picker v-model="edit_event_end_date" :min="edit_event_start_date" no-title color="#002f5f" background-color="#002f5f" first-day-of-week="1"></v-date-picker>
+                    </v-menu>
+                  </v-col>
+
+                  <v-col>
+                    <v-menu ref="edit_event_end_time_menu" :close-on-content-click="false" :return-value.sync="edit_event_end_time" left transition="scale-transition" offset-y min-width="auto">
+                      <template #activator="{ on, attrs }">
+                        <v-text-field v-model="edit_event_end_time" :color="getSchoolColor()" :disabled="edit_isConference" :background-color="getSchoolColor()" label="Čas zaključka" readonly outlined v-bind="attrs" v-on="on"></v-text-field>
+                      </template>
+                      <v-time-picker v-model="edit_event_end_time" :min="edit_event_start_time" flat color="#002f5f" background-color="#002f5f" format="24hr" @click:minute="$refs.edit_event_end_time_menu.save(edit_event_end_time)"></v-time-picker>
+                    </v-menu>
+                  </v-col>
+                </v-row>
+                <!-- Opomnik -->
+                <div>
+                  <v-select
+                    v-model="edit_event_reminder"
+                    :items="[
+                      { text: 'Nikoli', value: 0 },
+                      { text: '15 minut pred', value: 15 },
+                      { text: '30 min pred', value: 30 },
+                      { text: '1 ura pred', value: 60 },
+                      { text: '2 uri pred', value: 120 },
+                      { text: '4 uri pred', value: 240 },
+                      {text: '8 ur pred', value: 480 },
+                      {text: '12 ur pred', value: 720 },
+                      {text: '1 dan pred', value: 1440},
+                    ]"
+                    label="Opomnik"
+                    :color="getSchoolColor()"
+                    :item-color="schoolBGColor()"
+                    outlined
+                    :disabled="edit_isConference"
+                  ></v-select>
+                </div>
+                <!-- Opis dogodka -->
+                <div>
+                  <v-textarea v-model="edit_event_description" outlined label="Opis dogodka" :disabled="edit_isConference" :color="getSchoolColor()" :background-color="getSchoolColor()"></v-textarea>
+                </div>
+              </v-form>
             </v-card-text>
           </v-card>
         </v-dialog>
@@ -217,14 +293,17 @@ export default {
   mixins: [basicFunctions, authMiddleware],
   data() {
     return {
+      // Calendar variables
       calendar: null,
       calendar_events: [],
+      calendar_view_icon: 'calendar_view_day',
+      calendar_view: 'week',
+
+      // Modal variables
       new_event_dialog: false,
       edit_event_dialog: false,
       edit_modal_polja: [],
       new_modal_polja: [],
-      calendar_view_icon: 'calendar_view_week',
-      calendar_view: 'week',
 
       // New event modal variables
       new_event_valid: true,
@@ -235,6 +314,20 @@ export default {
       new_event_end_time: null,
       new_event_reminder: 0,
       new_event_description: '',
+
+      // Edit event modal variables
+      edit_isConference: false,
+      edit_event_valid: true,
+      edit_event_event_name: '',
+      edit_event_start_date: null,
+      edit_event_end_date: null,
+      edit_event_start_time: null,
+      edit_event_end_time: null,
+      edit_event_reminder: 0,
+      edit_event_description: '',
+      edit_event_web_link: '',
+      edit_event_id: '',
+      edit_event_conference_link: '',
     }
   },
   created() {
@@ -242,6 +335,8 @@ export default {
   },
 
   methods: {
+
+    // Prikaz dogodka v modalu za urejanje
     eventClick(event) {
       const eventId = event.event.id
       this.$axios
@@ -249,12 +344,73 @@ export default {
         .then((response) => {
           console.log(response.data)
           this.edit_modal_polja = response.data
+          this.edit_event_event_name = response.data.subject
+          this.edit_isConference = response.data.isOnlineMeeting
+          this.edit_event_start_date = this.$moment(response.data.start.dateTime).utcOffset('+0200').format('YYYY-MM-DD')
+          this.edit_event_start_time = this.$moment(response.data.start.dateTime).utcOffset('+0200').format('HH:mm')
+          this.edit_event_end_date = this.$moment(response.data.end.dateTime).utcOffset('+0200').format('YYYY-MM-DD')
+          this.edit_event_end_time = this.$moment(response.data.end.dateTime).utcOffset('+0200').format('HH:mm')
+          if (response.data.isReminderOn === true) {
+            this.edit_event_reminder = response.data.reminderMinutesBeforeStart
+          } else {
+            this.edit_event_reminder = 0
+          }
+          this.edit_event_description = response.data.bodyPreview
+          if (this.edit_isConference) {
+            this.edit_event_conference_link = response.data.onlineMeeting.joinUrl
+          } else {
+            this.edit_event_conference_link = ''
+          }
+          this.edit_event_id = response.data.id
           this.edit_event_dialog = true
         })
         .catch((error) => {
           console.log(error)
         })
     },
+
+    // Posodobitev dogodka
+    edit_event_update() {
+            let remainder = false
+      if (this.edit_event_reminder !== 0) {
+        remainder = true
+      }
+      else {
+        remainder = false
+      }
+       this.$axios.patch(`https://graph.microsoft.com/v1.0/me/events/${this.edit_event_id}`, 
+        {
+          subject: this.edit_event_event_name,
+           start: {
+            dateTime: this.edit_event_start_date + 'T' + this.edit_event_start_time + ':00',
+            timeZone: 'Europe/Ljubljana',
+          },
+          end: {
+            dateTime: this.edit_event_end_date + 'T' + this.edit_event_end_time + ':00',
+            timeZone: 'Europe/Ljubljana',
+          },
+          body: {
+            contentType: 'HTML',
+            content: this.edit_event_description,
+          },
+          isReminderOn: remainder,
+          reminderMinutesBeforeStart: this.edit_event_reminder,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        })
+      .then((response) => {
+        console.log(response.data)
+        this.edit_event_dialog = false
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    },
+
+    // Skok na današnji dan
     setToday() {
       this.calendar = ''
     },
@@ -269,12 +425,34 @@ export default {
       this.$refs.calendar.scrollToTime(first)
     },
 
-        viewDay({ date }) {
+    viewDay({ date }) {
       this.calendar = date
       this.changeCalendarView()
     },
 
-        changeCalendarView() {
+    // Izbris dogodka iz koledarja
+    edit_delete_event() {
+      console.log(this.edit_event_id)
+      this.restartErrorRequestNotification()
+      this.$axios
+        .delete(`https://graph.microsoft.com/v1.0/me/events/${this.edit_event_id}`, {
+          headers: {
+            Authorization: this.$auth.$storage.getUniversal('_token.aad'),
+          },
+        })
+        .then((response) => {
+          if (response.status === 204) {
+            this.edit_event_dialog = false
+            this.calendar_events = this.calendar_events.filter((event) => {
+              return event.id !== this.edit_event_id
+            })
+          } else {
+            this.showErrorRequestNotification()
+          }
+        })
+    },
+
+    changeCalendarView() {
       if (this.calendar_view === 'week') {
         this.calendar_view = 'day'
         this.calendar_view_icon = 'calendar_view_week'
@@ -295,12 +473,14 @@ export default {
       return this.$refs.calendar.timeToY(this.$refs.calendar.times.now) + 'px'
     },
 
+    // Odpre modal za ustvarjanje novega dogodka
     createNewEvent(event) {
       this.new_event_dialog = true
       this.new_modal_polja = event
       console.log(event)
     },
 
+    // Zapre modal za ustvarjanje novega dogodka
     createNewEventClose() {
       this.new_event_dialog = false
       this.new_modal_polja = []
@@ -310,8 +490,16 @@ export default {
       this.new_event_end_time = null
     },
 
+    // Shrani nov dogodek v koledar
     createNewEventSave() {
       this.restartErrorRequestNotification()
+      let remainder = false
+      if (this.new_event_reminder !== 0) {
+        remainder = true
+      }
+      else {
+        remainder = false
+      }
       this.$axios({
         url: 'https://graph.microsoft.com/v1.0/me/events',
         method: 'POST',
@@ -329,6 +517,8 @@ export default {
             contentType: 'HTML',
             content: this.new_event_description,
           },
+          isReminderOn: remainder,
+          reminderMinutesBeforeStart: this.new_event_reminder,
         },
         headers: {
           Authorization: 'Bearer ' + this.access_token,
@@ -336,7 +526,6 @@ export default {
         },
       }).then(
         (response) => {
-          console.log(response)
           this.new_event_dialog = false
           this.new_modal_polja = []
           this.new_event_start_date = null
@@ -344,20 +533,18 @@ export default {
         },
         (error) => {
           this.setRequestError()
+          // eslint-disable-next-line 
           console.log(error)
         }
       )
     },
 
+    // Pridobi dogodke iz koledarja (MS Graph API)
     getCalendarEvents({ start, end }) {
       this.restartErrorRequestNotification()
       this.calendar_events = []
       this.$axios
-        .get(`https://graph.microsoft.com/v1.0/me/calendarview?$select=id,subject,body,bodyPreview,start,end,location,webLink,isOnlineMeeting,onlineMeeting&startdatetime=${start.date}T00:00:00Z&enddatetime=${end.date}T23:59:00Z`, {
-          headers: {
-            Authorization: this.$auth.$storage.getUniversal('_token.aad'),
-          },
-        })
+        .get(`https://graph.microsoft.com/v1.0/me/calendarview?$select=id,subject,body,bodyPreview,start,webLink,end&startdatetime=${start.date}T00:00:00Z&enddatetime=${end.date}T23:59:00Z`)
         .then((response) => {
           const events = response.data.value
           this.scrollToTime()
@@ -371,11 +558,10 @@ export default {
               location: event.location,
               description: event.bodyPreview,
               url: event.webLink,
-              isOnlineMeeting: event.isOnlineMeeting,
             })
           })
         })
- .catch((error) => {
+        .catch((error) => {
           // eslint-disable-next-line
           console.log(error)
           this.setRequestError()
