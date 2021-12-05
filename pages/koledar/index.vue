@@ -555,7 +555,6 @@ export default {
               name: event.subject,
               start: this.$moment(event.start.dateTime).utcOffset('+0200').format('YYYY-MM-DD HH:mm'),
               end: this.$moment(event.end.dateTime).utcOffset('+0200').format('YYYY-MM-DD HH:mm'),
-              location: event.location,
               description: event.bodyPreview,
               url: event.webLink,
             })
