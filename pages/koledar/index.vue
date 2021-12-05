@@ -169,9 +169,8 @@
                       { text: '1 ura pred', value: 60 },
                       { text: '2 uri pred', value: 120 },
                       { text: '4 uri pred', value: 240 },
-                      {text: '8 ur pred', value: 480 },
-                      {text: '12 ur pred', value: 720 },
-                      {text: '1 dan pred', value: 1440},
+                      { text: '12 ur pred', value: 720 },
+                      { text: '1 dan pred', value: 1440 },
                     ]"
                     label="Opomnik"
                     :color="getSchoolColor()"
@@ -199,13 +198,16 @@
               <v-toolbar-title>Uredi dogodek</v-toolbar-title>
               <v-spacer></v-spacer>
               <v-toolbar-items>
+                <v-btn v-if="edit_event_conference_link !== ''" icon link target="_blank" :href="edit_event_conference_link"> <v-icon>videocam</v-icon> </v-btn>
                 <v-btn icon :disabled="edit_isConference" @click="edit_event_update"> <v-icon>save</v-icon> </v-btn>
                 <v-btn icon @click="edit_delete_event"> <v-icon>delete</v-icon> </v-btn>
+
+                <v-btn v-if="edit_event_web_link !== ''" icon link target="_blank" :href="edit_event_web_link"> <v-icon>open_in_new</v-icon> </v-btn>
               </v-toolbar-items>
             </v-toolbar>
             <v-card-text class="mt-3">
               <v-form>
-                <v-text-field label="Naziv dogodka" :value="edit_event_event_name" :disabled="edit_isConference" outlined :color="getSchoolColor()" :background-color="getSchoolColor()" ></v-text-field>
+                <v-text-field label="Naziv dogodka" :value="edit_event_event_name" :disabled="edit_isConference" outlined :color="getSchoolColor()" :background-color="getSchoolColor()"></v-text-field>
                 <!-- Datum in čas začetka -->
                 <v-row>
                   <v-col>
@@ -259,9 +261,8 @@
                       { text: '1 ura pred', value: 60 },
                       { text: '2 uri pred', value: 120 },
                       { text: '4 uri pred', value: 240 },
-                      {text: '8 ur pred', value: 480 },
-                      {text: '12 ur pred', value: 720 },
-                      {text: '1 dan pred', value: 1440},
+                      { text: '12 ur pred', value: 720 },
+                      { text: '1 dan pred', value: 1440 },
                     ]"
                     label="Opomnik"
                     :color="getSchoolColor()"
@@ -332,10 +333,13 @@ export default {
   },
   created() {
     this.$vuetify.lang.current = 'sl'
+
+    if (this.$router.currentRoute.query.action === 'new-event') {
+      this.new_event_dialog = true
+    }
   },
 
   methods: {
-
     // Prikaz dogodka v modalu za urejanje
     eventClick(event) {
       const eventId = event.event.id
@@ -362,6 +366,7 @@ export default {
             this.edit_event_conference_link = ''
           }
           this.edit_event_id = response.data.id
+          this.edit_event_web_link = response.data.webLink
           this.edit_event_dialog = true
         })
         .catch((error) => {
@@ -369,45 +374,63 @@ export default {
         })
     },
 
+    closeEditDialog() {
+      this.edit_isConference = false
+      this.edit_event_valid = true
+      this.edit_event_event_name = ''
+      this.edit_event_start_date = null
+      this.edit_event_end_date = null
+      this.edit_event_start_time = null
+      this.edit_event_end_time = null
+      this.edit_event_reminder = 0
+      this.edit_event_description = ''
+      this.edit_event_web_link = ''
+      this.edit_event_id = ''
+      this.edit_event_conference_link = ''
+      this.edit_event_dialog = false
+    },
+
     // Posodobitev dogodka
     edit_event_update() {
-            let remainder = false
+      let remainder = false
       if (this.edit_event_reminder !== 0) {
         remainder = true
-      }
-      else {
+      } else {
         remainder = false
       }
-       this.$axios.patch(`https://graph.microsoft.com/v1.0/me/events/${this.edit_event_id}`, 
-        {
-          subject: this.edit_event_event_name,
-           start: {
-            dateTime: this.edit_event_start_date + 'T' + this.edit_event_start_time + ':00',
-            timeZone: 'Europe/Ljubljana',
+      this.$axios
+        .patch(
+          `https://graph.microsoft.com/v1.0/me/events/${this.edit_event_id}`,
+          {
+            subject: this.edit_event_event_name,
+            start: {
+              dateTime: this.edit_event_start_date + 'T' + this.edit_event_start_time + ':00',
+              timeZone: 'Europe/Ljubljana',
+            },
+            end: {
+              dateTime: this.edit_event_end_date + 'T' + this.edit_event_end_time + ':00',
+              timeZone: 'Europe/Ljubljana',
+            },
+            body: {
+              contentType: 'HTML',
+              content: this.edit_event_description,
+            },
+            isReminderOn: remainder,
+            reminderMinutesBeforeStart: this.edit_event_reminder,
           },
-          end: {
-            dateTime: this.edit_event_end_date + 'T' + this.edit_event_end_time + ':00',
-            timeZone: 'Europe/Ljubljana',
-          },
-          body: {
-            contentType: 'HTML',
-            content: this.edit_event_description,
-          },
-          isReminderOn: remainder,
-          reminderMinutesBeforeStart: this.edit_event_reminder,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
           }
+        )
+        .then((response) => {
+          console.log(response.data)
+          this.closeEditDialog()
         })
-      .then((response) => {
-        console.log(response.data)
-        this.edit_event_dialog = false
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+        .catch((error) => {
+          console.log(error)
+        })
     },
 
     // Skok na današnji dan
@@ -432,7 +455,6 @@ export default {
 
     // Izbris dogodka iz koledarja
     edit_delete_event() {
-      console.log(this.edit_event_id)
       this.restartErrorRequestNotification()
       this.$axios
         .delete(`https://graph.microsoft.com/v1.0/me/events/${this.edit_event_id}`, {
@@ -442,7 +464,7 @@ export default {
         })
         .then((response) => {
           if (response.status === 204) {
-            this.edit_event_dialog = false
+            this.closeEditDialog()
             this.calendar_events = this.calendar_events.filter((event) => {
               return event.id !== this.edit_event_id
             })
@@ -488,18 +510,21 @@ export default {
       this.new_event_end_date = null
       this.new_event_start_time = null
       this.new_event_end_time = null
+      this.new_event_reminder = 0
+      this.new_event_description = ''
+      this.new_event_event_name = ''
     },
 
     // Shrani nov dogodek v koledar
     createNewEventSave() {
       this.restartErrorRequestNotification()
+
+      // Nastavitev opomnika - zaradi ločenih nastavitev
       let remainder = false
-      if (this.new_event_reminder !== 0) {
-        remainder = true
-      }
-      else {
-        remainder = false
-      }
+      if (this.new_event_reminder !== 0) remainder = true
+      else remainder = false
+
+      // Shranjevanje dogodka v koledar (MS Graph API)
       this.$axios({
         url: 'https://graph.microsoft.com/v1.0/me/events',
         method: 'POST',
@@ -526,14 +551,11 @@ export default {
         },
       }).then(
         (response) => {
-          this.new_event_dialog = false
-          this.new_modal_polja = []
-          this.new_event_start_date = null
-          this.new_event_end_date = null
+          this.createNewEventClose()
         },
         (error) => {
           this.setRequestError()
-          // eslint-disable-next-line 
+          // eslint-disable-next-line
           console.log(error)
         }
       )

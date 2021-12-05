@@ -34,7 +34,7 @@
       </v-list-item>
 
       <v-divider class="mb-1"></v-divider>
-      <v-list-item-group>
+      <div>
         <v-list-item target="_blank" :href="config.eucilnica_site">
           <v-list-item-title><v-icon>school</v-icon> Spletna učilnica</v-list-item-title>
         </v-list-item>
@@ -50,7 +50,8 @@
         <v-list-item target="_blank" :href="config.prehrana_site">
           <v-list-item-title><v-icon>language</v-icon> Šolska prehrana</v-list-item-title>
         </v-list-item>
-      </v-list-item-group>
+      </div>
+
       <v-list-item to="/about" nuxt>
         <v-list-item-title><v-icon>info</v-icon> O aplikaciji</v-list-item-title>
       </v-list-item>
