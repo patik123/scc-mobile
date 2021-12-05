@@ -106,7 +106,7 @@
             <!-- OPRAVILA -->
 
             <div id="tasks">
-              <v-card>
+              <v-card class="mt-5">
                 <v-card-title class="title">Bližajoča opravila</v-card-title>
                 <v-card-text> </v-card-text>
               </v-card>
@@ -130,12 +130,14 @@ export default {
     return {
       events: [],
       timetable_class: '',
+      timetable_events: [],
     }
   },
 
   created() {
     this.getCalendarEvents()
     this.getClasses()
+
   },
 
   methods: {
@@ -154,6 +156,45 @@ export default {
               this.timetable_class = element
             }
           })
+              this.getTimetable()
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.log(error)
+          this.setRequestError()
+        })
+    },
+
+    getTimetable(){
+      const startDate = this.$moment().format('YYYYMMDD')
+      const endDate = this.$moment().add(1, 'day').format('YYYYMMDD')
+      const classId = this.timetable_class.id
+       this.$axios
+        .get(`${this.config.url_backend_aplikacije}/untis/get_class_timetable?class_id=${classId}&start_date=${startDate}&end_date=${endDate}`)
+        .then((response) => {
+          const lessons = response.data.result
+
+          if (lessons.error) {
+            this.setRequestError()
+            return
+          }
+          lessons.forEach((lesson) => {
+
+            // Dodajanje dogodka v urnik
+            this.timetable_events.push({
+              name: `${lesson.su[0].name ? lesson.su[0].name : ''}  `,
+              lesson_name: lesson.su[0].longname ? lesson.su[0].longname : '',
+              activity: lesson.activityType ? lesson.activityType : '',
+              start: this.$moment(lesson.date + 'T' + lesson.startTime, 'YYYYMMDDTHmm').format('YYYY-MM-DDTH:mm'),
+              end: this.$moment(lesson.date + 'T' + lesson.endTime, 'YYYYMMDDTHmm').format('YYYY-MM-DDTH:mm'),
+              classes: lesson.kl ? lesson.kl : [],
+              room: lesson.ro ? lesson.ro : [],
+              teacher: lesson.te ? lesson.te : [],
+              substText: lesson.substText ? lesson.substText : '',
+            })
+          })
+
+          this.getCurrentLesson()
         })
         .catch((error) => {
           // eslint-disable-next-line
@@ -178,6 +219,20 @@ export default {
           console.log(error)
         })
     },
+
+    getCurrentLesson(){
+
+      console.log(this.timetable_events)
+
+      const currentTime = this.$moment().format('HH:mm')
+      console.log(currentTime)
+
+      this.timetable_events.forEach((event) => {
+        if (this.$moment(event.start,'YYYY-MM-DDTH:mm').format('HH:mm') <= currentTime && this.$moment(event.end, 'YYYY-MM-DDTH:mm').format('HH:mm') >= currentTime) {
+          console.log(event)
+        }
+      })
+    }
   },
 }
 </script>
