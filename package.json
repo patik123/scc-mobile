@@ -29,6 +29,7 @@
     "nuxt": "^2.15.7",
     "nuxt-polyfill": "^1.0.3",
     "vue-barcode": "^1.3.0",
+    "vue-matomo": "^4.1.0",
     "vue-pdf-app": "^2.1.0"
   },
   "devDependencies": {

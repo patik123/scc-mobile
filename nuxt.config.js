@@ -27,7 +27,7 @@ export default {
 
   css: ['@/assets/scss/main.scss', 'vue-pdf-app/dist/icons/main.css'],
 
-  plugins: ['~/plugins/barcode.client.js'],
+  plugins: ['~/plugins/barcode.client.js', { src: '~/plugins/vue-matomo.js', ssr: false }],
 
   components: true,
 
@@ -38,7 +38,7 @@ export default {
   axios: {},
 
   moment: {
-    defaultLocale: 'sl',
+    defaultLocale: 'si',
   },
 
   pwa: {
@@ -51,7 +51,15 @@ export default {
       background_color: '#ffffff',
       theme_color: '#002f5f',
       display: 'standalone',
-      start_url: '/',
+      start_url: '/?source=pwa',
+      shortcuts: [
+        {
+          name: 'Nov dogodek',
+          short_name: 'Nov dogodek',
+          description: 'Ustvari nov dogodek v koledarju',
+          url: '/koledar/?action=new-event',
+        },
+      ],
     },
     /*  workbox: {
       dev: process.env.NODE_ENV !== 'production'

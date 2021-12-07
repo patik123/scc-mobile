@@ -8,14 +8,14 @@ export default {
     return {
       jwt_decoded: null,
       jwt_token: null,
-      user: localStorage.getItem('user'),
-      school: localStorage.getItem('school'),
-      user_class: localStorage.getItem('class'),
+      user: localStorage.getItem('user') ? localStorage.getItem('user') : null,
+      school: localStorage.getItem('school') ? localStorage.getItem('school') : null,
+      user_class: localStorage.getItem('class') ? localStorage.getItem('class') : null,
       config: configData.default,
       drawer: false,
       group: null,
       darkmode: false,
-      user_type: localStorage.getItem('user_type'),
+      user_type: localStorage.getItem('user_type') ? localStorage.getItem('user_type') : null,
       dark_light_icon: 'dark_mode',
       request_error: false,
     }

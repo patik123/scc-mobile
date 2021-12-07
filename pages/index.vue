@@ -68,11 +68,15 @@
               </v-chip>
             </v-chip-group>
 
+            <div class="mt-2 mb-3">
+              <span class="user-greatting">{{ `${getGreeting()},  ${jwt_decoded.given_name}` }}</span>
+            </div>
+
             <!-- TRENUTNA URA -->
             <div id="lesson-now">
               <v-card>
-                <v-card-title class="title">Trenutna uro</v-card-title>
-                <v-card-text> {{current_lesson}}</v-card-text>
+                <v-card-title :class="getSchoolColor()" class="title">Trenutna ura</v-card-title>
+                <v-card-text> {{ current_lesson }}</v-card-text>
               </v-card>
             </div>
 
@@ -80,7 +84,7 @@
 
             <div id="events">
               <v-card class="mt-5">
-                <v-card-title>Prihajajoči dogodki</v-card-title>
+                <v-card-title :class="getSchoolColor()" class="title">Prihajajoči dogodki</v-card-title>
                 <v-card-text>
                   <v-list two-line>
                     <v-list-item v-if="events === []">
@@ -95,7 +99,7 @@
                     <v-list-item v-for="event in events" :key="event.id">
                       <v-list-item-content>
                         <v-list-item-title>{{ event.subject }}</v-list-item-title>
-                        <v-list-item-subtitle>{{ `${$moment(event.start.dateTime).utcOffset('+0200').format('DD. MM. YYYY HH:mm')} - ${$moment(event.end.dateTime).utcOffset('+0200').format('DD. MM. YYYY HH:mm')}` }}</v-list-item-subtitle>
+                        <v-list-item-subtitle>{{ `${$moment(event.start.dateTime).utcOffset('+0200').format('dddd DD. MM. YYYY HH:mm')} - ${$moment(event.end.dateTime).utcOffset('+0200').format('dddd DD. MM. YYYY HH:mm')}` }}</v-list-item-subtitle>
                       </v-list-item-content>
                     </v-list-item>
                   </v-list>
@@ -107,7 +111,7 @@
 
             <div id="tasks">
               <v-card class="mt-5">
-                <v-card-title class="title">Bližajoča opravila</v-card-title>
+                <v-card-title class="title" :class="getSchoolColor()">Bližajoča opravila</v-card-title>
                 <v-card-text> </v-card-text>
               </v-card>
             </div>
@@ -121,7 +125,7 @@
 <script>
 // Zaradi tega druga datoteka ker se tukaj ne izvede preusmeritve če uporabnik ni prijavljen
 import basicFunctions from '~/assets/js/basic_functions.js'
-
+import 'moment/locale/sl'
 export default {
   name: 'VstopnaStran',
   mixins: [basicFunctions],
@@ -136,9 +140,11 @@ export default {
   },
 
   created() {
-    this.getCalendarEvents()
-    this.getClasses()
-
+    if (this.$auth.loggedIn) {
+      this.getCalendarEvents()
+      this.getClasses()
+    }
+    this.$moment.locale('sl')
   },
 
   methods: {
@@ -157,7 +163,7 @@ export default {
               this.timetable_class = element
             }
           })
-              this.getTimetable()
+          this.getTimetable()
         })
         .catch((error) => {
           // eslint-disable-next-line
@@ -166,11 +172,11 @@ export default {
         })
     },
 
-    getTimetable(){
+    getTimetable() {
       const startDate = this.$moment().format('YYYYMMDD')
       const endDate = this.$moment().add(1, 'day').format('YYYYMMDD')
       const classId = this.timetable_class.id
-       this.$axios
+      this.$axios
         .get(`${this.config.url_backend_aplikacije}/untis/get_class_timetable?class_id=${classId}&start_date=${startDate}&end_date=${endDate}`)
         .then((response) => {
           const lessons = response.data.result
@@ -180,7 +186,6 @@ export default {
             return
           }
           lessons.forEach((lesson) => {
-
             // Dodajanje dogodka v urnik
             this.timetable_events.push({
               name: `${lesson.su[0].name ? lesson.su[0].name : ''}  `,
@@ -221,20 +226,30 @@ export default {
         })
     },
 
-    getCurrentLesson(){
+    getGreeting() {
+      const hour = this.$moment().hour()
+      if (hour >= 0 && hour < 12) {
+        return 'Dobro jutro'
+      } else if (hour >= 12 && hour < 18) {
+        return 'Dober dan'
+      } else if (hour >= 18 && hour < 24) {
+        return 'Dober večer'
+      }
+    },
 
+    getCurrentLesson() {
       console.log(this.timetable_events)
 
-      const currentTime = this.$moment().format('HH:mm')
-      console.log(currentTime)
-
       this.timetable_events.forEach((event) => {
-        if (this.$moment(event.start,'YYYY-MM-DDTH:mm').format('HH:mm') <= currentTime && this.$moment(event.end, 'YYYY-MM-DDTH:mm').format('HH:mm') >= currentTime) {
-          console.log(event)
+        const lessonStart = this.$moment(event.start, 'YYYY-MM-DDTH:mm').subtract(10, 'minutes')
+        const lessonEnd = this.$moment(event.end, 'YYYY-MM-DDTH:mm')
+
+        if (this.$moment().isBetween(lessonStart, lessonEnd)) {
           this.current_lesson = event
+          console.log(this.current_lesson)
         }
       })
-    }
+    },
   },
 }
 </script>
@@ -248,6 +263,17 @@ export default {
   width: 30%;
   height: 30%;
 }
+
+.school-img {
+  width: 40px;
+  height: 40px;
+}
+
+.user-greatting {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
 @media screen and (max-width: 960px) {
   .app-img {
     width: 50%;
@@ -256,6 +282,9 @@ export default {
   .widget-img {
     width: 40%;
     height: 40%;
+  }
+  .school-img {
+    display: none;
   }
 }
 </style>
