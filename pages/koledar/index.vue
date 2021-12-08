@@ -346,7 +346,6 @@ export default {
       this.$axios
         .get(`https://graph.microsoft.com/v1.0/me/events/${eventId}`)
         .then((response) => {
-          console.log(response.data)
           this.edit_modal_polja = response.data
           this.edit_event_event_name = response.data.subject
           this.edit_isConference = response.data.isOnlineMeeting

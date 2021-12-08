@@ -6,5 +6,6 @@ export default ({ app }) => {
     router: app.router,
     host: 'https://analitika-scc.thepatik.eu.org',
     siteId: 1,
+    disableCookies: true,
   })
 }

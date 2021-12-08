@@ -10,7 +10,6 @@ export default {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: 'Mobilna aplikacija Šolskega centra Celja' },
-      { name: 'format-detection', content: 'telephone=no' },
       { name: 'author', content: 'Patrick Košir' },
       { name: 'google', content: 'notranslate' }, // Disable Google Translate
       { name: 'robots', content: 'noindex, nofollow' }, // V produkciji se mora spremeniti na index, follow
@@ -116,6 +115,9 @@ export default {
   vuetify: {
     optionsPath: './vuetify.options.js',
     defaultAssets: {
+      font: {
+        family: 'Nunito',
+      },
       icons: 'md',
     },
     customVariables: ['~/assets/scss/variables.scss'],
