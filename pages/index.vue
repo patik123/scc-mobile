@@ -76,7 +76,7 @@
             <div id="lesson-now" v-if="current_lessons !== []">
               <v-card>
                 <div>
-                  <v-card-title :class="getSchoolColor()" icon class="title">Trenutna ura<v-spacer></v-spacer><v-btn :class="getSchoolColor()" @click="$router.push('/urnik')"><v-icon>calendar_month</v-icon><span class="d-none d-sm-flex">Moj urnik</span></v-btn></v-card-title>
+                  <v-card-title :class="getSchoolColor()" class="title">Trenutna ura<v-spacer></v-spacer><v-btn :class="getSchoolColor()" @click="$router.push('/urnik')"><v-icon>calendar_month</v-icon><span class="d-none d-sm-flex">Moj urnik</span></v-btn></v-card-title>
                 </div>
                 <v-divider></v-divider>
                 <div v-for="lesson in current_lessons" :key="lesson.id">
@@ -112,13 +112,14 @@
                   <v-divider></v-divider>
                 </div>
               </v-card>
-            </div>
+            </div class="mt-3">
 
             <!-- PRIHAJAJOČI DOGODKI -->
 
             <div id="events">
               <v-card class="mt-5">
-                <v-card-title :class="getSchoolColor()" class="title">Prihajajoči dogodki<v-spacer></v-spacer><v-btn :class="getSchoolColor()" icon @click="$router.push('/koledar?action=new-event')"><v-icon>add</v-icon><span class="d-none d-sm-flex">Nov dogodek</span></v-btn></v-card-title>
+                <v-card-title :class="getSchoolColor()" class="title">Prihajajoči dogodki<v-spacer></v-spacer><v-btn :class="getSchoolColor()" @click="$router.push('/koledar?action=new-event')"><v-icon>add</v-icon><span class="d-none d-sm-flex">Nov dogodek</span></v-btn></v-card-title>
+                <v-divider></v-divider>
                 <v-card-text>
                   <v-list two-line>
                     <v-list-item v-if="events === []">
@@ -135,6 +136,7 @@
                         <v-list-item-title>{{ event.subject }}</v-list-item-title>
                         <v-list-item-subtitle>{{ `${$moment(event.start.dateTime).utcOffset('+0200').format('dddd DD. MM. YYYY HH:mm')} - ${$moment(event.end.dateTime).utcOffset('+0200').format('dddd DD. MM. YYYY HH:mm')}` }}</v-list-item-subtitle>
                       </v-list-item-content>
+                      <v-divider></v-divider>
                     </v-list-item>
                   </v-list>
                 </v-card-text>
@@ -146,6 +148,7 @@
             <div id="tasks">
               <v-card class="mt-5">
                 <v-card-title class="title" :class="getSchoolColor()">Bližajoča opravila</v-card-title>
+                <v-divider></v-divider>
                 <v-card-text> </v-card-text>
               </v-card>
             </div>
