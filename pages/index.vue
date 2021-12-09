@@ -167,7 +167,7 @@ export default {
       events: [],
       timetable_class: '',
       timetable_events: [],
-      current_lessons: '',
+      current_lessons: [],
     }
   },
 
@@ -273,10 +273,10 @@ export default {
     getCurrentLesson() {
       this.timetable_events.forEach((event) => {
         const lessonStart = this.$moment(event.start, 'YYYY-MM-DDTH:mm').subtract(10, 'minutes')
-        const lessonEnd = this.$moment(event.end, 'YYYY-MM-DDTH:mm').subtract(10, 'minutes')
+        const lessonEnd = this.$moment(event.end, 'YYYY-MM-DDTH:mm')
 
         if (this.$moment().isBetween(lessonStart, lessonEnd)) {
-          this.current_lessons.push(event)
+          this.current_lessons.push({event})
           console.log(this.current_lessons)
         }
       })
