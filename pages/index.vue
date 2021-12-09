@@ -73,7 +73,7 @@
             </div>
 
             <!-- TRENUTNA URA -->
-            <div id="lesson-now" v-if="current_lessons !== ''">
+            <div id="lesson-now" v-if="current_lessons !== []">
               <v-card>
                 <div>
                   <v-card-title :class="getSchoolColor()" class="title">Trenutna ura<v-spacer></v-spacer><v-btn :class="getSchoolColor()" @click="$router.push('/urnik')">Moj urnik</v-btn></v-card-title>
@@ -276,7 +276,7 @@ export default {
         const lessonEnd = this.$moment(event.end, 'YYYY-MM-DDTH:mm')
 
         if (this.$moment().isBetween(lessonStart, lessonEnd)) {
-          this.current_lessons.push({event})
+          this.current_lessons.push(event)
           console.log(this.current_lessons)
         }
       })
