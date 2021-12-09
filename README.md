@@ -10,15 +10,13 @@ Za prijavo uporabniki potrebujejo šolski elektronski naslov @dijak.sc-celje.si.
 - pregled obvestil na šolski strani
 - ogled jedilnika
 - ogled nadomeščanj
-- elektronsko izkaznico (idejno le trenutno)
-- urnik posameznega oddelka (v izdelavi)
+- urnik posameznega oddelka
+- podpora za profesorje (delna)
 
 Cilj aplikacije je dijakom ponuditi nekatere informacije katere dijak potrbuje v nekem trenutku
 
-## vIdeje za v prihodnost:
+## Ideje za v prihodnost:
 
-- možnost osebnega koledarja (CRUD za koledar - private dogodki)
-- dodajanje TO-DO liste (v kombinaciji z MS API - Microsoft Opravila)
 - komunikacija z Moodle
-- podpora za učitelje
-- dodajanje na prvo stran podatke o Šolskem centru Celje.
+- možnost spreminjanja obroka za malico v aplikaciji
+- lasten custom sistem za obveščanje dijakov

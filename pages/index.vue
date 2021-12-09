@@ -76,8 +76,9 @@
             <div id="lesson-now" v-if="current_lessons !== []">
               <v-card>
                 <div>
-                  <v-card-title :class="getSchoolColor()" class="title">Trenutna ura<v-spacer></v-spacer><v-btn :class="getSchoolColor()" @click="$router.push('/urnik')">Moj urnik</v-btn></v-card-title>
+                  <v-card-title :class="getSchoolColor()" icon class="title">Trenutna ura<v-spacer></v-spacer><v-btn :class="getSchoolColor()" @click="$router.push('/urnik')"><v-icon>calendar_month</v-icon><span class="d-none d-sm-flex">Moj urnik</span></v-btn></v-card-title>
                 </div>
+                <v-divider></v-divider>
                 <div v-for="lesson in current_lessons" :key="lesson.id">
                   <v-row>
                     <v-col>
@@ -108,6 +109,7 @@
                     <v-icon class="mr-2">info</v-icon>
                     Začetek v ______ minutah ali do konca ure je še _______ minut
                   </v-card-text>
+                  <v-divider></v-divider>
                 </div>
               </v-card>
             </div>
@@ -116,7 +118,7 @@
 
             <div id="events">
               <v-card class="mt-5">
-                <v-card-title :class="getSchoolColor()" class="title">Prihajajoči dogodki<v-spacer></v-spacer><v-btn :class="getSchoolColor()" @click="$router.push('/koledar?action=new-event')">Nov dogodek</v-btn></v-card-title>
+                <v-card-title :class="getSchoolColor()" class="title">Prihajajoči dogodki<v-spacer></v-spacer><v-btn :class="getSchoolColor()" icon @click="$router.push('/koledar?action=new-event')"><v-icon>add</v-icon><span class="d-none d-sm-flex">Nov dogodek</span></v-btn></v-card-title>
                 <v-card-text>
                   <v-list two-line>
                     <v-list-item v-if="events === []">
@@ -273,7 +275,7 @@ export default {
     getCurrentLesson() {
       this.timetable_events.forEach((event) => {
         const lessonStart = this.$moment(event.start, 'YYYY-MM-DDTH:mm').subtract(10, 'minutes')
-        const lessonEnd = this.$moment(event.end, 'YYYY-MM-DDTH:mm')
+        const lessonEnd = this.$moment(event.end, 'YYYY-MM-DDTH:mm').subtract(10, 'minutes')
 
         if (this.$moment().isBetween(lessonStart, lessonEnd)) {
           this.current_lessons.push(event)
