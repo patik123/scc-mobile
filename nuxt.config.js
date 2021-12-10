@@ -58,6 +58,12 @@ export default {
           description: 'Ustvari nov dogodek v koledarju',
           url: '/koledar/?action=new-event',
         },
+        {
+          name: 'Urnik',
+          short_name: 'Urnik',
+          description: 'Odpre urnik',
+          url: '/urnik',
+        },
       ],
     },
     /*  workbox: {

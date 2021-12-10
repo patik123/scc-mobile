@@ -73,52 +73,67 @@
             </div>
 
             <!-- TRENUTNA URA -->
-            <div id="lesson-now" v-if="current_lessons !== []">
+            <div id="lesson-now" v-if="current_lesson_available === true">
               <v-card>
                 <div>
-                  <v-card-title :class="getSchoolColor()" class="title">Trenutna ura<v-spacer></v-spacer><v-btn :class="getSchoolColor()" @click="$router.push('/urnik')"><v-icon>calendar_month</v-icon><span class="d-none d-sm-flex">Moj urnik</span></v-btn></v-card-title>
+                  <v-card-title :class="getSchoolColor()" class="title"
+                    >Trenutna ura<v-spacer></v-spacer><v-btn :class="getSchoolColor()" @click="$router.push('/urnik')"><v-icon>calendar_month</v-icon><span class="d-none d-sm-flex">Moj urnik</span></v-btn></v-card-title
+                  >
                 </div>
                 <v-divider></v-divider>
-                <div v-for="lesson in current_lessons" :key="lesson.id">
-                  <v-row>
-                    <v-col>
-                      <v-card-text>
-                        <v-icon class="mr-2">schedule</v-icon>
-                        <span class="mr-3">{{ $moment(lesson.start, 'YYYY-MM-DDTH:mm').format('HH:mm') + ' - ' + $moment(lesson.end, 'YYYY-MM-DDTH:mm').format('HH:mm') }}</span>
-                      </v-card-text>
+                <v-card-text v-for="lesson in current_lessons" :key="lesson.id">
+                  <v-list>
+                    <v-list-item>
+                      <v-list-item-content>
+                        <v-card-text>
+                          <v-icon class="mr-2">school</v-icon>
+                          <span class="mr-3">{{ lesson.lesson_name }}</span>
+                        </v-card-text>
+                        <v-row>
+                          <v-col>
+                            <v-card-text>
+                              <v-icon class="mr-2">schedule</v-icon>
+                              <span class="mr-3">{{ $moment(lesson.start, 'YYYY-MM-DDTH:mm').format('HH:mm') + ' - ' + $moment(lesson.end, 'YYYY-MM-DDTH:mm').format('HH:mm') }}</span>
+                            </v-card-text>
 
-                      <v-card-text>
-                        <v-icon class="mr-2">school</v-icon>
-                        <span class="mr-3">{{ lesson.lesson_name }}</span>
-                      </v-card-text>
-                    </v-col>
+                            <v-card-text>
+                              <v-icon class="mr-2">info</v-icon>
+                              <span class="mr-3">{{ lesson.activity }}</span>
+                            </v-card-text>
+                          </v-col>
 
-                    <v-col>
-                      <v-card-text>
-                        <v-icon class="mr-2">person</v-icon>
-                        <span v-for="element in lesson['teacher']" :id="element.id" :key="element.id" class="mr-3">{{ element.longname }}</span>
-                      </v-card-text>
+                          <v-col>
+                            <v-card-text>
+                              <v-icon class="mr-2">person</v-icon>
+                              <span v-for="element in lesson['teacher']" :id="element.id" :key="element.id" class="mr-3">{{ element.longname }}</span>
+                            </v-card-text>
 
-                      <v-card-text>
-                        <v-icon class="mr-2">meeting_room</v-icon>
-                        <span v-for="element in lesson['room']" :id="element.id" :key="element.id" class="mr-3">{{ element.name }}</span>
-                      </v-card-text>
-                    </v-col>
-                  </v-row>
-                  <v-card-text>
-                    <v-icon class="mr-2">info</v-icon>
-                    Začetek v ______ minutah ali do konca ure je še _______ minut
-                  </v-card-text>
-                  <v-divider></v-divider>
-                </div>
+                            <v-card-text>
+                              <v-icon class="mr-2">meeting_room</v-icon>
+                              <span v-for="element in lesson['room']" :id="element.id" :key="element.id" class="mr-3">{{ element.name }}</span>
+                            </v-card-text>
+                          </v-col>
+                        </v-row>
+
+                        <v-card-text>
+                          <v-icon class="mr-2">info</v-icon>
+                          <span class="mr-3">Začetek ure v ________ do konca ure še __________</span>
+                        </v-card-text>
+                        <v-divider></v-divider>
+                      </v-list-item-content>
+                    </v-list-item>
+                  </v-list>
+                </v-card-text>
               </v-card>
-            </div class="mt-3">
+            </div>
 
             <!-- PRIHAJAJOČI DOGODKI -->
 
             <div id="events">
               <v-card class="mt-5">
-                <v-card-title :class="getSchoolColor()" class="title">Prihajajoči dogodki<v-spacer></v-spacer><v-btn :class="getSchoolColor()" @click="$router.push('/koledar?action=new-event')"><v-icon>add</v-icon><span class="d-none d-sm-flex">Nov dogodek</span></v-btn></v-card-title>
+                <v-card-title :class="getSchoolColor()" class="title"
+                  >Prihajajoči dogodki<v-spacer></v-spacer><v-btn :class="getSchoolColor()" @click="$router.push('/koledar?action=new-event')"><v-icon>add</v-icon><span class="d-none d-sm-flex">Nov dogodek</span></v-btn></v-card-title
+                >
                 <v-divider></v-divider>
                 <v-card-text>
                   <v-list two-line>
@@ -136,7 +151,6 @@
                         <v-list-item-title>{{ event.subject }}</v-list-item-title>
                         <v-list-item-subtitle>{{ `${$moment(event.start.dateTime).utcOffset('+0200').format('dddd DD. MM. YYYY HH:mm')} - ${$moment(event.end.dateTime).utcOffset('+0200').format('dddd DD. MM. YYYY HH:mm')}` }}</v-list-item-subtitle>
                       </v-list-item-content>
-                      <v-divider></v-divider>
                     </v-list-item>
                   </v-list>
                 </v-card-text>
@@ -173,6 +187,7 @@ export default {
       timetable_class: '',
       timetable_events: [],
       current_lessons: [],
+      current_lesson_available: false,
     }
   },
 
@@ -213,6 +228,7 @@ export default {
       const startDate = this.$moment().format('YYYYMMDD')
       const endDate = this.$moment().add(1, 'day').format('YYYYMMDD')
       const classId = this.timetable_class.id
+      this.timetable_events = []
       this.$axios
         .get(`${this.config.url_backend_aplikacije}/untis/get_class_timetable?class_id=${classId}&start_date=${startDate}&end_date=${endDate}`)
         .then((response) => {
@@ -276,13 +292,16 @@ export default {
     },
 
     getCurrentLesson() {
+      this.current_lessons = []
+      this.current_lesson_available = false
+
       this.timetable_events.forEach((event) => {
         const lessonStart = this.$moment(event.start, 'YYYY-MM-DDTH:mm').subtract(10, 'minutes')
         const lessonEnd = this.$moment(event.end, 'YYYY-MM-DDTH:mm').subtract(10, 'minutes')
 
         if (this.$moment().isBetween(lessonStart, lessonEnd)) {
           this.current_lessons.push(event)
-          console.log(this.current_lessons)
+          this.current_lesson_available = true
         }
       })
     },
