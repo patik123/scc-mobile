@@ -35,16 +35,16 @@
 
             <v-card>
               <div v-if="tasks.length === 0">
-              <v-list two-line>
-                    <v-list-item >
-                      <v-list-item-content>
-                        <div class="text-center">
-                          <v-list-item-title><b>Izgleda, da nimate nobenih dogodkov v prihajajočih dneh</b></v-list-item-title>
-                          <img src="~/static/calendar.svg" alt="Slika koledarja " class="widget-img mt-2" />
-                        </div>
-                      </v-list-item-content>
-                    </v-list-item>
-              </v-list>
+                <v-list two-line>
+                  <v-list-item>
+                    <v-list-item-content>
+                      <div class="text-center">
+                        <v-list-item-title><b>Izgleda, da nimate nobenih dogodkov v prihajajočih dneh</b></v-list-item-title>
+                        <img src="~/static/calendar.svg" alt="Slika koledarja " class="widget-img mt-2" />
+                      </div>
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-list>
               </div>
 
               <div v-for="task in tasks" :key="task.id" :data-id="task.id" @click="showTask" @contextmenu="markAsDoneTaskDclClick">
@@ -392,7 +392,6 @@ export default {
   width: 20%;
   height: 20%;
 }
-
 
 .task-done {
   text-decoration: line-through;
