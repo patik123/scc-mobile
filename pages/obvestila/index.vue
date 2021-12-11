@@ -106,7 +106,7 @@ export default {
       const url = e.currentTarget.dataset.url
 
       this.$axios
-        .get(`${this.config.url_backend_aplikacije}/sites/school?url=${url}`)
+        .get(`${this.config.url_backend_aplikacije}/sites/url_proxy?url=${url}`)
         .then((response) => {
           const $ = cherio.load(response.data)
           this.vsebina_obvestila_title = $('.post-title').text()
@@ -133,7 +133,7 @@ export default {
     getObvestila() {
       this.restartErrorRequestNotification()
       this.$axios
-        .get(`${this.config.url_backend_aplikacije}/sites/school?url=${this.school_website()}`)
+        .get(`${this.config.url_backend_aplikacije}/sites/url_proxy?url=${this.school_website()}`)
         .then((response) => {
           const $ = cherio.load(response.data)
           $('#my_custom_widget-2 a').each((i, el) => {

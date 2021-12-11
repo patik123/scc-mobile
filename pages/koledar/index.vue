@@ -68,12 +68,20 @@
               <v-toolbar-title>Nov dogodek</v-toolbar-title>
               <v-spacer></v-spacer>
               <v-toolbar-items>
-                <v-btn text @click="createNewEventSave()"> <v-icon>save</v-icon> </v-btn>
+                <v-btn text :disabled="!new_event_modal.valid" @click="createNewEventSave()"> <v-icon>save</v-icon> </v-btn>
               </v-toolbar-items>
             </v-toolbar>
             <v-card-text class="mt-3">
-              <v-form ref="new_event_form">
-                <v-text-field v-model="new_event_event_name" :rules="[() => !!new_event_event_name || 'To polje je zahtevano']" :color="getSchoolColor()" :background-color="getSchoolColor()" label="Naziv dogodka" outlined></v-text-field>
+              <v-form v-model="new_event_modal.valid">
+                <v-text-field
+                  v-model="new_event_modal.event_name"
+                  required
+                  :color="getSchoolColor()"
+                  :rules="[() => !!new_event_modal.event_name || 'To polje je zahtevano']"
+                  :background-color="getSchoolColor()"
+                  label="Naziv dogodka"
+                  outlined
+                ></v-text-field>
 
                 <!-- Datum in čas začetka -->
                 <v-row>
@@ -81,27 +89,28 @@
                     <v-menu ref="new_event_start_date_menu" :close-on-content-click="false" left transition="scale-transition" offset-y min-width="auto">
                       <template #activator="{ on, attrs }">
                         <v-text-field
-                          v-model="new_event_start_date"
-                          :rules="[() => !!new_event_start_date || 'To polje je zahtevano']"
+                          v-model="new_event_modal.start_date"
+                          :rules="[() => !!new_event_modal.start_date || 'To polje je zahtevano']"
                           :color="getSchoolColor()"
                           :background-color="getSchoolColor()"
                           label="Datum začetka"
                           readonly
                           outlined
                           v-bind="attrs"
+                          required
                           v-on="on"
                         ></v-text-field>
                       </template>
-                      <v-date-picker v-model="new_event_start_date" no-title color="#002f5f" background-color="#002f5f" first-day-of-week="1"></v-date-picker>
+                      <v-date-picker v-model="new_event_modal.start_date" no-title color="#002f5f" background-color="#002f5f" first-day-of-week="1"></v-date-picker>
                     </v-menu>
                   </v-col>
 
                   <v-col>
-                    <v-menu ref="new_event_start_time_menu" :close-on-content-click="false" left :return-value.sync="new_event_start_time" transition="scale-transition" offset-y min-width="auto">
+                    <v-menu ref="new_event_start_time_menu" :close-on-content-click="false" left :return-value.sync="new_event_modal.start_time" transition="scale-transition" offset-y min-width="auto">
                       <template #activator="{ on, attrs }">
                         <v-text-field
-                          v-model="new_event_start_time"
-                          :rules="[() => !!new_event_start_time || 'To polje je zahtevano']"
+                          v-model="new_event_modal.start_time"
+                          :rules="[() => !!new_event_modal.start_time || 'To polje je zahtevano']"
                           :color="getSchoolColor()"
                           :background-color="getSchoolColor()"
                           label="Čas začetka"
@@ -111,7 +120,7 @@
                           v-on="on"
                         ></v-text-field>
                       </template>
-                      <v-time-picker v-model="new_event_start_time" color="#002f5f" background-color="#002f5f" format="24hr" @click:minute="$refs.new_event_start_time_menu.save(new_event_start_time)"></v-time-picker>
+                      <v-time-picker v-model="new_event_modal.start_time" color="#002f5f" background-color="#002f5f" format="24hr" @click:minute="$refs.new_event_start_time_menu.save(new_event_modal.start_time)"></v-time-picker>
                     </v-menu>
                   </v-col>
                 </v-row>
@@ -123,8 +132,8 @@
                     <v-menu ref="new_event_end_date_menu" :close-on-content-click="false" transition="scale-transition" left offset-y min-width="auto">
                       <template #activator="{ on, attrs }">
                         <v-text-field
-                          v-model="new_event_end_date"
-                          :rules="[() => !!new_event_end_date || 'To polje je zahtevano']"
+                          v-model="new_event_modal.end_date"
+                          :rules="[() => !!new_event_modal.end_date || 'To polje je zahtevano']"
                           :color="getSchoolColor()"
                           :background-color="getSchoolColor()"
                           label="Datum zaključka"
@@ -134,16 +143,16 @@
                           v-on="on"
                         ></v-text-field>
                       </template>
-                      <v-date-picker v-model="new_event_end_date" :min="new_event_start_date" no-title color="#002f5f" background-color="#002f5f" first-day-of-week="1"></v-date-picker>
+                      <v-date-picker v-model="new_event_modal.end_date" :min="new_event_modal.start_date" no-title color="#002f5f" background-color="#002f5f" first-day-of-week="1"></v-date-picker>
                     </v-menu>
                   </v-col>
 
                   <v-col>
-                    <v-menu ref="new_event_end_time_menu" :close-on-content-click="false" :return-value.sync="new_event_end_time" left transition="scale-transition" offset-y min-width="auto">
+                    <v-menu ref="new_event_end_time_menu" :close-on-content-click="false" :return-value.sync="new_event_modal.end_time" left transition="scale-transition" offset-y min-width="auto">
                       <template #activator="{ on, attrs }">
                         <v-text-field
-                          v-model="new_event_end_time"
-                          :rules="[() => !!new_event_end_time || 'To polje je zahtevano']"
+                          v-model="new_event_modal.end_time"
+                          :rules="[() => !!new_event_modal.end_time || 'To polje je zahtevano']"
                           :color="getSchoolColor()"
                           :background-color="getSchoolColor()"
                           label="Čas zaključka"
@@ -153,7 +162,15 @@
                           v-on="on"
                         ></v-text-field>
                       </template>
-                      <v-time-picker v-model="new_event_end_time" :min="new_event_start_time" flat color="#002f5f" background-color="#002f5f" format="24hr" @click:minute="$refs.new_event_end_time_menu.save(new_event_end_time)"></v-time-picker>
+                      <v-time-picker
+                        v-model="new_event_modal.end_time"
+                        :min="new_event_modal.start_time"
+                        flat
+                        color="#002f5f"
+                        background-color="#002f5f"
+                        format="24hr"
+                        @click:minute="$refs.new_event_end_time_menu.save(new_event_modal.end_time)"
+                      ></v-time-picker>
                     </v-menu>
                   </v-col>
                 </v-row>
@@ -161,7 +178,7 @@
                 <!-- Opomnik -->
                 <div>
                   <v-select
-                    v-model="new_event_reminder"
+                    v-model="new_event_modal.reminder"
                     :items="[
                       { text: 'Nikoli', value: 0 },
                       { text: '15 minut pred', value: 15 },
@@ -180,7 +197,7 @@
                 </div>
                 <!-- Opis dogodka -->
                 <div>
-                  <v-textarea v-model="new_event_description" outlined label="Opis dogodka" :color="getSchoolColor()" :background-color="getSchoolColor()"></v-textarea>
+                  <v-textarea v-model="new_event_modal.description" outlined label="Opis dogodka" :color="getSchoolColor()" :background-color="getSchoolColor()"></v-textarea>
                 </div>
               </v-form>
             </v-card-text>
@@ -198,33 +215,63 @@
               <v-toolbar-title>Uredi dogodek</v-toolbar-title>
               <v-spacer></v-spacer>
               <v-toolbar-items>
-                <v-btn v-if="edit_event_conference_link !== ''" icon link target="_blank" :href="edit_event_conference_link"> <v-icon>videocam</v-icon> </v-btn>
-                <v-btn icon :disabled="edit_isConference" @click="edit_event_update"> <v-icon>save</v-icon> </v-btn>
+                <v-btn v-if="edit_event_modal.conference_link !== ''" icon link target="_blank" :href="edit_event_modal.conference_link"> <v-icon>videocam</v-icon> </v-btn>
+                <v-btn icon :disabled="edit_event_modal.isConference" @click="edit_event_update"> <v-icon>save</v-icon> </v-btn>
                 <v-btn icon @click="edit_delete_event"> <v-icon>delete</v-icon> </v-btn>
 
-                <v-btn v-if="edit_event_web_link !== ''" icon link target="_blank" :href="edit_event_web_link"> <v-icon>open_in_new</v-icon> </v-btn>
+                <v-btn v-if="edit_event_modal.web_link !== ''" icon link target="_blank" :href="edit_event_modal.web_link"> <v-icon>open_in_new</v-icon> </v-btn>
               </v-toolbar-items>
             </v-toolbar>
             <v-card-text class="mt-3">
-              <v-form>
-                <v-text-field label="Naziv dogodka" :value="edit_event_event_name" :disabled="edit_isConference" outlined :color="getSchoolColor()" :background-color="getSchoolColor()"></v-text-field>
+              <v-form v-model="edit_event_modal.valid">
+                <v-text-field
+                  label="Naziv dogodka"
+                  :value="edit_event_modal.event_name"
+                  :rules="[() => !!edit_event_modal.event_name || 'To polje je zahtevano']"
+                  :disabled="edit_event_modal.isConference"
+                  outlined
+                  :color="getSchoolColor()"
+                  :background-color="getSchoolColor()"
+                ></v-text-field>
                 <!-- Datum in čas začetka -->
                 <v-row>
                   <v-col>
                     <v-menu ref="edit_event_start_date_menu" :close-on-content-click="false" left transition="scale-transition" offset-y min-width="auto">
                       <template #activator="{ on, attrs }">
-                        <v-text-field v-model="edit_event_start_date" :color="getSchoolColor()" :disabled="edit_isConference" :background-color="getSchoolColor()" label="Datum začetka" readonly outlined v-bind="attrs" v-on="on"></v-text-field>
+                        <v-text-field
+                          v-model="edit_event_modal.start_date"
+                          :rules="[() => !!edit_event_modal.start_date || 'To polje je zahtevano']"
+                          :color="getSchoolColor()"
+                          :disabled="edit_event_modal.isConference"
+                          :background-color="getSchoolColor()"
+                          label="Datum začetka"
+                          readonly
+                          outlined
+                          v-bind="attrs"
+                          v-on="on"
+                        ></v-text-field>
                       </template>
-                      <v-date-picker v-model="edit_event_start_date" no-title color="#002f5f" background-color="#002f5f" first-day-of-week="1"></v-date-picker>
+                      <v-date-picker v-model="edit_event_modal.start_date" no-title color="#002f5f" background-color="#002f5f" first-day-of-week="1"></v-date-picker>
                     </v-menu>
                   </v-col>
 
                   <v-col>
-                    <v-menu ref="edit_event_start_time_menu" :close-on-content-click="false" left :return-value.sync="edit_event_start_time" transition="scale-transition" offset-y min-width="auto">
+                    <v-menu ref="edit_event_start_time_menu" :close-on-content-click="false" left :return-value.sync="edit_event_modal.start_time" transition="scale-transition" offset-y min-width="auto">
                       <template #activator="{ on, attrs }">
-                        <v-text-field v-model="edit_event_start_time" :color="getSchoolColor()" :disabled="edit_isConference" :background-color="getSchoolColor()" label="Čas začetka" readonly outlined v-bind="attrs" v-on="on"></v-text-field>
+                        <v-text-field
+                          v-model="edit_event_modal.start_time"
+                          :rules="[() => !!edit_event_modal.start_time || 'To polje je zahtevano']"
+                          :color="getSchoolColor()"
+                          :disabled="edit_event_modal.isConference"
+                          :background-color="getSchoolColor()"
+                          label="Čas začetka"
+                          readonly
+                          outlined
+                          v-bind="attrs"
+                          v-on="on"
+                        ></v-text-field>
                       </template>
-                      <v-time-picker v-model="edit_event_start_time" color="#002f5f" background-color="#002f5f" format="24hr" @click:minute="$refs.edit_event_start_time_menu.save(edit_event_start_time)"></v-time-picker>
+                      <v-time-picker v-model="edit_event_modal.start_time" color="#002f5f" background-color="#002f5f" format="24hr" @click:minute="$refs.edit_event_start_time_menu.save(edit_event_modal.start_time)"></v-time-picker>
                     </v-menu>
                   </v-col>
                 </v-row>
@@ -235,25 +282,55 @@
                   <v-col>
                     <v-menu ref="edit_event_end_date_menu" :close-on-content-click="false" transition="scale-transition" left offset-y min-width="auto">
                       <template #activator="{ on, attrs }">
-                        <v-text-field v-model="edit_event_end_date" :color="getSchoolColor()" :disabled="edit_isConference" :background-color="getSchoolColor()" label="Datum zaključka" readonly outlined v-bind="attrs" v-on="on"></v-text-field>
+                        <v-text-field
+                          v-model="edit_event_modal.end_date"
+                          :rules="[() => !!edit_event_modal.end_date || 'To polje je zahtevano']"
+                          :color="getSchoolColor()"
+                          :disabled="edit_event_modal.isConference"
+                          :background-color="getSchoolColor()"
+                          label="Datum zaključka"
+                          readonly
+                          outlined
+                          v-bind="attrs"
+                          v-on="on"
+                        ></v-text-field>
                       </template>
-                      <v-date-picker v-model="edit_event_end_date" :min="edit_event_start_date" no-title color="#002f5f" background-color="#002f5f" first-day-of-week="1"></v-date-picker>
+                      <v-date-picker v-model="edit_event_modal.end_date" :min="edit_event_modal.start_date" no-title color="#002f5f" background-color="#002f5f" first-day-of-week="1"></v-date-picker>
                     </v-menu>
                   </v-col>
 
                   <v-col>
-                    <v-menu ref="edit_event_end_time_menu" :close-on-content-click="false" :return-value.sync="edit_event_end_time" left transition="scale-transition" offset-y min-width="auto">
+                    <v-menu ref="edit_event_end_time_menu" :close-on-content-click="false" :return-value.sync="edit_event_modal.end_time" left transition="scale-transition" offset-y min-width="auto">
                       <template #activator="{ on, attrs }">
-                        <v-text-field v-model="edit_event_end_time" :color="getSchoolColor()" :disabled="edit_isConference" :background-color="getSchoolColor()" label="Čas zaključka" readonly outlined v-bind="attrs" v-on="on"></v-text-field>
+                        <v-text-field
+                          v-model="edit_event_modal.end_time"
+                          :rules="[() => !!edit_event_modal.end_time || 'To polje je zahtevano']"
+                          :color="getSchoolColor()"
+                          :disabled="edit_event_modal.isConference"
+                          :background-color="getSchoolColor()"
+                          label="Čas zaključka"
+                          readonly
+                          outlined
+                          v-bind="attrs"
+                          v-on="on"
+                        ></v-text-field>
                       </template>
-                      <v-time-picker v-model="edit_event_end_time" :min="edit_event_start_time" flat color="#002f5f" background-color="#002f5f" format="24hr" @click:minute="$refs.edit_event_end_time_menu.save(edit_event_end_time)"></v-time-picker>
+                      <v-time-picker
+                        v-model="edit_event_modal.end_time"
+                        :min="edit_event_modal.start_time"
+                        flat
+                        color="#002f5f"
+                        background-color="#002f5f"
+                        format="24hr"
+                        @click:minute="$refs.edit_event_end_time_menu.save(edit_event_modal.end_time)"
+                      ></v-time-picker>
                     </v-menu>
                   </v-col>
                 </v-row>
                 <!-- Opomnik -->
                 <div>
                   <v-select
-                    v-model="edit_event_reminder"
+                    v-model="edit_event_modal.reminder"
                     :items="[
                       { text: 'Nikoli', value: 0 },
                       { text: '15 minut pred', value: 15 },
@@ -268,12 +345,12 @@
                     :color="getSchoolColor()"
                     :item-color="schoolBGColor()"
                     outlined
-                    :disabled="edit_isConference"
+                    :disabled="edit_event_modal.isConference"
                   ></v-select>
                 </div>
                 <!-- Opis dogodka -->
                 <div>
-                  <v-textarea v-model="edit_event_description" outlined label="Opis dogodka" :disabled="edit_isConference" :color="getSchoolColor()" :background-color="getSchoolColor()"></v-textarea>
+                  <v-textarea v-model="edit_event_modal.description" outlined label="Opis dogodka" :disabled="edit_event_modal.isConference" :color="getSchoolColor()" :background-color="getSchoolColor()"></v-textarea>
                 </div>
               </v-form>
             </v-card-text>
@@ -307,28 +384,32 @@ export default {
       new_modal_polja: [],
 
       // New event modal variables
-      new_event_valid: true,
-      new_event_event_name: '',
-      new_event_start_date: null,
-      new_event_end_date: null,
-      new_event_start_time: null,
-      new_event_end_time: null,
-      new_event_reminder: 0,
-      new_event_description: '',
+      new_event_modal: {
+        valid: false,
+        event_name: '',
+        start_date: null,
+        end_date: null,
+        start_time: null,
+        end_time: null,
+        reminder: 0,
+        description: '',
+      },
 
       // Edit event modal variables
-      edit_isConference: false,
-      edit_event_valid: true,
-      edit_event_event_name: '',
-      edit_event_start_date: null,
-      edit_event_end_date: null,
-      edit_event_start_time: null,
-      edit_event_end_time: null,
-      edit_event_reminder: 0,
-      edit_event_description: '',
-      edit_event_web_link: '',
-      edit_event_id: '',
-      edit_event_conference_link: '',
+      edit_event_modal: {
+        isConference: false,
+        valid: false,
+        event_name: '',
+        start_date: null,
+        end_date: null,
+        start_time: null,
+        end_time: null,
+        reminder: 0,
+        description: '',
+        web_link: '',
+        id: '',
+        conference_link: '',
+      },
     }
   },
   created() {
@@ -347,25 +428,25 @@ export default {
         .get(`https://graph.microsoft.com/v1.0/me/events/${eventId}`)
         .then((response) => {
           this.edit_modal_polja = response.data
-          this.edit_event_event_name = response.data.subject
-          this.edit_isConference = response.data.isOnlineMeeting
-          this.edit_event_start_date = this.$moment(response.data.start.dateTime).utcOffset('+0200').format('YYYY-MM-DD')
-          this.edit_event_start_time = this.$moment(response.data.start.dateTime).utcOffset('+0200').format('HH:mm')
-          this.edit_event_end_date = this.$moment(response.data.end.dateTime).utcOffset('+0200').format('YYYY-MM-DD')
-          this.edit_event_end_time = this.$moment(response.data.end.dateTime).utcOffset('+0200').format('HH:mm')
+          this.edit_event_modal.event_name = response.data.subject
+          this.edit_event_modal.isConference = response.data.isOnlineMeeting
+          this.edit_event_modal.start_date = this.$moment(response.data.start.dateTime).utcOffset('+0200').format('YYYY-MM-DD')
+          this.edit_event_modal.start_time = this.$moment(response.data.start.dateTime).utcOffset('+0200').format('HH:mm')
+          this.edit_event_modal.end_date = this.$moment(response.data.end.dateTime).utcOffset('+0200').format('YYYY-MM-DD')
+          this.edit_event_modal.end_time = this.$moment(response.data.end.dateTime).utcOffset('+0200').format('HH:mm')
           if (response.data.isReminderOn === true) {
-            this.edit_event_reminder = response.data.reminderMinutesBeforeStart
+            this.edit_event_modal.reminder = response.data.reminderMinutesBeforeStart
           } else {
-            this.edit_event_reminder = 0
+            this.edit_event_modal.reminder = 0
           }
-          this.edit_event_description = response.data.bodyPreview
-          if (this.edit_isConference) {
-            this.edit_event_conference_link = response.data.onlineMeeting.joinUrl
+          this.edit_event_modal.description = response.data.bodyPreview
+          if (this.edit_event_modal.isConference) {
+            this.edit_event_modal.conference_link = response.data.onlineMeeting.joinUrl
           } else {
-            this.edit_event_conference_link = ''
+            this.edit_event_modal.conference_link = ''
           }
-          this.edit_event_id = response.data.id
-          this.edit_event_web_link = response.data.webLink
+          this.edit_event_modal.id = response.data.id
+          this.edit_event_modal.link = response.data.webLink
           this.edit_event_dialog = true
         })
         .catch((error) => {
@@ -374,48 +455,48 @@ export default {
     },
 
     closeEditDialog() {
-      this.edit_isConference = false
-      this.edit_event_valid = true
-      this.edit_event_event_name = ''
-      this.edit_event_start_date = null
-      this.edit_event_end_date = null
-      this.edit_event_start_time = null
-      this.edit_event_end_time = null
-      this.edit_event_reminder = 0
-      this.edit_event_description = ''
-      this.edit_event_web_link = ''
-      this.edit_event_id = ''
-      this.edit_event_conference_link = ''
+      this.edit_event_modal.isConference = false
+      this.edit_event_modal.valid = false
+      this.edit_event_modal.event_name = ''
+      this.edit_event_modal.start_date = null
+      this.edit_event_modal.end_date = null
+      this.edit_event_modal.start_time = null
+      this.edit_event_modal.end_time = null
+      this.edit_event_modal.reminder = 0
+      this.edit_event_modal.description = ''
+      this.edit_event_modal.web_link = ''
+      this.edit_event_modal.event_id = ''
+      this.edit_event_modal.conference_link = ''
       this.edit_event_dialog = false
     },
 
     // Posodobitev dogodka
     edit_event_update() {
       let remainder = false
-      if (this.edit_event_reminder !== 0) {
+      if (this.edit_event_modal.reminder !== 0) {
         remainder = true
       } else {
         remainder = false
       }
       this.$axios
         .patch(
-          `https://graph.microsoft.com/v1.0/me/events/${this.edit_event_id}`,
+          `https://graph.microsoft.com/v1.0/me/events/${this.edit_event_modal.id}`,
           {
-            subject: this.edit_event_event_name,
+            subject: this.edit_event_modal.event_name,
             start: {
-              dateTime: this.edit_event_start_date + 'T' + this.edit_event_start_time + ':00',
+              dateTime: this.edit_event_modal.start_date + 'T' + this.edit_event_modal.start_time + ':00',
               timeZone: 'Europe/Ljubljana',
             },
             end: {
-              dateTime: this.edit_event_end_date + 'T' + this.edit_event_end_time + ':00',
+              dateTime: this.edit_event_modal.end_date + 'T' + this.edit_event_modal.end_time + ':00',
               timeZone: 'Europe/Ljubljana',
             },
             body: {
               contentType: 'HTML',
-              content: this.edit_event_description,
+              content: this.edit_event_modal.description,
             },
             isReminderOn: remainder,
-            reminderMinutesBeforeStart: this.edit_event_reminder,
+            reminderMinutesBeforeStart: this.edit_event_modal.reminder,
           },
           {
             headers: {
@@ -424,7 +505,17 @@ export default {
           }
         )
         .then((response) => {
-          console.log(response.data)
+          this.calendar_events = this.calendar_events.filter((event) => {
+            return event.id !== this.edit_event_modal.id
+          })
+          this.calendar_events.push({
+            id: response.data.id,
+            name: response.data.subject,
+            start: this.$moment(response.data.start.dateTime).format('YYYY-MM-DD HH:mm'),
+            end: this.$moment(response.data.end.dateTime).format('YYYY-MM-DD HH:mm'),
+            description: response.data.bodyPreview,
+            url: response.data.webLink,
+          })
           this.closeEditDialog()
         })
         .catch((error) => {
@@ -455,22 +546,16 @@ export default {
     // Izbris dogodka iz koledarja
     edit_delete_event() {
       this.restartErrorRequestNotification()
-      this.$axios
-        .delete(`https://graph.microsoft.com/v1.0/me/events/${this.edit_event_id}`, {
-          headers: {
-            Authorization: this.$auth.$storage.getUniversal('_token.aad'),
-          },
-        })
-        .then((response) => {
-          if (response.status === 204) {
-            this.closeEditDialog()
-            this.calendar_events = this.calendar_events.filter((event) => {
-              return event.id !== this.edit_event_id
-            })
-          } else {
-            this.showErrorRequestNotification()
-          }
-        })
+      this.$axios.delete(`https://graph.microsoft.com/v1.0/me/events/${this.edit_event_modal.id}`).then((response) => {
+        if (response.status === 204) {
+          this.closeEditDialog()
+          this.calendar_events = this.calendar_events.filter((event) => {
+            return event.id !== this.edit_event_modal.id
+          })
+        } else {
+          this.showErrorRequestNotification()
+        }
+      })
     },
 
     changeCalendarView() {
@@ -505,13 +590,13 @@ export default {
     createNewEventClose() {
       this.new_event_dialog = false
       this.new_modal_polja = []
-      this.new_event_start_date = null
-      this.new_event_end_date = null
-      this.new_event_start_time = null
-      this.new_event_end_time = null
-      this.new_event_reminder = 0
-      this.new_event_description = ''
-      this.new_event_event_name = ''
+      this.new_event_modal.start_date = null
+      this.new_event_modal.end_date = null
+      this.new_event_modal.start_time = null
+      this.new_event_modal.end_time = null
+      this.new_event_modal.reminder = 0
+      this.new_event_modal.description = ''
+      this.new_event_modal.event_name = ''
     },
 
     // Shrani nov dogodek v koledar
@@ -528,28 +613,32 @@ export default {
         url: 'https://graph.microsoft.com/v1.0/me/events',
         method: 'POST',
         data: {
-          subject: this.new_event_event_name,
+          subject: this.new_event_modal.event_name,
           start: {
-            dateTime: this.new_event_start_date + 'T' + this.new_event_start_time + ':00',
+            dateTime: this.new_event_modal.start_date + 'T' + this.new_event_modal.start_time + ':00',
             timeZone: 'Europe/Ljubljana',
           },
           end: {
-            dateTime: this.new_event_end_date + 'T' + this.new_event_end_time + ':00',
+            dateTime: this.new_event_modal.end_date + 'T' + this.new_event_modal.end_time + ':00',
             timeZone: 'Europe/Ljubljana',
           },
           body: {
             contentType: 'HTML',
-            content: this.new_event_description,
+            content: this.new_event_modal.description,
           },
           isReminderOn: remainder,
-          reminderMinutesBeforeStart: this.new_event_reminder,
-        },
-        headers: {
-          Authorization: 'Bearer ' + this.access_token,
-          'Content-Type': 'application/json',
+          reminderMinutesBeforeStart: this.new_event_modal.reminder,
         },
       }).then(
         (response) => {
+          this.calendar_events.push({
+            id: response.data.id,
+            name: response.data.subject,
+            start: this.$moment(response.data.start.dateTime).format('YYYY-MM-DD HH:mm'),
+            end: this.$moment(response.data.end.dateTime).format('YYYY-MM-DD HH:mm'),
+            description: response.data.bodyPreview,
+            url: response.data.webLink,
+          })
           this.createNewEventClose()
         },
         (error) => {

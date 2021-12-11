@@ -32,9 +32,7 @@ export default {
 
   buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/pwa', '@nuxtjs/style-resources', '@nuxtjs/vuetify', '@nuxtjs/moment'],
 
-  modules: ['@nuxtjs/axios', '@nuxtjs/pwa', '@nuxtjs/auth-next', '@nuxtjs/universal-storage', 'nuxt-polyfill'],
-
-  axios: {},
+  modules: ['@nuxtjs/axios', '@nuxtjs/pwa', '@nuxtjs/auth-next', 'nuxt-polyfill'],
 
   moment: {
     defaultLocale: 'si',
@@ -49,6 +47,7 @@ export default {
       description: 'ŠCC Mobile',
       background_color: '#ffffff',
       theme_color: '#002f5f',
+      orientation: 'portrait',
       display: 'standalone',
       start_url: '/?source=pwa',
       shortcuts: [
@@ -57,16 +56,40 @@ export default {
           short_name: 'Nov dogodek',
           description: 'Ustvari nov dogodek v koledarju',
           url: '/koledar/?action=new-event',
+          icons: [
+            {
+              sizes: '512x512',
+              src: '/new_event_icon.png',
+            },
+          ],
         },
         {
           name: 'Urnik',
           short_name: 'Urnik',
           description: 'Odpre urnik',
           url: '/urnik',
+          icons: [
+            {
+              sizes: '512x512',
+              src: '/timetable_icon.png',
+            },
+          ],
+        },
+        {
+          name: 'Novo opravilo',
+          short_name: 'Novo opravilo',
+          description: 'Ustvari novo opravilo v seznamu opravil',
+          url: '/opravila?action=new-task',
+          icons: [
+            {
+              sizes: '512x512',
+              src: '/new_task_icon.png',
+            },
+          ],
         },
       ],
     },
-    /*  workbox: {
+     /* workbox: {
       dev: process.env.NODE_ENV !== 'production'
     } */
   },

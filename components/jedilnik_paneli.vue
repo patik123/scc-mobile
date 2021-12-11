@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  name: 'jedilnik_paneli',
+  name: 'JedilnikPaneli',
   props: {
     ime_menija: {
       type: String,

@@ -4,7 +4,7 @@ import VueMatomo from 'vue-matomo'
 export default ({ app }) => {
   Vue.use(VueMatomo, {
     router: app.router,
-    host: 'https://analitika-scc.thepatik.eu.org',
+    host: 'https://scc-mobile-analytics.thepatik.eu.org',
     siteId: 1,
     disableCookies: true,
   })

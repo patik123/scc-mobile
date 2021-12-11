@@ -73,7 +73,7 @@
             </div>
 
             <!-- TRENUTNA URA -->
-            <div id="lesson-now" v-if="current_lesson_available === true">
+            <div v-if="current_lesson_available === true" id="lesson-now">
               <v-card>
                 <div>
                   <v-card-title :class="getSchoolColor()" class="title"
@@ -114,11 +114,12 @@
                             </v-card-text>
                           </v-col>
                         </v-row>
-
+                        <!--
                         <v-card-text>
                           <v-icon class="mr-2">info</v-icon>
                           <span class="mr-3">Začetek ure v ________ do konca ure še __________</span>
                         </v-card-text>
+                        --->
                         <v-divider></v-divider>
                       </v-list-item-content>
                     </v-list-item>
@@ -137,10 +138,10 @@
                 <v-divider></v-divider>
                 <v-card-text>
                   <v-list two-line>
-                    <v-list-item v-if="events === []">
+                    <v-list-item v-if="events.length === 0">
                       <v-list-item-content>
                         <div class="text-center">
-                          <v-list-item-title><b>Izgleda da nimate nobenih dogodkov v prihajajočih dneh</b></v-list-item-title>
+                          <v-list-item-title><b>Izgleda, da nimate nobenih dogodkov v prihajajočih dneh</b></v-list-item-title>
                           <img src="~/static/calendar.svg" alt="Slika koledarja " class="widget-img mt-2" />
                         </div>
                       </v-list-item-content>
@@ -161,9 +162,36 @@
 
             <div id="tasks">
               <v-card class="mt-5">
-                <v-card-title class="title" :class="getSchoolColor()">Bližajoča opravila</v-card-title>
+                <v-card-title class="title" :class="getSchoolColor()"
+                  >Bližajoča opravila<v-spacer></v-spacer><v-btn :class="getSchoolColor()" @click="$router.push('/opravila?action=new-task')"><v-icon>add</v-icon><span class="d-none d-sm-flex">Novo opravilo</span></v-btn></v-card-title
+                >
                 <v-divider></v-divider>
-                <v-card-text> </v-card-text>
+                <v-list v-if="tasks.length === 0" two-line>
+                  <div>
+                    <v-list-item two-line>
+                      <v-list-item-content>
+                        <div class="text-center">
+                          <v-list-item-title><b>Izgleda, da nimate nobenih opravil</b></v-list-item-title>
+                          <img src="~/static/tasks.svg" alt="Slika opravil " class="widget-img mt-2" />
+                        </div>
+                      </v-list-item-content>
+                    </v-list-item>
+                  </div>
+                </v-list>
+
+                <v-list two-line>
+                  <div v-for="task in tasks" :key="task.id" :data-id="task.id" @dblclick="markAsDoneTask">
+                    <v-list-item two-line>
+                      <v-list-item-content :class="{ 'task-done': task.status === 'completed' }">
+                        <v-list-item-title>{{ task.title }}</v-list-item-title>
+                        <v-list-item-subtitle v-if="task.dueDateTime" :class="{ 'task-overdue': $moment().isAfter($moment(task.dueDateTime.dateTime)) }">{{
+                          $moment(task.dueDateTime.dateTime).utcOffset('+0200').format('DD. MM. YYYY')
+                        }}</v-list-item-subtitle>
+                        <v-divider></v-divider>
+                      </v-list-item-content>
+                    </v-list-item>
+                  </div>
+                </v-list>
               </v-card>
             </div>
           </v-container>
@@ -188,6 +216,8 @@ export default {
       timetable_events: [],
       current_lessons: [],
       current_lesson_available: false,
+      task_list_id: '',
+      tasks: [],
     }
   },
 
@@ -195,6 +225,7 @@ export default {
     if (this.$auth.loggedIn) {
       this.getCalendarEvents()
       this.getClasses()
+      this.getTaskList()
     }
     this.$moment.locale('sl')
   },
@@ -305,6 +336,35 @@ export default {
         }
       })
     },
+
+    getTaskList() {
+      this.$axios.get('https://graph.microsoft.com/v1.0/me/todo/lists').then((response) => {
+        this.task_list_id = response.data.value[0].id
+        this.getTasks()
+      })
+    },
+
+    getTasks() {
+      this.tasks = []
+      this.$axios.get('https://graph.microsoft.com/v1.0/me/todo/lists/' + this.task_list_id + '/tasks').then((response) => {
+        response.data.value.forEach((task) => {
+          if (task.status === 'notStarted') {
+            this.tasks.push(task)
+          }
+        })
+      })
+    },
+
+    markAsDoneTask(e) {
+      const taskId = e.currentTarget.dataset.id
+      this.$axios
+        .patch('https://graph.microsoft.com/v1.0/me/todo/lists/' + this.task_list_id + '/tasks/' + taskId, {
+          status: 'completed',
+        })
+        .then((response) => {
+          this.getTasks()
+        })
+    },
   },
 }
 </script>
@@ -327,6 +387,13 @@ export default {
 .user-greatting {
   font-size: 1.5rem;
   font-weight: bold;
+}
+
+.task-done {
+  text-decoration: line-through;
+}
+.task-overdue {
+  color: #ff5252 !important;
 }
 
 @media screen and (max-width: 960px) {

@@ -206,7 +206,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import cherio from 'cherio'
 import HtmlTableToJson from 'html-table-to-json'
 import basicFunctions from '~/assets/js/basic_functions.js'
@@ -272,7 +271,7 @@ export default {
       this.loaded = false
       this.restartErrorRequestNotification()
 
-      axios
+      this.$axios
         .get(`${this.config.url_backend_aplikacije}/sites/prehrana`)
         .then((response) => {
           const $ = cherio.load(response.data)
