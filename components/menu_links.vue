@@ -5,7 +5,7 @@
         <v-list-item-title><v-icon>home</v-icon> Domov</v-list-item-title>
       </v-list-item>
 
-      <v-list-item v-if="(user_type = 'dijak')" to="/urnik" nuxt>
+      <v-list-item v-if="user_type === 'dijak'" to="/urnik" nuxt>
         <v-list-item-title><v-icon>schedule</v-icon> Urnik</v-list-item-title>
       </v-list-item>
 
@@ -74,6 +74,7 @@ export default {
     return {
       config: configData.default,
       group: null,
+      user_type: localStorage.getItem('user_type'),
     }
   },
   watch: {

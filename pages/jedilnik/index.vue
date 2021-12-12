@@ -9,8 +9,11 @@
 
           <v-toolbar-title>Šolski center Celje</v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-icon class="mr-2" @click="darkMode()">{{ dark_light_icon }}</v-icon>
-          <v-icon @click="$auth.logout('aad')">logout</v-icon>
+          <v-btn href="/Navodila.pdf" icon target="_blank"><v-icon>help_outline</v-icon></v-btn>
+          <v-btn icon @click="darkMode()">
+            <v-icon>{{ dark_light_icon }}</v-icon></v-btn
+          >
+          <v-btn icon @click="login()" ><v-icon>login</v-icon></v-btn>
         </v-app-bar>
 
         <v-navigation-drawer v-model="drawer" absolute temporary>
