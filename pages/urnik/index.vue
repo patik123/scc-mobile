@@ -52,7 +52,6 @@
                 first-interval="6"
                 interval-minutes="60"
                 interval-count="10"
-                :short-months="false"
                 :events="timetable_events"
                 :type="timetable_view"
                 @change="getTimetableEvents"
@@ -149,7 +148,6 @@ export default {
       request_class: '',
       timetable_events: [],
       timetable: null,
-      timetable_colors: [],
       timetable_view: 'week',
       timetable_view_icon: 'calendar_view_day',
       timetable_dialog: false,
@@ -160,7 +158,6 @@ export default {
   },
   created() {
     this.getClasses()
-    this.getTimetableColors()
 
     if (this.$router.currentRoute.query.class) {
       this.request_class = this.$router.currentRoute.query.class
@@ -239,18 +236,6 @@ export default {
       setInterval(() => this.$refs.timetable.updateTimes(), 60 * 1000)
     },
 
-    getTimetableColors() {
-      this.$axios
-        .get(this.config.url_backend_aplikacije + '/untis/get_status_data')
-        .then((response) => {
-          this.timetable_colors = response.data.result
-        })
-        .catch((error) => {
-          // eslint-disable-next-line
-          console.log(error)
-        })
-    },
-
     changeTimetableView() {
       if (this.timetable_view === 'week') {
         this.timetable_view = 'day'
@@ -289,19 +274,20 @@ export default {
             let eventColor
             let nadomescanje = false
             let odpadla = false
+            const profesor = lesson.te[0] ? lesson.te[0].name : ''
             const code = lesson.code ? lesson.code : ''
 
             // Določitev barve dogodka v urniku
             if (code === 'cancelled') {
-              eventColor = `#${this.timetable_colors.codes[0].cancelled.backColor ? this.timetable_colors.codes[0].cancelled.backColor : 'b1b3b4'}`
+              eventColor = `#${'b1b3b4'}`
               odpadla = true
             } else if (code === 'irregular') {
-              eventColor = `#${this.timetable_colors.codes[0].irregular.backColor ? this.timetable_colors.codes[0].irregular.backColor : 'a781b5'}`
+              eventColor = `#${'a781b5'}`
               nadomescanje = true
-            } else if (lesson.te[0].orgname) {
-              eventColor = `#${this.timetable_colors.codes[1].irregular.backColor ? this.timetable_colors.codes[1].irregular.backColor : 'a781b5'}`
+            } else if (profesor.orgname) {
+              eventColor = `#${'a781b5'}`
               nadomescanje = true
-            } else eventColor = `#${this.timetable_colors.lstypes[0].ls.backColor ? this.timetable_colors.lstypes[0].ls.backColor : 'f49f25'}`
+            } else eventColor = `#${'f49f25'}`
 
             // Dodajanje dogodka v urnik
             this.timetable_events.push({

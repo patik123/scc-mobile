@@ -136,25 +136,28 @@
                   >Prihajajoči dogodki<v-spacer></v-spacer><v-btn :class="getSchoolColor()" @click="$router.push('/koledar?action=new-event')"><v-icon>add</v-icon><span class="d-none d-sm-flex">Nov dogodek</span></v-btn></v-card-title
                 >
                 <v-divider></v-divider>
-                <v-card-text>
-                  <v-list two-line>
-                    <v-list-item v-if="events.length === 0">
+
+                <v-list v-if="events.length === 0" two-line>
+                  <div>
+                    <v-list-item>
                       <v-list-item-content>
                         <div class="text-center">
-                          <v-list-item-title><b>Izgleda, da nimate nobenih dogodkov v prihajajočih dneh</b></v-list-item-title>
+                          <v-list-item-title><b>Izgleda, da nimate nobenih dogodkov</b></v-list-item-title>
                           <img src="~/static/calendar.svg" alt="Slika koledarja " class="widget-img mt-2" />
                         </div>
                       </v-list-item-content>
                     </v-list-item>
+                  </div>
+                </v-list>
 
-                    <v-list-item v-for="event in events" :key="event.id">
-                      <v-list-item-content>
-                        <v-list-item-title>{{ event.subject }}</v-list-item-title>
-                        <v-list-item-subtitle>{{ `${$moment(event.start.dateTime).utcOffset('+0200').format('dddd DD. MM. YYYY HH:mm')} - ${$moment(event.end.dateTime).utcOffset('+0200').format('dddd DD. MM. YYYY HH:mm')}` }}</v-list-item-subtitle>
-                      </v-list-item-content>
-                    </v-list-item>
-                  </v-list>
-                </v-card-text>
+                <v-list two-line>
+                  <v-list-item v-for="event in events" :key="event.id">
+                    <v-list-item-content>
+                      <v-list-item-title>{{ event.subject }}</v-list-item-title>
+                      <v-list-item-subtitle>{{ `${$moment(event.start.dateTime).utcOffset('+0200').format('dddd DD. MM. YYYY HH:mm')} - ${$moment(event.end.dateTime).utcOffset('+0200').format('dddd DD. MM. YYYY HH:mm')}` }}</v-list-item-subtitle>
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-list>
               </v-card>
             </div>
 

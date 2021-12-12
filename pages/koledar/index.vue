@@ -583,7 +583,6 @@ export default {
     createNewEvent(event) {
       this.new_event_dialog = true
       this.new_modal_polja = event
-      console.log(event)
     },
 
     // Zapre modal za ustvarjanje novega dogodka
