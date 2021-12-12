@@ -4,7 +4,7 @@
       <offlineAlter v-if="$nuxt.isOffline"></offlineAlter>
       <errorRequestAlter v-if="request_error"></errorRequestAlter>
       <v-sheet class="no-radius" height="100%" width="100%">
-        <v-app-bar color="">
+        <v-app-bar>
           <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
           <v-toolbar-title>Šolski center Celje</v-toolbar-title>
@@ -29,7 +29,7 @@
 
         <v-main>
           <v-container fluid>
-            <div class="text-center">
+            <div v-if="user_type === 'dijak'" class="text-center">
               <span>Trenutno ta izkaznica nima nikakršnega pomena za dijake - mogoče uporabljeno v prihodnosti</span>
               <BarCode :value="sifra_dijaka" font="Nuninto"> Težava s prikazom barcode </BarCode>
               <span class="d-block mb-3 font-weight-bold" style="font-size: 25px">{{ jwt_decoded.given_name + ' ' + jwt_decoded.family_name }}</span>

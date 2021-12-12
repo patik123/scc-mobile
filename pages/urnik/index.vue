@@ -4,16 +4,16 @@
       <offlineAlter v-if="$nuxt.isOffline"></offlineAlter>
       <errorRequestAlter v-if="request_error"></errorRequestAlter>
       <v-sheet class="no-radius" height="100%" width="100%">
-        <v-app-bar color="">
+        <v-app-bar>
           <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
           <v-toolbar-title>Šolski center Celje</v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-btn href="/Navodila.pdf" icon target="_blank"><v-icon>help_outline</v-icon></v-btn>
+          <v-btn href="/Navodila.pdf" icon target="_blank" class="d-none d-sm-flex"><v-icon>help_outline</v-icon></v-btn>
           <v-btn icon @click="darkMode()">
             <v-icon>{{ dark_light_icon }}</v-icon></v-btn
           >
-          <v-btn icon @click="$auth.logout('aad')" ><v-icon>logout</v-icon></v-btn>
+          <v-btn icon @click="$auth.logout('aad')"><v-icon>logout</v-icon></v-btn>
         </v-app-bar>
 
         <v-navigation-drawer v-model="drawer" absolute temporary>

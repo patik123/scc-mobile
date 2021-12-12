@@ -11,7 +11,7 @@
           <v-btn icon @click="darkMode()">
             <v-icon>{{ dark_light_icon }}</v-icon></v-btn
           >
-          <v-btn icon @click="login()" ><v-icon>login</v-icon></v-btn>
+          <v-btn icon @click="login()"><v-icon>login</v-icon></v-btn>
         </v-app-bar>
 
         <v-main class="text-center">
@@ -33,7 +33,7 @@
           <v-btn icon @click="darkMode()">
             <v-icon>{{ dark_light_icon }}</v-icon></v-btn
           >
-          <v-btn @click="$auth.logout('aad')" icon><v-icon>logout</v-icon></v-btn>
+          <v-btn icon @click="$auth.logout('aad')"><v-icon>logout</v-icon></v-btn>
         </v-app-bar>
 
         <v-navigation-drawer v-model="drawer" absolute temporary>
@@ -148,7 +148,7 @@
                     <v-list-item>
                       <v-list-item-content>
                         <div class="text-center">
-                          <v-list-item-title><b>Izgleda, da nimate nobenih dogodkov</b></v-list-item-title>
+                          <v-list-item-title class="text-wrap">Izgleda, da nimate nobenih dogodkov</v-list-item-title>
                           <img src="~/static/calendar.svg" alt="Slika koledarja " class="widget-img mt-2" />
                         </div>
                       </v-list-item-content>
@@ -159,8 +159,10 @@
                 <v-list two-line>
                   <v-list-item v-for="event in events" :key="event.id">
                     <v-list-item-content>
-                      <v-list-item-title>{{ event.subject }}</v-list-item-title>
-                      <v-list-item-subtitle>{{ `${$moment(event.start.dateTime).utcOffset('+0200').format('dddd DD. MM. YYYY HH:mm')} - ${$moment(event.end.dateTime).utcOffset('+0200').format('dddd DD. MM. YYYY HH:mm')}` }}</v-list-item-subtitle>
+                      <v-list-item-title class="text-wrap">{{ event.subject }}</v-list-item-title>
+                      <v-list-item-subtitle class="text-wrap">{{
+                        `${$moment(event.start.dateTime).utcOffset('+0200').format('dddd DD. MM. YYYY HH:mm')} - ${$moment(event.end.dateTime).utcOffset('+0200').format('dddd DD. MM. YYYY HH:mm')}`
+                      }}</v-list-item-subtitle>
                     </v-list-item-content>
                   </v-list-item>
                 </v-list>
@@ -180,7 +182,7 @@
                     <v-list-item two-line>
                       <v-list-item-content>
                         <div class="text-center">
-                          <v-list-item-title><b>Izgleda, da nimate nobenih opravil</b></v-list-item-title>
+                          <v-list-item-title class="text-wrap">Izgleda, da nimate nobenih opravil</v-list-item-title>
                           <img src="~/static/tasks.svg" alt="Slika opravil " class="widget-img mt-2" />
                         </div>
                       </v-list-item-content>
@@ -192,8 +194,8 @@
                   <div v-for="task in tasks" :key="task.id" :data-id="task.id" @dblclick="markAsDoneTask">
                     <v-list-item two-line>
                       <v-list-item-content :class="{ 'task-done': task.status === 'completed' }">
-                        <v-list-item-title>{{ task.title }}</v-list-item-title>
-                        <v-list-item-subtitle v-if="task.dueDateTime" :class="{ 'task-overdue': $moment().isAfter($moment(task.dueDateTime.dateTime)) }">{{
+                        <v-list-item-title class="text-wrap">{{ task.title }}</v-list-item-title>
+                        <v-list-item-subtitle v-if="task.dueDateTime" class="text-wrap" :class="{ 'task-overdue': $moment().isAfter($moment(task.dueDateTime.dateTime)) }">{{
                           $moment(task.dueDateTime.dateTime).utcOffset('+0200').format('DD. MM. YYYY')
                         }}</v-list-item-subtitle>
                         <v-divider></v-divider>
@@ -233,8 +235,11 @@ export default {
   created() {
     if (this.$auth.loggedIn) {
       this.getCalendarEvents()
-      this.getClasses()
       this.getTaskList()
+
+      if (this.user_type === 'dijak' && this.user_class !== null) {
+        this.getClasses()
+      }
     }
     this.$moment.locale('sl')
   },

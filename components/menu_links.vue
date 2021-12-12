@@ -1,7 +1,7 @@
 <template>
   <v-list nav dense shaped>
     <v-list-item-group v-model="group" :active-class="schoolBGColor()">
-      <v-list-item to="/" nuxt>
+      <v-list-item :to="startUrl()" nuxt>
         <v-list-item-title><v-icon>home</v-icon> Domov</v-list-item-title>
       </v-list-item>
 
@@ -86,6 +86,11 @@ export default {
     schoolBGColor() {
       const school = this.$props.school
       return `${school}-background`
+    },
+    startUrl() {
+      if (this.$route.query.source === 'pwa') {
+        return '/?source=pwa'
+      } else return '/'
     },
   },
 }

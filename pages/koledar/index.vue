@@ -4,16 +4,16 @@
       <offlineAlter v-if="$nuxt.isOffline"></offlineAlter>
       <errorRequestAlter v-if="request_error"></errorRequestAlter>
       <v-sheet class="no-radius" height="100%" width="100%">
-        <v-app-bar color="">
+        <v-app-bar>
           <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
           <v-toolbar-title>Šolski center Celje</v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-btn href="/Navodila.pdf" icon target="_blank"><v-icon>help_outline</v-icon></v-btn>
+          <v-btn href="/Navodila.pdf" icon target="_blank" class="d-none d-sm-flex"><v-icon>help_outline</v-icon></v-btn>
           <v-btn icon @click="darkMode()">
             <v-icon>{{ dark_light_icon }}</v-icon></v-btn
           >
-          <v-btn @click="$auth.logout('aad')" icon><v-icon>logout</v-icon></v-btn>
+          <v-btn icon @click="$auth.logout('aad')"><v-icon>logout</v-icon></v-btn>
         </v-app-bar>
 
         <v-navigation-drawer v-model="drawer" absolute temporary>
@@ -219,17 +219,16 @@
               <v-spacer></v-spacer>
               <v-toolbar-items>
                 <v-btn v-if="edit_event_modal.conference_link !== ''" icon link target="_blank" :href="edit_event_modal.conference_link"> <v-icon>videocam</v-icon> </v-btn>
-                <v-btn icon :disabled="edit_event_modal.isConference" @click="edit_event_update"> <v-icon>save</v-icon> </v-btn>
+                <v-btn icon :disabled="edit_event_modal.isConference || !edit_event_modal.valid" @click="edit_event_update"> <v-icon>save</v-icon> </v-btn>
                 <v-btn icon @click="edit_delete_event"> <v-icon>delete</v-icon> </v-btn>
-
                 <v-btn v-if="edit_event_modal.web_link !== ''" icon link target="_blank" :href="edit_event_modal.web_link"> <v-icon>open_in_new</v-icon> </v-btn>
               </v-toolbar-items>
             </v-toolbar>
             <v-card-text class="mt-3">
               <v-form v-model="edit_event_modal.valid">
                 <v-text-field
+                  v-model="edit_event_modal.event_name"
                   label="Naziv dogodka"
-                  :value="edit_event_modal.event_name"
                   :rules="[() => !!edit_event_modal.event_name || 'To polje je zahtevano']"
                   :disabled="edit_event_modal.isConference"
                   outlined
@@ -449,7 +448,7 @@ export default {
             this.edit_event_modal.conference_link = ''
           }
           this.edit_event_modal.id = response.data.id
-          this.edit_event_modal.link = response.data.webLink
+          this.edit_event_modal.web_link = response.data.webLink
           this.edit_event_dialog = true
         })
         .catch((error) => {

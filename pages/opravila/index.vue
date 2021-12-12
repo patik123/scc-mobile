@@ -4,16 +4,16 @@
       <offlineAlter v-if="$nuxt.isOffline"></offlineAlter>
       <errorRequestAlter v-if="request_error"></errorRequestAlter>
       <v-sheet class="no-radius" height="100%" width="100%">
-        <v-app-bar color="">
+        <v-app-bar>
           <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
           <v-toolbar-title>Šolski center Celje</v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-btn href="/Navodila.pdf" icon target="_blank"><v-icon>help_outline</v-icon></v-btn>
+          <v-btn href="/Navodila.pdf" icon target="_blank" class="d-none d-sm-flex"><v-icon>help_outline</v-icon></v-btn>
           <v-btn icon @click="darkMode()">
             <v-icon>{{ dark_light_icon }}</v-icon></v-btn
           >
-          <v-btn icon @click="login()" ><v-icon>login</v-icon></v-btn>
+          <v-btn icon @click="login()"><v-icon>login</v-icon></v-btn>
         </v-app-bar>
 
         <v-navigation-drawer v-model="drawer" absolute temporary>
@@ -42,8 +42,8 @@
                   <v-list-item>
                     <v-list-item-content>
                       <div class="text-center">
-                        <v-list-item-title><b>Izgleda, da nimate nobenih dogodkov v prihajajočih dneh</b></v-list-item-title>
-                        <img src="~/static/calendar.svg" alt="Slika koledarja " class="widget-img mt-2" />
+                        <v-list-item-title class="text-wrap">Izgleda, da nimate nobenih opravil</v-list-item-title>
+                        <img src="~/static/tasks.svg" alt="Slika koledarja " class="widget-img mt-2" />
                       </div>
                     </v-list-item-content>
                   </v-list-item>
