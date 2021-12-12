@@ -277,7 +277,7 @@ export default {
             let eventColor
             let nadomescanje = false
             let odpadla = false
-            const profesor = lesson.te[0] ? lesson.te[0].name : ''
+            const profesor = lesson.te[0] ? lesson.te[0] : ''
             const code = lesson.code ? lesson.code : ''
 
             // Določitev barve dogodka v urniku
