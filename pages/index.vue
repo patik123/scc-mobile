@@ -51,6 +51,7 @@
 
         <v-main>
           <v-container fluid>
+            <v-alert type="info" dismissible text>Prosil vas, bi da si vzamete 5 minut časa in rešite anketo <a href="https://1ka.arnes.si/scc-mobile" target="_blank">na povezavi</a>.</v-alert>
             <!-- BLIŽNICE DO DELOV APLIKACIJE -->
             <v-chip-group mandatory>
               <v-chip @click="goToPath('urnik')">
@@ -174,7 +175,7 @@
             <div id="tasks">
               <v-card class="mt-5">
                 <v-card-title class="title" :class="getSchoolColor()"
-                  >Bližajoča opravila<v-spacer></v-spacer><v-btn :class="getSchoolColor()" @click="$router.push('/opravila?action=new-task')"><v-icon>add</v-icon><span class="d-none d-sm-flex">Novo opravilo</span></v-btn></v-card-title
+                  >Opravila<v-spacer></v-spacer><v-btn :class="getSchoolColor()" @click="$router.push('/opravila?action=new-task')"><v-icon>add</v-icon><span class="d-none d-sm-flex">Novo opravilo</span></v-btn></v-card-title
                 >
                 <v-divider></v-divider>
                 <v-list v-if="tasks.length === 0" two-line>

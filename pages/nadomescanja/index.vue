@@ -38,13 +38,13 @@
               <v-tabs-items v-model="tab">
                 <v-tab-item>
                   <div class="mt-2" style="margin: 0px; padding: 0px; overflow: hidden">
-                    <iframe class="mt-2" :src="nadomescanjaDanesUrl()" frameborder="0" width="98%" height="1000"></iframe>
+                    <iframe class="mt-2" :src="nadomescanjaDanesUrl()" frameborder="0" width="98%" height="1700"></iframe>
                   </div>
                 </v-tab-item>
 
                 <v-tab-item>
                   <div class="mt-2" style="margin: 0px; padding: 0px; overflow: hidden">
-                    <iframe class="mt-2" :src="nadomescanjaJutriUrl()" frameborder="0" width="98%" height="1000"></iframe>
+                    <iframe class="mt-2" :src="nadomescanjaJutriUrl()" frameborder="0" width="98%" height="1700"></iframe>
                   </div>
                 </v-tab-item>
               </v-tabs-items>

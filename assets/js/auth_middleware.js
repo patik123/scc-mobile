@@ -1,11 +1,12 @@
 export default {
   middleware({ $auth, redirect, $moment }) {
     if (!$auth.loggedIn) {
-      redirect({ path: '/', params: { reason: 'neprijavljen' } })
+      redirect({ path: '/', query: { reason: 'neprijavljen' } })
     }
     if ($auth.strategy.refreshToken.status().expired()) {
-      redirect({ path: '/', params: { reason: 'expired' } })
+      redirect({ path: '/', query: { reason: 'expired' } })
     }
     $auth.refreshTokens()
+    console.log($auth.strategy.refreshToken.status().expired())
   },
 }

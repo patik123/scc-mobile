@@ -235,9 +235,16 @@ export default {
       this.$refs.timetable.scrollToTime(first)
     },
 
-    updateTime() {
-      setInterval(() => this.$refs.timetable.updateTimes(), 60 * 1000)
+    interval_function() {
+      if (this.$refs.timetable.updateTimes() !== undefined) {
+        this.$refs.timetable.updateTimes()
+      }
     },
+
+    updateTime() {
+      setInterval(() => this.interval_function(), 60 * 1000)
+    },
+
 
     changeTimetableView() {
       if (this.timetable_view === 'week') {
@@ -278,6 +285,7 @@ export default {
             let nadomescanje = false
             let odpadla = false
             const profesor = lesson.te[0] ? lesson.te[0] : ''
+            const ucilnica = lesson.ro[0] ? lesson.ro[0] : ''
             const code = lesson.code ? lesson.code : ''
 
             // Določitev barve dogodka v urniku
@@ -289,6 +297,9 @@ export default {
               nadomescanje = true
             } else if (profesor.orgname) {
               eventColor = `#${'a781b5'}`
+              nadomescanje = true
+            } else if (ucilnica.orgname){
+               eventColor = `#${'a781b5'}`
               nadomescanje = true
             } else eventColor = `#${'f49f25'}`
 
@@ -314,6 +325,14 @@ export default {
           console.log(error)
           this.setRequestError()
         })
+    },
+  },
+  watch: {
+    $route(to, from) {
+      if(to.query.class !== undefined) {
+        this.request_class = to.query.class
+        this.getClasses()
+      }
     },
   },
 }

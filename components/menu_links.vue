@@ -33,7 +33,7 @@
 
       <div>
         <v-list-item target="_blank" :href="config.eucilnica_site">
-          <v-list-item-title><v-icon>school</v-icon> Spletna učilnica</v-list-item-title>
+          <v-list-item-title><v-icon>language</v-icon> Spletna učilnica</v-list-item-title>
         </v-list-item>
 
         <v-list-item target="_blank" :href="schoolWebsite">

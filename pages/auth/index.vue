@@ -6,6 +6,9 @@
 import jwtDecode from 'jwt-decode'
 export default {
   name: 'Auth',
+  meta: {
+    analyticsIgnore: true,
+  },
   created() {
     try {
       const decodedBearer = jwtDecode(this.$auth.$storage.getUniversal('_token.aad'))

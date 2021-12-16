@@ -32,7 +32,7 @@
 
         <v-main>
           <v-container fluid>
-            <v-alert type="error" dismissible text dense>Prehrano je potrebno za naslednji dan urediti do 14. ure tekočega dne.</v-alert>
+            <v-alert v-if="show_notification" type="error" dismissible text dense>Prehrano je potrebno za naslednji dan urediti do 14. ure tekočega dne.</v-alert>
             <!-- TABI -->
             <v-tabs v-model="tab" background-color="transparent" right grow :active-class="getSchoolColor()" :slider-color="getSchoolColor()">
               <v-tab v-for="item in items" :key="item">
@@ -223,6 +223,7 @@ export default {
       tab_lava: this.jedilnikGetDay(), // prevzeto prikaže dan kateri je danes
       tab_kosovelova: this.jedilnikGetDay(), // prevzeto prikaže dan kateri je danes
       tab_ljubljanska: this.jedilnikGetDay(), // prevzeto prikaže dan kateri je danes
+      show_notification: true,
       items: ['Lava 22', 'Kosovelova 14 (pionirski dom)', ' Ljubljanska 21 (dijaški dom)'], // lokacije prehrane
       jedilnik_lava_22: [],
       jedilnik_kosovelova_14: [],
@@ -238,6 +239,9 @@ export default {
   created() {
     this.weekDates() // get dates for the week
     this.getJedilnik() // get jedilnik
+    if (this.$moment().hour() < 14) {
+      this.show_notification = true
+    } else this.show_notification = false
   },
 
   methods: {

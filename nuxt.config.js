@@ -32,7 +32,7 @@ export default {
 
   buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/pwa', '@nuxtjs/style-resources', '@nuxtjs/vuetify', '@nuxtjs/moment'],
 
-  modules: ['@nuxtjs/axios', '@nuxtjs/pwa', '@nuxtjs/auth-next', 'nuxt-polyfill'],
+  modules: ['@nuxtjs/axios', '@nuxtjs/pwa', '@nuxtjs/auth-next', 'nuxt-polyfill', '@nuxtjs/universal-storage', 'nuxt-route-meta'],
 
   moment: {
     defaultLocale: 'si',
@@ -52,18 +52,6 @@ export default {
       start_url: '/?source=pwa',
       shortcuts: [
         {
-          name: 'Nov dogodek',
-          short_name: 'Nov dogodek',
-          description: 'Ustvari nov dogodek v koledarju',
-          url: '/koledar/?action=new-event',
-          icons: [
-            {
-              sizes: '512x512',
-              src: '/new_event_icon.png',
-            },
-          ],
-        },
-        {
           name: 'Urnik',
           short_name: 'Urnik',
           description: 'Odpre urnik',
@@ -72,6 +60,18 @@ export default {
             {
               sizes: '512x512',
               src: '/timetable_icon.png',
+            },
+          ],
+        },
+        {
+          name: 'Nov dogodek',
+          short_name: 'Nov dogodek',
+          description: 'Ustvari nov dogodek v koledarju',
+          url: '/koledar/?action=new-event',
+          icons: [
+            {
+              sizes: '512x512',
+              src: '/new_event_icon.png',
             },
           ],
         },
@@ -124,7 +124,7 @@ export default {
         accessType: 'offline',
         clientId: '4d004a0f-f841-4bfd-bc00-0ab1ee7e5bf4',
         codeChallengeMethod: 'S256',
-        scope: ['openid', 'profile', 'User.Read', 'Calendars.ReadWrite', 'Tasks.ReadWrite'],
+        scope: ['openid', 'profile', 'Calendars.ReadWrite', 'Tasks.ReadWrite', 'User.ReadWrite'],
         autoLogout: false,
       },
     },

@@ -34,16 +34,16 @@ export default {
       this.getUserData()
     }
     // DARK MODE DETECT - Switch to dark mode if user has dark mode enabled
-    if (localStorage.getItem('DarkMode')) {
-      if (localStorage.getItem('DarkMode') === 'true') {
+    if (localStorage.getItem('dark')) {
+      if (localStorage.getItem('dark') === 'true') {
         this.darkmode = true
         this.handledarkmode()
-      } else if (localStorage.getItem('DarkMode') === 'false') {
+      } else if (localStorage.getItem('dark') === 'false') {
         this.darkmode = false
         this.handledarkmode()
       }
     } else {
-      localStorage.setItem('DarkMode', false)
+      localStorage.setItem('dark', false)
       this.darkmode = false
       this.handledarkmode()
     }
@@ -92,11 +92,11 @@ export default {
     handledarkmode() {
       if (this.darkmode === true) {
         this.$vuetify.theme.dark = true
-        localStorage.setItem('DarkMode', true)
+        localStorage.setItem('dark', true)
         this.dark_light_icon = 'dark_mode'
       } else if (this.darkmode === false) {
         this.$vuetify.theme.dark = false
-        localStorage.setItem('DarkMode', false)
+        localStorage.setItem('dark', false)
         this.dark_light_icon = 'light_mode'
       }
     },
