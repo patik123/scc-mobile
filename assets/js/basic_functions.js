@@ -18,6 +18,7 @@ export default {
       user_type: localStorage.getItem('user_type') ? localStorage.getItem('user_type') : null,
       dark_light_icon: 'dark_mode',
       request_error: false,
+      user_data: localStorage.getItem('user_data') ? JSON.parse(localStorage.getItem('user_data')) : null,
     }
   },
   watch: {
@@ -27,7 +28,6 @@ export default {
   },
 
   created() {
-    this.jwt_decoded = this.$auth.$storage.getUniversal('jwt_decoded')
     this.jwt_token = this.$auth.$storage.getUniversal('_token.aad')
     this.config = configData.default
     if (this.$auth.loggedIn && !localStorage.getItem('user')) {
@@ -144,6 +144,13 @@ export default {
     schoolBGColor() {
       const school = this.school
       return `${school}-background`
+    },
+
+    // Generate start url
+    startUrl() {
+      if (this.$route.query.source === 'pwa') {
+        return '/?source=pwa'
+      } else return '/'
     },
   },
 }

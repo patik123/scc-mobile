@@ -17,7 +17,7 @@
           <v-list>
             <v-list-item link>
               <v-list-item-content>
-                <v-list-item-title class="text-h6"> {{ jwt_decoded.given_name + ' ' + jwt_decoded.family_name }} </v-list-item-title>
+                <v-list-item-title class="text-h6"> {{ user_data.first_name + ' ' + user_data.last_name }} </v-list-item-title>
                 <v-list-item-subtitle>{{ user_class }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>

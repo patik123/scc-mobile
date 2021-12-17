@@ -54,6 +54,10 @@
         <v-list-item-title><v-icon>info</v-icon> O aplikaciji</v-list-item-title>
       </v-list-item>
     </v-list-item-group>
+
+    <div class="text-center">
+      <img :src="`${school}_cvet.png`" class="school-logo" />
+    </div>
   </v-list>
 </template>
 
@@ -96,4 +100,10 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+.school-logo {
+  margin-top: 10px;
+  width: 70px;
+  height: 70px;
+}
+</style>

@@ -40,7 +40,7 @@
           <v-list>
             <v-list-item link>
               <v-list-item-content>
-                <v-list-item-title class="text-h6"> {{ jwt_decoded.given_name + ' ' + jwt_decoded.family_name }} </v-list-item-title>
+                <v-list-item-title class="text-h6"> {{ user_data.first_name + ' ' + user_data.last_name }} </v-list-item-title>
                 <v-list-item-subtitle>{{ user_class }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
@@ -76,7 +76,7 @@
             </v-chip-group>
 
             <div class="mt-2 mb-3">
-              <span class="user-greatting">{{ `${getGreeting()},  ${jwt_decoded.given_name}` }}</span>
+              <span class="user-greatting">{{ `${getGreeting()},  ${user_data.first_name}` }}</span>
             </div>
 
             <!-- TRENUTNA URA -->
@@ -394,11 +394,6 @@ export default {
   height: 30%;
 }
 
-.school-img {
-  width: 40px;
-  height: 40px;
-}
-
 .user-greatting {
   font-size: 1.5rem;
   font-weight: bold;
@@ -419,9 +414,6 @@ export default {
   .widget-img {
     width: 40%;
     height: 40%;
-  }
-  .school-img {
-    display: none;
   }
 }
 </style>

@@ -12,7 +12,15 @@ export default {
   created() {
     try {
       const decodedBearer = jwtDecode(this.$auth.$storage.getUniversal('_token.aad'))
-      this.$auth.$storage.setUniversal('jwt_decoded', decodedBearer)
+      localStorage.setItem(
+        'user_data',
+        JSON.stringify({
+          id: decodedBearer.oid,
+          email: decodedBearer.upn,
+          first_name: decodedBearer.given_name,
+          last_name: decodedBearer.family_name,
+        })
+      )
       this.detect_user_type(decodedBearer.upn)
     } catch (error) {
       // eslint-disable-next-line no-console

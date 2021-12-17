@@ -24,7 +24,7 @@ export default {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
-  css: ['@/assets/scss/main.scss', 'vue-pdf-app/dist/icons/main.css'],
+  css: ['@/assets/scss/main.scss'],
 
   plugins: ['~/plugins/barcode.client.js', { src: '~/plugins/vue-matomo.js', ssr: false }],
 

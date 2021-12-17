@@ -20,7 +20,7 @@
           <v-list>
             <v-list-item link>
               <v-list-item-content>
-                <v-list-item-title class="text-h6"> {{ jwt_decoded.given_name + ' ' + jwt_decoded.family_name }} </v-list-item-title>
+                <v-list-item-title class="text-h6"> {{ user_data.first_name + ' ' + user_data.last_name }} </v-list-item-title>
                 <v-list-item-subtitle>{{ user_class }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
@@ -245,7 +245,6 @@ export default {
       setInterval(() => this.interval_function(), 60 * 1000)
     },
 
-
     changeTimetableView() {
       if (this.timetable_view === 'week') {
         this.timetable_view = 'day'
@@ -298,8 +297,8 @@ export default {
             } else if (profesor.orgname) {
               eventColor = `#${'a781b5'}`
               nadomescanje = true
-            } else if (ucilnica.orgname){
-               eventColor = `#${'a781b5'}`
+            } else if (ucilnica.orgname) {
+              eventColor = `#${'a781b5'}`
               nadomescanje = true
             } else eventColor = `#${'f49f25'}`
 
@@ -329,7 +328,7 @@ export default {
   },
   watch: {
     $route(to, from) {
-      if(to.query.class !== undefined) {
+      if (to.query.class !== undefined) {
         this.request_class = to.query.class
         this.getClasses()
       }
