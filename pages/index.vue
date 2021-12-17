@@ -51,7 +51,7 @@
 
         <v-main>
           <v-container fluid>
-            <v-alert type="info" dismissible text>Prosil vas, bi da si vzamete 5 minut časa in rešite anketo <a href="https://1ka.arnes.si/scc-mobile" target="_blank">na povezavi</a>.</v-alert>
+            <v-alert type="info" dismissible text>Prosil bi vas, če si vzamete 5 minut časa in rešite anketo <a href="https://1ka.arnes.si/scc-mobile" target="_blank">na povezavi</a>.</v-alert>
             <!-- BLIŽNICE DO DELOV APLIKACIJE -->
             <v-chip-group mandatory>
               <v-chip @click="goToPath('urnik')">
