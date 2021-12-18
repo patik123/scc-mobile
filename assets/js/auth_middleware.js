@@ -7,6 +7,5 @@ export default {
       redirect({ path: '/', query: { reason: 'expired' } })
     }
     $auth.refreshTokens()
-    console.log($auth.strategy.refreshToken.status().expired())
   },
 }

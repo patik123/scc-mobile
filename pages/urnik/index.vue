@@ -44,6 +44,19 @@
                   ><span class="d-none d-sm-flex"></span><v-icon>{{ timetable_view_icon }}</v-icon></v-btn
                 >
                 <v-btn :color="getSchoolColor()" class="mb-3" @click="setToday"><v-icon>today</v-icon><span class="d-none d-sm-flex">Danes</span></v-btn>
+                <v-btn v-if="user_type === 'ucitelj'" :color="getSchoolColor()" class="mb-3" @click="showMyTimetable"><v-icon>person</v-icon><span class="d-none d-sm-flex">Prikaži moj urnik</span></v-btn>
+                <v-select
+                  v-if="user_type === 'ucitelj'"
+                  v-model="options_select_class_name"
+                  :items="school_classes"
+                  label="Oddelek"
+                  dense
+                  :background-color="getSchoolColor()"
+                  :item-color="getSchoolColor()"
+                  :color="getSchoolColor()"
+                  outlined
+                  @change="changeTimetableClass"
+                ></v-select>
               </div>
               <v-calendar
                 ref="timetable"
@@ -53,11 +66,13 @@
                 locale="sl"
                 :max-days="5"
                 first-interval="6"
+                :start="calendar_start_date"
+                :end="calendar_end_date"
                 interval-minutes="60"
                 interval-count="10"
                 :events="timetable_events"
                 :type="timetable_view"
-                @change="getTimetableEvents"
+                @change="updateRange"
                 @click:date="viewDay"
                 @click:event="openTimetableDialog"
               >
@@ -157,11 +172,28 @@ export default {
       timetable_dialog_event: {},
       timetable_dialog_content_class: '',
       timetable_class: '',
+      start_date: null,
+      end_date: null,
+      school_classes: [],
+      options_select_class: false,
+      options_select_class_name: '',
+      untis_user_id: '',
+      // Zaradi zagotovitve prikaza petih dnevov v urniku
+      calendar_start_date: this.$moment().clone().startOf('isoWeek').format('YYYY-MM-DD'),
+      calendar_end_date: this.$moment().clone().endOf('isoWeek').subtract(2, 'days').format('YYYY-MM-DD'),
     }
+  },
+  watch: {
+    $route(to, from) {
+      if (to.query.class !== undefined) {
+        this.options_select_class = true
+        this.request_class = to.query.class
+        this.getClasses()
+      }
+    },
   },
   created() {
     this.getClasses()
-
     if (this.$router.currentRoute.query.class) {
       this.request_class = this.$router.currentRoute.query.class
     } else {
@@ -169,18 +201,21 @@ export default {
     }
   },
 
-  mounted() {},
-
   methods: {
     getClasses() {
       this.$axios
         .get(this.config.url_backend_aplikacije + '/untis/get_classes')
         .then((response) => {
           const classes = response.data.result
-
+          this.school_classes = []
           classes.forEach((element) => {
+            this.school_classes.push(element.name)
             if (element.name === this.request_class) {
               this.timetable_class = element
+              if (this.options_select_class) {
+                this.getTimetableEvents()
+                this.options_select_class = false
+              }
             }
           })
         })
@@ -189,6 +224,21 @@ export default {
           console.log(error)
           this.setRequestError()
         })
+    },
+
+    updateRange({ start, end }) {
+      this.start_date = start
+      this.end_date = end
+      if (this.user_class === '' || this.$router.currentRoute.query.class !== undefined || this.user_type === 'dijak') {
+        this.getTimetableEvents()
+      }
+      if (this.user_type === 'ucitelj' && this.$router.currentRoute.query.class === undefined) {
+        this.getTeacherTimetableEvents()
+      }
+    },
+
+    changeTimetableClass(a) {
+      this.$router.push(`/urnik?class=${a}`)
     },
 
     setToday() {
@@ -200,14 +250,23 @@ export default {
       this.timetable_dialog_event = {}
     },
 
+    showMyTimetable() {
+      this.$router.push('/urnik')
+      this.options_select_class_name = ''
+      if (this.user_type === 'ucitelj') {
+        this.getTeacherTimetableEvents()
+      }
+      if (this.user_type === 'dijak') {
+        this.getTimetableEvents()
+      }
+    },
+
     timetableNext() {
       this.$refs.timetable.next()
-      this.timetable_events = []
     },
 
     timetablePrev() {
       this.$refs.timetable.prev()
-      this.timetable_events = []
     },
 
     openTimetableDialog(event) {
@@ -262,11 +321,86 @@ export default {
       return this.$refs.timetable.timeToY(this.$refs.timetable.times.now) + 'px'
     },
 
-    getTimetableEvents({ start, end }) {
+    getTeacherTimetableEvents() {
       this.restartErrorRequestNotification()
       this.timetable_events = []
-      const startDate = this.$moment(start.date).format('YYYYMMDD')
-      const endDate = this.$moment(end.date).format('YYYYMMDD')
+      const startDate = this.$moment(this.start_date.date).format('YYYYMMDD')
+      const endDate = this.$moment(this.end_date.date).format('YYYYMMDD')
+      this.scrollToTime()
+      this.updateTime()
+
+      this.$axios
+        .get(`${this.config.url_backend_aplikacije}/untis/search?first_name=${this.user_data.first_name}&last_name=${this.user_data.last_name}&type=2`)
+        .then((response) => {
+          this.untis_user_id = response.data.result
+
+          this.$axios
+            .get(`${this.config.url_backend_aplikacije}/untis/get_teacher_timetable?start_date=${startDate}&end_date=${endDate}&teacher_id=${this.untis_user_id}`)
+            .then((response) => {
+              const lessons = response.data.result
+
+              if (lessons.error) {
+                this.setRequestError()
+                return
+              }
+              lessons.forEach((lesson) => {
+                let eventColor
+                let nadomescanje = false
+                let odpadla = false
+                const profesor = lesson.te[0] ? lesson.te[0] : ''
+                const ucilnica = lesson.ro[0] ? lesson.ro[0] : ''
+                const code = lesson.code ? lesson.code : ''
+
+                // Določitev barve dogodka v urniku
+                if (code === 'cancelled') {
+                  eventColor = `#${'b1b3b4'}`
+                  odpadla = true
+                } else if (code === 'irregular') {
+                  eventColor = `#${'a781b5'}`
+                  nadomescanje = true
+                } else if (profesor.orgname) {
+                  eventColor = `#${'a781b5'}`
+                  nadomescanje = true
+                } else if (ucilnica.orgname) {
+                  eventColor = `#${'a781b5'}`
+                  nadomescanje = true
+                } else eventColor = `#${'f49f25'}`
+
+                // Dodajanje dogodka v urnik
+                this.timetable_events.push({
+                  name: `${lesson.su[0].name ? lesson.su[0].name : ''}  `,
+                  lesson_name: lesson.su[0].longname ? lesson.su[0].longname : '',
+                  activity: lesson.activityType ? lesson.activityType : '',
+                  start: this.$moment(lesson.date + 'T' + lesson.startTime, 'YYYYMMDDTHmm').format('YYYY-MM-DDTH:mm'),
+                  end: this.$moment(lesson.date + 'T' + lesson.endTime, 'YYYYMMDDTHmm').format('YYYY-MM-DDTH:mm'),
+                  color: eventColor,
+                  classes: lesson.kl ? lesson.kl : [],
+                  room: lesson.ro ? lesson.ro : [],
+                  teacher: lesson.te ? lesson.te : [],
+                  cancelled: odpadla,
+                  substitution: nadomescanje,
+                  substText: lesson.substText ? lesson.substText : '',
+                })
+              })
+            })
+            .catch((error) => {
+              // eslint-disable-next-line
+              console.log(error)
+              this.setRequestError()
+            })
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.log(error)
+          this.setRequestError()
+        })
+    },
+
+    getTimetableEvents() {
+      this.restartErrorRequestNotification()
+      this.timetable_events = []
+      const startDate = this.$moment(this.start_date.date).format('YYYYMMDD')
+      const endDate = this.$moment(this.end_date.date).format('YYYYMMDD')
       const classId = this.timetable_class.id
       this.scrollToTime()
       this.updateTime()
@@ -324,14 +458,6 @@ export default {
           console.log(error)
           this.setRequestError()
         })
-    },
-  },
-  watch: {
-    $route(to, from) {
-      if (to.query.class !== undefined) {
-        this.request_class = to.query.class
-        this.getClasses()
-      }
     },
   },
 }
