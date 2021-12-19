@@ -5,7 +5,7 @@
         <v-list-item-title><v-icon>home</v-icon> Domov</v-list-item-title>
       </v-list-item>
 
-      <v-list-item v-if="user_type === 'dijak'" to="/urnik" nuxt>
+      <v-list-item to="/urnik" nuxt>
         <v-list-item-title><v-icon>schedule</v-icon> Urnik</v-list-item-title>
       </v-list-item>
 
@@ -55,7 +55,7 @@
       </v-list-item>
     </v-list-item-group>
 
-    <div class="text-center">
+    <div class="text-center mt-1">
       <img  :src="require(`~/static/${school}_cvet.png`)" class="school-logo" />
     </div>
   </v-list>
