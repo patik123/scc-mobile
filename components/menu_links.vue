@@ -56,7 +56,7 @@
     </v-list-item-group>
 
     <div class="text-center">
-      <img :src="`${school}_cvet.png`" class="school-logo" />
+      <img  :src="require(`~/static/${school}_cvet.png`)" class="school-logo" />
     </div>
   </v-list>
 </template>
