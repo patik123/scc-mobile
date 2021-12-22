@@ -42,7 +42,7 @@
               E-mail: <a :href="contactEmailLink">{{ config.contact_email }}</a>
             </p>
 
-            <p>Mobilna aplikacija Šolskega centra Celje je namenjena dijakom in zaposelnim vseh srednjih šol Šolskega centra Celje in združuje najpomembnejše informacije potrebne za uspešno opravljanje šolskih obveznosti.</p>
+            <p>Mobilna aplikacija je namenjena dijakom in zaposlenim vseh srednjih šol Šolskega centra Celje.</p>
 
             <div>
               <iframe

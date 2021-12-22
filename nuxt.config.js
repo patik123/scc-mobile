@@ -1,3 +1,5 @@
+import 'core-js/stable'
+import 'regenerator-runtime/runtime'
 export default {
   target: 'static',
   ssr: false,
@@ -33,10 +35,6 @@ export default {
   buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/pwa', '@nuxtjs/style-resources', '@nuxtjs/vuetify', '@nuxtjs/moment'],
 
   modules: ['@nuxtjs/axios', '@nuxtjs/pwa', '@nuxtjs/auth-next', 'nuxt-polyfill', '@nuxtjs/universal-storage', 'nuxt-route-meta'],
-
-  moment: {
-    defaultLocale: 'si',
-  },
 
   pwa: {
     manifest: {

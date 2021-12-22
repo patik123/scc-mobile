@@ -52,12 +52,12 @@
         <v-main>
           <v-container fluid>
             <v-alert type="info" dismissible text>Prosil bi vas, če si vzamete 5 minut časa in rešite anketo <a href="https://1ka.arnes.si/scc-mobile" target="_blank">na povezavi</a>.</v-alert>
-            
+
             <v-card class="d-flex flex-row mb-2">
-              <img  src="~/static/bozicna_smrecica.png" alt="Božična smrečica" width="100px" height="100px" class="mt-5" />
+              <img src="~/static/bozicna_smrecica.png" alt="Božična smrečica" width="100px" height="100px" class="mt-5" />
               <v-card-text class="font-weight-bold" style="font-size: 16px">Želimo vam lepe, mirne, nepozabne in veselja polne božično-novolente praznike!</v-card-text>
             </v-card>
-            
+
             <!-- BLIŽNICE DO DELOV APLIKACIJE -->
             <v-chip-group mandatory>
               <v-chip @click="goToPath('urnik')">

@@ -29,6 +29,7 @@ export default {
 
   created() {
     this.jwt_token = this.$auth.$storage.getUniversal('_token.aad')
+    this.getThemeOnline()
     this.config = configData.default
     if (this.$auth.loggedIn && !localStorage.getItem('user')) {
       this.getUserData()
@@ -93,11 +94,62 @@ export default {
       if (this.darkmode === true) {
         this.$vuetify.theme.dark = true
         localStorage.setItem('dark', true)
-        this.dark_light_icon = 'dark_mode'
+        this.dark_light_icon = 'light_mode'
+        this.saveThemeOnline()
       } else if (this.darkmode === false) {
         this.$vuetify.theme.dark = false
         localStorage.setItem('dark', false)
-        this.dark_light_icon = 'light_mode'
+        this.dark_light_icon = 'dark_mode'
+        this.saveThemeOnline()
+      }
+    },
+
+    // Save user theme
+    saveThemeOnline() {
+      if (this.$auth.loggedIn) {
+        this.$axios.get('https://graph.microsoft.com/v1.0/me/extensions/com.scc-mobile-theme', { validateStatus: false }).then((response) => {
+          if (response.status === 404) {
+            this.$axios
+              .post('https://graph.microsoft.com/v1.0/me/extensions', {
+                '@odata.type': 'microsoft.graph.openTypeExtension',
+                extensionName: 'com.scc-mobile-theme',
+                theme: this.darkmode ? 'dark' : 'light',
+              })
+              .then((response) => {
+                // eslint-disable-next-line no-console
+                console.log(response)
+              })
+              .catch((error) => {
+                // eslint-disable-next-line no-console
+                console.log(error)
+              })
+          } else {
+            this.$axios
+              .patch('https://graph.microsoft.com/v1.0/me/extensions/com.scc-mobile-theme', {
+                theme: this.darkmode ? 'dark' : 'light',
+              })
+              .then((response) => {
+                // eslint-disable-next-line no-console
+              })
+              .catch((error) => {
+                // eslint-disable-next-line no-console
+                console.log(error)
+              })
+          }
+        })
+      }
+    },
+
+    // Get user theme
+    getThemeOnline() {
+      if (this.$auth.loggedIn) {
+        this.$axios.get('https://graph.microsoft.com/v1.0/me/extensions/com.scc-mobile-theme', { validateStatus: false }).then((response) => {
+          if (response.status === 404) {
+            this.darkmode = false
+          } else {
+            this.darkmode = response.data.theme === 'dark' ? true : false
+          }
+        })
       }
     },
 
