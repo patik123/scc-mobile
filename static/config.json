@@ -1,23 +1,43 @@
 {
   "KER": {
     "full_school_name": "Srednja šola za kemijo, elektrotehniko in računalništvo",
-    "website": "https://ker.sc-celje.si"
+    "website": "https://ker.sc-celje.si",
+    "social": {
+      "facebook": "https://www.facebook.com/ker.sccelje",
+      "instagram": "https://www.instagram.com/ker.sccelje/"
+    }
   },
   "GL": {
     "full_school_name": "Gimnazija Lava",
-    "website": "https://gl.sc-celje.si"
+    "website": "https://gl.sc-celje.si",
+    "social": {
+      "facebook": "https://www.facebook.com/poplavaznanja",
+      "instagram": "https://www.instagram.com/gimnazijalava/"
+    }
   },
   "GVO": {
     "full_school_name": "Srednja šola za gradbeništvo in varovanje okolja",
-    "website": "https://gvo.sc-celje.si"
+    "website": "https://gvo.sc-celje.si",
+    "social": {
+      "facebook": "https://www.facebook.com/Srednja-%C5%A1ola-za-gradbeni%C5%A1tvo-in-varovanje-okolja-337039969748933/",
+      "instagram": ""
+    }
   },
   "SDL": {
     "full_school_name": "Srednja šola za storitvene dejavnosti in logistiko",
-    "website": "https://sdl.sc-celje.si"
+    "website": "https://sdl.sc-celje.si",
+    "social": {
+      "facebook": "https://www.facebook.com/sccsdl",
+      "instagram": "https://www.instagram.com/scc.ssdl/"
+    }
   },
   "SMM": {
     "full_school_name": "Srednja šola za strojništvo, mehatroniko in medije",
-    "website": "https://smm.sc-celje.si"
+    "website": "https://smm.sc-celje.si",
+    "social": {
+      "facebook": "https://www.facebook.com/scc.smm",
+      "instagram": "https://www.instagram.com/scc_smm/"
+    }
   },
   "prehrana_site": "https://prehrana.sc-celje.si",
   "eucilnica_site": "https://eucilnica.sc-celje.si",

@@ -38,7 +38,7 @@
             <!-- Vsa obvestila dialog -->
             <div v-if="show_all_notifications">
               <div v-if="no_notifications === true">
-                <v-alert color="blue" type="info">Ni obvestil.</v-alert>
+                <v-alert color="blue" type="info" text>Ni obvestil.</v-alert>
               </div>
 
               <v-card v-for="obvestilo in obvestila" :key="obvestilo.i" outlined class="margin-card" :data-url="obvestilo.link" :data-id="obvestilo.i" :class="getSchoolColor()" @click="show_obvestilo_func">
@@ -148,7 +148,7 @@ export default {
         .then((response) => {
           const $ = cherio.load(response.data)
           const obvestila = $('#wpsp-142').text().trim()
-          if (obvestila == 'Trenutno ni aktualnih obvestil.') {
+          if (obvestila === 'Trenutno ni aktualnih obvestil.') {
             this.no_notifications = true
           } else {
             $('#wpsp-142 article').each((i, el) => {

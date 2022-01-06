@@ -58,6 +58,15 @@
     <div class="text-center mt-1">
       <img :src="require(`~/static/${school}_cvet.png`)" class="school-logo" />
     </div>
+
+    <div class="text-center mt-1">
+      <a v-if="config[school].social.instagram !== ''" :href="config[school].social.instagram" target="_blank">
+        <img src="~/static/instagram_logo.png" class="social-logo" />
+      </a>
+      <a v-if="config[school].social.facebook !== ''" :href="config[school].social.facebook" target="_blank">
+        <img src="~/static/facebook_logo.png" class="social-logo" />
+      </a>
+    </div>
   </v-list>
 </template>
 
@@ -91,6 +100,7 @@ export default {
       const school = this.$props.school
       return `${school}-background`
     },
+
     startUrl() {
       if (this.$route.query.source === 'pwa') {
         return '/?source=pwa'
@@ -103,7 +113,12 @@ export default {
 <style>
 .school-logo {
   margin-top: 10px;
-  width: 70px;
-  height: 70px;
+  width: 55px;
+  height: 55px;
+}
+.social-logo {
+  margin-top: 10px;
+  width: 40px;
+  height: 40px;
 }
 </style>
