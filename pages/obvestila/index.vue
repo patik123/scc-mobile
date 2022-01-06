@@ -13,7 +13,7 @@
           <v-btn icon @click="darkMode()">
             <v-icon>{{ dark_light_icon }}</v-icon></v-btn
           >
-          <v-btn icon @click="login()"><v-icon>login</v-icon></v-btn>
+          <v-btn icon @click="logout()"><v-icon>logout</v-icon></v-btn>
         </v-app-bar>
 
         <v-navigation-drawer v-model="drawer" absolute temporary>
@@ -37,12 +37,18 @@
             </div>
             <!-- Vsa obvestila dialog -->
             <div v-if="show_all_notifications">
+              <div v-if="no_notifications === true">
+                <v-alert color="blue" type="info">Ni obvestil.</v-alert>
+              </div>
+
               <v-card v-for="obvestilo in obvestila" :key="obvestilo.i" outlined class="margin-card" :data-url="obvestilo.link" :data-id="obvestilo.i" :class="getSchoolColor()" @click="show_obvestilo_func">
-                <v-card-title>
-                  <v-card-title class="card-text-title">
-                    <span>{{ obvestilo.title }}</span>
-                  </v-card-title>
+                <v-card-title class="card-text-title">
+                  <span>{{ obvestilo.title }}</span>
                 </v-card-title>
+
+                <v-card-subtitle>
+                  <span>{{ obvestilo.date }}</span>
+                </v-card-subtitle>
               </v-card>
             </div>
 
@@ -55,13 +61,11 @@
 
               <div v-if="loading_obvestilo">
                 <v-skeleton-loader class="mb-2" type="heading"></v-skeleton-loader>
-                <v-skeleton-loader class="mb-2" type="chip"></v-skeleton-loader>
                 <v-skeleton-loader type="paragraph,paragraph,paragraph,paragraph,paragraph,paragraph,paragraph"></v-skeleton-loader>
               </div>
 
               <div class="d-inline">
                 <h1>{{ vsebina_obvestila_title }}</h1>
-                <v-chip v-if="!vsebina_obvestila_date == ''">{{ vsebina_obvestila_date }}</v-chip>
               </div>
 
               <div class="mt-5 responsive-area">
@@ -91,8 +95,8 @@ export default {
       show_notification: false,
       vsebina_obvestila_title: '',
       vsebina_obvestila_body: '',
-      vsebina_obvestila_date: '',
       loading: true,
+      no_notifications: false,
       loading_obvestilo: true,
     }
   },
@@ -112,9 +116,12 @@ export default {
         .get(`${this.config.url_backend_aplikacije}/sites/url_proxy?url=${url}`)
         .then((response) => {
           const $ = cherio.load(response.data)
-          this.vsebina_obvestila_title = $('.post-title').text()
-          this.vsebina_obvestila_body = $('.entry-inner').html()
-          this.vsebina_obvestila_date = $('.post-byline').text()
+
+          const title = $('.ed-header-title').text().trim()
+          const content = $('.entry-content').html()
+
+          this.vsebina_obvestila_title = title
+          this.vsebina_obvestila_body = content
           this.loading_obvestilo = false
         })
         .catch((error) => {
@@ -140,15 +147,23 @@ export default {
         .get(`${this.config.url_backend_aplikacije}/sites/url_proxy?url=${this.school_website()}`)
         .then((response) => {
           const $ = cherio.load(response.data)
-          $('#my_custom_widget-2 a').each((i, el) => {
-            if ($(el).text() !== '(novo)') {
+          const obvestila = $('#wpsp-142').text().trim()
+          if (obvestila == 'Trenutno ni aktualnih obvestil.') {
+            this.no_notifications = true
+          } else {
+            $('#wpsp-142 article').each((i, el) => {
+              const title = $(el).find('.wp-show-posts-entry-title').text()
+              const link = $(el).find('.wp-show-posts-entry-title a').attr('href')
+              const date = $(el).find('.wp-show-posts-entry-date').text()
               this.obvestila.push({
                 id: i,
-                title: $(el).text(),
-                link: $(el).attr('href'),
+                title: title,
+                link: link,
+                date: date,
               })
-            }
-          })
+            })
+          }
+
           this.loading = false
         })
         .catch((error) => {
