@@ -7,7 +7,7 @@
 export default {
   methods: {
     prevent_right_click(e) {
-        e.preventDefault();
+      e.preventDefault();
     }
   }
 }
