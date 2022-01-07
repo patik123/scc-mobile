@@ -42,6 +42,7 @@
   "prehrana_site": "https://prehrana.sc-celje.si",
   "eucilnica_site": "https://eucilnica.sc-celje.si",
   "eviweb_public_url": "https://eportal.sc-celje.si/EWePortal/pages/index.html",
+  "eviweb_private_url": "http://portal.sc-celje.si/",
   "scc_main_site": "https://www.sc-celje.si",
   "version": "1.0.0-beta",
   "contact_email": "patrick.kosir.16867@dijak.sc-celje.si",

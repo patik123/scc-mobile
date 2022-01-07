@@ -40,7 +40,11 @@
           <v-list-item-title><v-icon>language</v-icon> Šolska spletna stran</v-list-item-title>
         </v-list-item>
 
-        <v-list-item target="_blank" :href="config.eviweb_public_url">
+        <v-list-item v-if="user_type === 'dijak'" target="_blank" :href="config.eviweb_public_url">
+          <v-list-item-title><v-icon>language</v-icon> EviWeb</v-list-item-title>
+        </v-list-item>
+
+        <v-list-item v-if="user_type === 'ucitelj'" target="_blank" :href="config.eviweb_private_url">
           <v-list-item-title><v-icon>language</v-icon> EviWeb</v-list-item-title>
         </v-list-item>
 

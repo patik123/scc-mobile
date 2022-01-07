@@ -1,5 +1,5 @@
 export default {
-  middleware({ $auth, redirect, $moment }) {
+  middleware({ $auth, redirect }) {
     if (!$auth.loggedIn) {
       redirect({ path: '/', query: { reason: 'neprijavljen' } })
     }
