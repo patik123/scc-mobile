@@ -7,9 +7,9 @@
         <v-app-bar>
           <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-          <v-toolbar-title>Šolski center Celje</v-toolbar-title>
+          <v-toolbar-title>{{ $t('scc') }}</v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-btn href="/Navodila.pdf" icon target="_blank" class="d-none d-sm-flex"><v-icon>help_outline</v-icon></v-btn>
+          <v-btn to="/navodila" icon target="_blank" class="d-none d-sm-flex"><v-icon>help_outline</v-icon></v-btn>
           <v-btn icon @click="darkMode()">
             <v-icon>{{ dark_light_icon }}</v-icon></v-btn
           >
@@ -42,7 +42,7 @@
                   <v-list-item>
                     <v-list-item-content>
                       <div class="text-center">
-                        <v-list-item-title class="text-wrap">Izgleda, da nimate nobenih opravil</v-list-item-title>
+                        <v-list-item-title class="text-wrap">{{ $t('opravila.ni_opravil') }}</v-list-item-title>
                         <img src="~/static/tasks.svg" alt="Slika koledarja " class="widget-img mt-2" />
                       </div>
                     </v-list-item-content>
@@ -72,7 +72,7 @@
               <v-btn icon @click="closeNewTaskDialog">
                 <v-icon>close</v-icon>
               </v-btn>
-              <v-toolbar-title>Novo opravilo</v-toolbar-title>
+              <v-toolbar-title>{{ $t('opravila.novo_opravilo') }}</v-toolbar-title>
               <v-spacer></v-spacer>
               <v-toolbar-items>
                 <v-btn text :disabled="!new_task_form.valid" @click="createNewTask()"> <v-icon>save</v-icon> </v-btn>
@@ -80,7 +80,14 @@
             </v-toolbar>
             <v-card-text class="mt-3">
               <v-form v-model="new_task_form.valid">
-                <v-text-field v-model="new_task_form.task_name" :rules="[() => !!new_task_form.task_name || 'To polje je zahtevano']" label="Naziv opravila" outlined :color="getSchoolColor()" :background-color="getSchoolColor()"></v-text-field>
+                <v-text-field
+                  v-model="new_task_form.task_name"
+                  :rules="[() => !!new_task_form.task_name || $t('opravila.required_fields')]"
+                  :label="$t('opravila.naziv_opravila')"
+                  outlined
+                  :color="getSchoolColor()"
+                  :background-color="getSchoolColor()"
+                ></v-text-field>
                 <v-row>
                   <v-col>
                     <v-menu ref="new_taks_remainder_date_menu" :close-on-content-click="false" transition="scale-transition" left offset-y min-width="auto">
@@ -90,7 +97,7 @@
                           append-icon="clear"
                           :color="getSchoolColor()"
                           :background-color="getSchoolColor()"
-                          label="Opraviti do"
+                          :label="$t('opravila.opraviti_do')"
                           readonly
                           outlined
                           v-bind="attrs"
@@ -105,11 +112,11 @@
                     <v-select
                       v-model="new_task_form.importance"
                       :items="[
-                        { text: 'Nizka', value: 'low' },
-                        { text: 'Normalna', value: 'normal' },
-                        { text: 'Visoka', value: 'high' },
+                        { text: $t('opravila.pomembnost_nizka'), value: 'low' },
+                        { text: $t('opravila.pomembnost_normalna'), value: 'normal' },
+                        { text: $t('opravila.pomembnost_visoka'), value: 'high' },
                       ]"
-                      label="Pomembnost"
+                      :label="$t('opravila.pomembnost')"
                       :color="getSchoolColor()"
                       :item-color="schoolBGColor()"
                       outlined
@@ -118,7 +125,7 @@
                   </v-col>
                 </v-row>
                 <div>
-                  <v-textarea v-model="new_task_form.task_description" label="Opis opravila" outlined :color="getSchoolColor()" :background-color="getSchoolColor()"></v-textarea>
+                  <v-textarea v-model="new_task_form.task_description" :label="$t('opravila.opis_opravila')" outlined :color="getSchoolColor()" :background-color="getSchoolColor()"></v-textarea>
                 </div>
               </v-form>
             </v-card-text>
@@ -132,7 +139,7 @@
               <v-btn icon @click="closeEditTaskDialog()">
                 <v-icon>close</v-icon>
               </v-btn>
-              <v-toolbar-title>Uredi opravilo</v-toolbar-title>
+              <v-toolbar-title>{{ $t('opravila.uredi_opravilo') }}</v-toolbar-title>
               <v-spacer></v-spacer>
               <v-toolbar-items>
                 <v-btn text :disabled="!new_task_form.valid" @click="updateTask()"> <v-icon>save</v-icon> </v-btn>
@@ -143,7 +150,14 @@
             </v-toolbar>
             <v-card-text class="mt-3">
               <v-form v-model="new_task_form.valid">
-                <v-text-field v-model="edit_task_form.task_name" :rules="[() => !!edit_task_form.task_name || 'To polje je zahtevano']" label="Naziv opravila" outlined :color="getSchoolColor()" :background-color="getSchoolColor()"></v-text-field>
+                <v-text-field
+                  v-model="edit_task_form.task_name"
+                  :rules="[() => !!edit_task_form.task_name || $t('opravila.required_fields')]"
+                  :label="$t('opravila.naziv_opravila')"
+                  outlined
+                  :color="getSchoolColor()"
+                  :background-color="getSchoolColor()"
+                ></v-text-field>
                 <v-row>
                   <v-col>
                     <v-menu ref="edit_taks_remainder_date_menu" :close-on-content-click="false" transition="scale-transition" left offset-y min-width="auto">
@@ -153,7 +167,7 @@
                           :color="getSchoolColor()"
                           :background-color="getSchoolColor()"
                           append-icon="clear"
-                          label="Opraviti do"
+                          :label="$t('opravila.opraviti_do')"
                           readonly
                           outlined
                           v-bind="attrs"
@@ -168,11 +182,11 @@
                     <v-select
                       v-model="edit_task_form.importance"
                       :items="[
-                        { text: 'Nizka', value: 'low' },
-                        { text: 'Normalna', value: 'normal' },
-                        { text: 'Visoka', value: 'high' },
+                        { text: $t('opravila.pomembnost_nizka'), value: 'low' },
+                        { text: $t('opravila.pomembnost_normalna'), value: 'normal' },
+                        { text: $t('opravila.pomembnost_visoka'), value: 'high' },
                       ]"
-                      label="Pomembnost"
+                      :label="$t('opravila.pomembnost')"
                       :color="getSchoolColor()"
                       :item-color="schoolBGColor()"
                       outlined
@@ -181,7 +195,7 @@
                   </v-col>
                 </v-row>
                 <div>
-                  <v-textarea v-model="edit_task_form.task_description" label="Opis opravila" outlined :color="getSchoolColor()" :background-color="getSchoolColor()"></v-textarea>
+                  <v-textarea v-model="edit_task_form.task_description" :label="$t('opravila.opis_opravila')" outlined :color="getSchoolColor()" :background-color="getSchoolColor()"></v-textarea>
                 </div>
               </v-form>
             </v-card-text>

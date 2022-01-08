@@ -7,9 +7,9 @@
         <v-app-bar>
           <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-          <v-toolbar-title>Šolski center Celje</v-toolbar-title>
+          <v-toolbar-title>{{ $t('scc') }}</v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-btn href="/Navodila.pdf" icon target="_blank" class="d-none d-sm-flex"><v-icon>help_outline</v-icon></v-btn>
+          <v-btn to="/navodila" icon target="_blank" class="d-none d-sm-flex"><v-icon>help_outline</v-icon></v-btn>
           <v-btn icon @click="darkMode()">
             <v-icon>{{ dark_light_icon }}</v-icon></v-btn
           >
@@ -33,13 +33,22 @@
         <v-main>
           <v-container fluid>
             <div>
-              <v-btn :color="getSchoolColor()" class="mb-3" @click="new_event_dialog = true"><v-icon>add</v-icon><span class="d-none d-sm-flex">Dodaj dogodek</span></v-btn>
-              <v-btn :color="getSchoolColor()" class="mb-3" @click="$refs.calendar.prev()"><v-icon>navigate_before</v-icon><span class="d-none d-sm-flex">Nazaj</span></v-btn>
-              <v-btn :color="getSchoolColor()" class="mb-3" @click="$refs.calendar.next()"><span class="d-none d-sm-flex">Naprej</span><v-icon>navigate_next</v-icon></v-btn>
+              <v-btn :color="getSchoolColor()" class="mb-3" @click="new_event_dialog = true"
+                ><v-icon>add</v-icon><span class="d-none d-sm-flex">{{ $t('koledar.nov_dogodek') }}</span></v-btn
+              >
+              <v-btn :color="getSchoolColor()" class="mb-3" @click="$refs.calendar.prev()"
+                ><v-icon>navigate_before</v-icon><span class="d-none d-sm-flex">{{ $t('koledar.nazaj') }}</span></v-btn
+              >
+              <v-btn :color="getSchoolColor()" class="mb-3" @click="$refs.calendar.next()"
+                ><span class="d-none d-sm-flex">{{ $t('koledar.naprej') }}</span
+                ><v-icon>navigate_next</v-icon></v-btn
+              >
               <v-btn :color="getSchoolColor()" class="mb-3" @click="changeCalendarView"
                 ><span class="d-none d-sm-flex"></span><v-icon>{{ calendar_view_icon }}</v-icon></v-btn
               >
-              <v-btn :color="getSchoolColor()" class="mb-3" @click="setToday"><v-icon>today</v-icon><span class="d-none d-sm-flex">Danes</span></v-btn>
+              <v-btn :color="getSchoolColor()" class="mb-3" @click="setToday"
+                ><v-icon>today</v-icon><span class="d-none d-sm-flex">{{ $t('koledar.danes') }}</span></v-btn
+              >
             </div>
             <v-calendar
               ref="calendar"
@@ -68,7 +77,7 @@
               <v-btn icon @click="createNewEventClose()">
                 <v-icon>close</v-icon>
               </v-btn>
-              <v-toolbar-title>Nov dogodek</v-toolbar-title>
+              <v-toolbar-title>{{ $t('koledar.nov_dogodek') }}</v-toolbar-title>
               <v-spacer></v-spacer>
               <v-toolbar-items>
                 <v-btn text :disabled="!new_event_modal.valid" @click="createNewEventSave()"> <v-icon>save</v-icon> </v-btn>
@@ -80,9 +89,9 @@
                   v-model="new_event_modal.event_name"
                   required
                   :color="getSchoolColor()"
-                  :rules="[() => !!new_event_modal.event_name || 'To polje je zahtevano']"
+                  :rules="[() => !!new_event_modal.event_name || $t('koledar.required_fields')]"
                   :background-color="getSchoolColor()"
-                  label="Naziv dogodka"
+                  :label="$t('koledar.naziv_dogodka')"
                   outlined
                 ></v-text-field>
 
@@ -93,10 +102,10 @@
                       <template #activator="{ on, attrs }">
                         <v-text-field
                           v-model="new_event_modal.start_date"
-                          :rules="[() => !!new_event_modal.start_date || 'To polje je zahtevano']"
+                          :rules="[() => !!new_event_modal.start_date || $t('koledar.required_fields')]"
                           :color="getSchoolColor()"
                           :background-color="getSchoolColor()"
-                          label="Datum začetka"
+                          :label="$t('koledar.datum_zacetka')"
                           readonly
                           outlined
                           v-bind="attrs"
@@ -113,10 +122,10 @@
                       <template #activator="{ on, attrs }">
                         <v-text-field
                           v-model="new_event_modal.start_time"
-                          :rules="[() => !!new_event_modal.start_time || 'To polje je zahtevano']"
+                          :rules="[() => !!new_event_modal.start_time || $t('koledar.required_fields')]"
                           :color="getSchoolColor()"
                           :background-color="getSchoolColor()"
-                          label="Čas začetka"
+                          :label="$t('koledar.cas_zacetka')"
                           readonly
                           outlined
                           v-bind="attrs"
@@ -136,10 +145,10 @@
                       <template #activator="{ on, attrs }">
                         <v-text-field
                           v-model="new_event_modal.end_date"
-                          :rules="[() => !!new_event_modal.end_date || 'To polje je zahtevano']"
+                          :rules="[() => !!new_event_modal.end_date || $t('koledar.required_fields')]"
                           :color="getSchoolColor()"
                           :background-color="getSchoolColor()"
-                          label="Datum zaključka"
+                          :label="$t('koledar.datum_konca')"
                           readonly
                           outlined
                           v-bind="attrs"
@@ -155,10 +164,10 @@
                       <template #activator="{ on, attrs }">
                         <v-text-field
                           v-model="new_event_modal.end_time"
-                          :rules="[() => !!new_event_modal.end_time || 'To polje je zahtevano']"
+                          :rules="[() => !!new_event_modal.end_time || $t('koledar.required_fields')]"
                           :color="getSchoolColor()"
                           :background-color="getSchoolColor()"
-                          label="Čas zaključka"
+                          :label="$t('koledar.cas_konca')"
                           readonly
                           outlined
                           v-bind="attrs"
@@ -192,7 +201,7 @@
                       { text: '12 ur pred', value: 720 },
                       { text: '1 dan pred', value: 1440 },
                     ]"
-                    label="Opomnik"
+                    :label="$t('koledar.opomnik')"
                     :color="getSchoolColor()"
                     :item-color="schoolBGColor()"
                     outlined
@@ -215,7 +224,7 @@
               <v-btn icon @click="edit_event_dialog = false">
                 <v-icon>close</v-icon>
               </v-btn>
-              <v-toolbar-title>Uredi dogodek</v-toolbar-title>
+              <v-toolbar-title>{{ $t('koledar.uredi_dogodek') }}</v-toolbar-title>
               <v-spacer></v-spacer>
               <v-toolbar-items>
                 <v-btn v-if="edit_event_modal.conference_link !== ''" icon link target="_blank" :href="edit_event_modal.conference_link"> <v-icon>videocam</v-icon> </v-btn>
@@ -228,8 +237,8 @@
               <v-form v-model="edit_event_modal.valid">
                 <v-text-field
                   v-model="edit_event_modal.event_name"
-                  label="Naziv dogodka"
-                  :rules="[() => !!edit_event_modal.event_name || 'To polje je zahtevano']"
+                  :label="$t('koledar.naziv_dogodka')"
+                  :rules="[() => !!edit_event_modal.event_name || $t('koledar.required_fields')]"
                   :disabled="edit_event_modal.isConference"
                   outlined
                   :color="getSchoolColor()"
@@ -242,11 +251,11 @@
                       <template #activator="{ on, attrs }">
                         <v-text-field
                           v-model="edit_event_modal.start_date"
-                          :rules="[() => !!edit_event_modal.start_date || 'To polje je zahtevano']"
+                          :rules="[() => !!edit_event_modal.start_date || $t('koledar.required_fields')]"
                           :color="getSchoolColor()"
                           :disabled="edit_event_modal.isConference"
                           :background-color="getSchoolColor()"
-                          label="Datum začetka"
+                          :label="$t('koledar.datum_zacetka')"
                           readonly
                           outlined
                           v-bind="attrs"
@@ -262,11 +271,11 @@
                       <template #activator="{ on, attrs }">
                         <v-text-field
                           v-model="edit_event_modal.start_time"
-                          :rules="[() => !!edit_event_modal.start_time || 'To polje je zahtevano']"
+                          :rules="[() => !!edit_event_modal.start_time || $t('koledar.required_fields')]"
                           :color="getSchoolColor()"
                           :disabled="edit_event_modal.isConference"
                           :background-color="getSchoolColor()"
-                          label="Čas začetka"
+                          :label="$t('koledar.cas_zacetka')"
                           readonly
                           outlined
                           v-bind="attrs"
@@ -286,11 +295,11 @@
                       <template #activator="{ on, attrs }">
                         <v-text-field
                           v-model="edit_event_modal.end_date"
-                          :rules="[() => !!edit_event_modal.end_date || 'To polje je zahtevano']"
+                          :rules="[() => !!edit_event_modal.end_date || $t('koledar.required_fields')]"
                           :color="getSchoolColor()"
                           :disabled="edit_event_modal.isConference"
                           :background-color="getSchoolColor()"
-                          label="Datum zaključka"
+                          :label="$t('koledar.datum_konca')"
                           readonly
                           outlined
                           v-bind="attrs"
@@ -306,11 +315,11 @@
                       <template #activator="{ on, attrs }">
                         <v-text-field
                           v-model="edit_event_modal.end_time"
-                          :rules="[() => !!edit_event_modal.end_time || 'To polje je zahtevano']"
+                          :rules="[() => !!edit_event_modal.end_time || $t('koledar.required_fields')]"
                           :color="getSchoolColor()"
                           :disabled="edit_event_modal.isConference"
                           :background-color="getSchoolColor()"
-                          label="Čas zaključka"
+                          :label="$t('koledar.cas_konca')"
                           readonly
                           outlined
                           v-bind="attrs"
@@ -343,7 +352,7 @@
                       { text: '12 ur pred', value: 720 },
                       { text: '1 dan pred', value: 1440 },
                     ]"
-                    label="Opomnik"
+                    :label="$t('koledar.opomnik')"
                     :color="getSchoolColor()"
                     :item-color="schoolBGColor()"
                     outlined
@@ -352,7 +361,7 @@
                 </div>
                 <!-- Opis dogodka -->
                 <div>
-                  <v-textarea v-model="edit_event_modal.description" outlined label="Opis dogodka" :disabled="edit_event_modal.isConference" :color="getSchoolColor()" :background-color="getSchoolColor()"></v-textarea>
+                  <v-textarea v-model="edit_event_modal.description" outlined :label="$t('koledar.opis_dogodka')" :disabled="edit_event_modal.isConference" :color="getSchoolColor()" :background-color="getSchoolColor()"></v-textarea>
                 </div>
               </v-form>
             </v-card-text>

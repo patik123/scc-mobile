@@ -5,9 +5,9 @@
       <errorRequestAlter v-if="request_error"></errorRequestAlter>
       <v-sheet v-if="!$auth.loggedIn" class="no-radius" height="100%" width="100%">
         <v-app-bar>
-          <v-toolbar-title>Šolski center Celje</v-toolbar-title>
+          <v-toolbar-title>{{ $t('scc') }}</v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-btn href="/Navodila.pdf" icon target="_blank"><v-icon>help_outline</v-icon></v-btn>
+          <v-btn to="/navodila" icon target="_blank"><v-icon>help_outline</v-icon></v-btn>
           <v-btn icon @click="darkMode()">
             <v-icon>{{ dark_light_icon }}</v-icon></v-btn
           >
@@ -17,8 +17,8 @@
         <v-main class="text-center">
           <img src="~/static/cvet_barvni.png" alt="ŠCC roža" width="100px" height="100px" class="mt-5" />
 
-          <p class="mt-5 font-weight-bold" style="font-size: 25px">Mobilna aplikacija Šolskega centra Celje</p>
-          <p class="mt-2" style="font-size: 20px">Aplikacija namenjena dijakom Šolskega centra Celje.</p>
+          <p class="mt-5 font-weight-bold" style="font-size: 25px">{{ $t('scc_mobile') }}</p>
+          <p class="mt-2" style="font-size: 20px">{{ $t('scc_mobile_description') }}</p>
 
           <img src="~/static/app_img.svg" alt="Aplikacija" class="mt-3 app-img" />
         </v-main>
@@ -27,9 +27,9 @@
       <v-sheet v-if="$auth.loggedIn" class="no-radius" height="100%" width="100%">
         <v-app-bar color="">
           <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-          <v-toolbar-title>Šolski center Celje</v-toolbar-title>
+          <v-toolbar-title>{{ $t('scc') }}</v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-btn href="/Navodila.pdf" icon target="_blank"><v-icon>help_outline</v-icon></v-btn>
+          <v-btn to="/navodila" icon target="_blank"><v-icon>help_outline</v-icon></v-btn>
           <v-btn icon @click="darkMode()">
             <v-icon>{{ dark_light_icon }}</v-icon></v-btn
           >
@@ -57,27 +57,27 @@
             <v-chip-group mandatory>
               <v-chip @click="goToPath('urnik')">
                 <v-icon left>schedule</v-icon>
-                Urnik
+                {{ $t('functions.urnik') }}
               </v-chip>
 
               <v-chip @click="goToPath('obvestila')">
                 <v-icon left>notifications</v-icon>
-                Obvestila
+                {{ $t('functions.obvestila') }}
               </v-chip>
 
               <v-chip @click="goToPath('jedilnik')">
                 <v-icon left>restaurant_menu</v-icon>
-                Jedilnik
+                {{ $t('functions.jedilnik') }}
               </v-chip>
 
               <v-chip @click="goToPath('nadomescanja')">
                 <v-icon left>shuffle</v-icon>
-                Nadomeščanja
+                {{ $t('functions.nadomescanja') }}
               </v-chip>
             </v-chip-group>
 
             <div class="mt-2 mb-3">
-              <span class="user-greatting">{{ `${getGreeting()},  ${user_data.first_name}` }}</span>
+              <span class="user-greatting">{{ getGreeting() }}</span>
             </div>
 
             <!-- TRENUTNA URA -->
@@ -85,7 +85,10 @@
               <v-card>
                 <div>
                   <v-card-title :class="getSchoolColor()" class="title"
-                    >Trenutna ura<v-spacer></v-spacer><v-btn :class="getSchoolColor()" @click="$router.push('/urnik')"><v-icon>calendar_month</v-icon><span class="d-none d-sm-flex">Moj urnik</span></v-btn></v-card-title
+                    >{{ $t('first_page.trenutna_ura') }}<v-spacer></v-spacer
+                    ><v-btn :class="getSchoolColor()" @click="$router.push('/urnik')"
+                      ><v-icon>calendar_month</v-icon><span class="d-none d-sm-flex">{{ $t('first_page.moj_urnik') }}</span></v-btn
+                    ></v-card-title
                   >
                 </div>
                 <v-divider></v-divider>
@@ -141,7 +144,10 @@
             <div id="events">
               <v-card class="mt-5">
                 <v-card-title :class="getSchoolColor()" class="title"
-                  >Prihajajoči dogodki<v-spacer></v-spacer><v-btn :class="getSchoolColor()" @click="$router.push('/koledar?action=new-event')"><v-icon>add</v-icon><span class="d-none d-sm-flex">Nov dogodek</span></v-btn></v-card-title
+                  >{{ $t('first_page.prihajajoci_dogodki') }}<v-spacer></v-spacer
+                  ><v-btn :class="getSchoolColor()" @click="$router.push('/koledar?action=new-event')"
+                    ><v-icon>add</v-icon><span class="d-none d-sm-flex">{{ $t('first_page.nov_dogodek') }}</span></v-btn
+                  ></v-card-title
                 >
                 <v-divider></v-divider>
 
@@ -150,7 +156,7 @@
                     <v-list-item>
                       <v-list-item-content>
                         <div class="text-center">
-                          <v-list-item-title class="text-wrap">Izgleda, da nimate nobenih dogodkov</v-list-item-title>
+                          <v-list-item-title class="text-wrap">{{ $t('first_page.ni_dogodkov') }}</v-list-item-title>
                           <img src="~/static/calendar.svg" alt="Slika koledarja " class="widget-img mt-2" />
                         </div>
                       </v-list-item-content>
@@ -176,7 +182,10 @@
             <div id="tasks">
               <v-card class="mt-5">
                 <v-card-title class="title" :class="getSchoolColor()"
-                  >Opravila<v-spacer></v-spacer><v-btn :class="getSchoolColor()" @click="$router.push('/opravila?action=new-task')"><v-icon>add</v-icon><span class="d-none d-sm-flex">Novo opravilo</span></v-btn></v-card-title
+                  >{{ $t('first_page.opravila') }}<v-spacer></v-spacer
+                  ><v-btn :class="getSchoolColor()" @click="$router.push('/opravila?action=new-task')"
+                    ><v-icon>add</v-icon><span class="d-none d-sm-flex">{{ $t('first_page.novo_opravilo') }}</span></v-btn
+                  ></v-card-title
                 >
                 <v-divider></v-divider>
                 <v-list v-if="tasks.length === 0" two-line>
@@ -184,7 +193,7 @@
                     <v-list-item two-line>
                       <v-list-item-content>
                         <div class="text-center">
-                          <v-list-item-title class="text-wrap">Izgleda, da nimate nobenih opravil</v-list-item-title>
+                          <v-list-item-title class="text-wrap">{{ $t('first_page.ni_opravil') }}</v-list-item-title>
                           <img src="~/static/tasks.svg" alt="Slika opravil " class="widget-img mt-2" />
                         </div>
                       </v-list-item-content>
@@ -330,11 +339,11 @@ export default {
     getGreeting() {
       const hour = this.$moment().hour()
       if (hour >= 0 && hour < 10) {
-        return 'Dobro jutro'
+        return this.$t('first_page.dobro_jutro', { user: this.user_data.first_name })
       } else if (hour >= 10 && hour < 17) {
-        return 'Dober dan'
+        return this.$t('first_page.dober_dan', { user: this.user_data.first_name })
       } else if (hour >= 17 && hour < 24) {
-        return 'Dober večer'
+        return this.$t('first_page.dober_vecer', { user: this.user_data.first_name })
       }
     },
 

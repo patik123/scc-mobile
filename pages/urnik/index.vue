@@ -7,9 +7,9 @@
         <v-app-bar>
           <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-          <v-toolbar-title>Šolski center Celje</v-toolbar-title>
+          <v-toolbar-title>{{ $t('scc') }}</v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-btn href="/Navodila.pdf" icon target="_blank" class="d-none d-sm-flex"><v-icon>help_outline</v-icon></v-btn>
+          <v-btn to="/navodila" icon target="_blank" class="d-none d-sm-flex"><v-icon>help_outline</v-icon></v-btn>
           <v-btn icon @click="darkMode()">
             <v-icon>{{ dark_light_icon }}</v-icon></v-btn
           >
@@ -38,18 +38,27 @@
 
             <div v-if="timetable_class != ''">
               <div>
-                <v-btn :color="getSchoolColor()" class="mb-3" @click="timetablePrev"><v-icon>navigate_before</v-icon><span class="d-none d-sm-flex">Nazaj</span></v-btn>
-                <v-btn :color="getSchoolColor()" class="mb-3" @click="timetableNext"><span class="d-none d-sm-flex">Naprej</span><v-icon>navigate_next</v-icon></v-btn>
+                <v-btn :color="getSchoolColor()" class="mb-3" @click="timetablePrev"
+                  ><v-icon>navigate_before</v-icon><span class="d-none d-sm-flex">{{ $t('urnik.nazaj') }}</span></v-btn
+                >
+                <v-btn :color="getSchoolColor()" class="mb-3" @click="timetableNext"
+                  ><span class="d-none d-sm-flex">{{ $t('urnik.naprej') }}</span
+                  ><v-icon>navigate_next</v-icon></v-btn
+                >
                 <v-btn :color="getSchoolColor()" class="mb-3" @click="changeTimetableView"
                   ><span class="d-none d-sm-flex"></span><v-icon>{{ timetable_view_icon }}</v-icon></v-btn
                 >
-                <v-btn :color="getSchoolColor()" class="mb-3" @click="setToday"><v-icon>today</v-icon><span class="d-none d-sm-flex">Danes</span></v-btn>
-                <v-btn v-if="user_type === 'ucitelj'" :color="getSchoolColor()" class="mb-3" @click="showMyTimetable"><v-icon>person</v-icon><span class="d-none d-sm-flex">Prikaži moj urnik</span></v-btn>
+                <v-btn :color="getSchoolColor()" class="mb-3" @click="setToday"
+                  ><v-icon>today</v-icon><span class="d-none d-sm-flex">{{ $t('urnik.danes') }}</span></v-btn
+                >
+                <v-btn v-if="user_type === 'ucitelj'" :color="getSchoolColor()" class="mb-3" @click="showMyTimetable"
+                  ><v-icon>person</v-icon><span class="d-none d-sm-flex">{{ $t('urnik.prikazi_moj_urnik') }}</span></v-btn
+                >
                 <v-select
                   v-if="user_type === 'ucitelj'"
                   v-model="options_select_class_name"
                   :items="school_classes"
-                  label="Oddelek"
+                  :label="$t('urnik.oddelek')"
                   dense
                   :background-color="getSchoolColor()"
                   :item-color="getSchoolColor()"
@@ -57,6 +66,10 @@
                   outlined
                   @change="changeTimetableClass"
                 ></v-select>
+                <div v-if="start_date && end_date">
+                  <p v-if="end_date.date !== start_date.date">{{ `Urnik za teden od ${$moment(start_date.date).format('DD. MM. YYYY')} do ${$moment(end_date.date).format('DD. MM. YYYY')}` }}</p>
+                  <p v-if="end_date.date === start_date.date">{{ `Urnik za dan ${$moment(start_date.date).format('DD. MM. YYYY')}` }}</p>
+                </div>
               </div>
               <v-calendar
                 ref="timetable"
@@ -368,7 +381,7 @@ export default {
 
                 // Dodajanje dogodka v urnik
                 this.timetable_events.push({
-                  name: `${lesson.su[0].name ? lesson.su[0].name : ''}  `,
+                  name: `${lesson.su[0].name ? lesson.su[0].name : ''} ${lesson.ro[0] ? lesson.ro[0].name : ''}  `,
                   lesson_name: lesson.su[0].longname ? lesson.su[0].longname : '',
                   activity: lesson.activityType ? lesson.activityType : '',
                   start: this.$moment(lesson.date + 'T' + lesson.startTime, 'YYYYMMDDTHmm').format('YYYY-MM-DDTH:mm'),
@@ -438,7 +451,7 @@ export default {
 
             // Dodajanje dogodka v urnik
             this.timetable_events.push({
-              name: `${lesson.su[0].name ? lesson.su[0].name : ''}  `,
+              name: `${lesson.su[0].name ? lesson.su[0].name : ''}  ${lesson.ro[0] ? lesson.ro[0].name : ''}  `,
               lesson_name: lesson.su[0].longname ? lesson.su[0].longname : '',
               activity: lesson.activityType ? lesson.activityType : '',
               start: this.$moment(lesson.date + 'T' + lesson.startTime, 'YYYYMMDDTHmm').format('YYYY-MM-DDTH:mm'),

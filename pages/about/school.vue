@@ -6,7 +6,7 @@
       <v-app-bar>
         <v-toolbar-title>Šolski center Celje</v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn href="/Navodila.pdf" icon target="_blank"><v-icon>help_outline</v-icon></v-btn>
+        <v-btn to="/navodila" icon target="_blank"><v-icon>help_outline</v-icon></v-btn>
         <v-btn icon @click="darkMode()">
           <v-icon>{{ dark_light_icon }}</v-icon></v-btn
         >
@@ -80,7 +80,7 @@
 <script>
 import basicFunctions from '~/assets/js/basic_functions.js'
 export default {
-  name: 'Error',
+  name: 'AboutSchool',
   mixins: [basicFunctions],
 }
 </script>

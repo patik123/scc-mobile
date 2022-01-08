@@ -2,60 +2,60 @@
   <v-list nav dense shaped>
     <v-list-item-group v-model="group" :active-class="schoolBGColor()">
       <v-list-item :to="startUrl()" nuxt>
-        <v-list-item-title><v-icon>home</v-icon> Domov</v-list-item-title>
+        <v-list-item-title><v-icon>home</v-icon> {{ $t('menu_items.domov') }}</v-list-item-title>
       </v-list-item>
 
       <v-list-item to="/urnik" nuxt>
-        <v-list-item-title><v-icon>schedule</v-icon> Urnik</v-list-item-title>
+        <v-list-item-title><v-icon>schedule</v-icon> {{ $t('menu_items.urnik') }}</v-list-item-title>
       </v-list-item>
 
       <v-list-item to="/obvestila" nuxt>
-        <v-list-item-title><v-icon>notifications</v-icon> Obvestila</v-list-item-title>
+        <v-list-item-title><v-icon>notifications</v-icon> {{ $t('menu_items.obvestila') }}</v-list-item-title>
       </v-list-item>
 
       <v-list-item to="/nadomescanja" nuxt>
-        <v-list-item-title><v-icon>shuffle</v-icon> Nadomeščanja</v-list-item-title>
+        <v-list-item-title><v-icon>shuffle</v-icon> {{ $t('menu_items.nadomescanja') }}</v-list-item-title>
       </v-list-item>
 
       <v-list-item to="/jedilnik" nuxt>
-        <v-list-item-title><v-icon>restaurant_menu</v-icon> Jedilnik</v-list-item-title>
+        <v-list-item-title><v-icon>restaurant_menu</v-icon> {{ $t('menu_items.jedilnik') }}</v-list-item-title>
       </v-list-item>
 
       <v-list-item to="/koledar" nuxt>
-        <v-list-item-title><v-icon>event</v-icon> Koledar</v-list-item-title>
+        <v-list-item-title><v-icon>event</v-icon> {{ $t('menu_items.koledar') }}</v-list-item-title>
       </v-list-item>
 
       <v-list-item to="/opravila" nuxt>
-        <v-list-item-title><v-icon>task_alt</v-icon> Opravila</v-list-item-title>
+        <v-list-item-title><v-icon>task_alt</v-icon> {{ $t('menu_items.opravila') }}</v-list-item-title>
       </v-list-item>
 
       <v-divider class="mb-1"></v-divider>
 
       <div>
         <v-list-item target="_blank" :href="config.eucilnica_site">
-          <v-list-item-title><v-icon>language</v-icon> Spletna učilnica</v-list-item-title>
+          <v-list-item-title><v-icon>language</v-icon> {{ $t('menu_items.spletna_ucilnica') }}</v-list-item-title>
         </v-list-item>
 
         <v-list-item target="_blank" :href="schoolWebsite">
-          <v-list-item-title><v-icon>language</v-icon> Šolska spletna stran</v-list-item-title>
+          <v-list-item-title><v-icon>language</v-icon> {{ $t('menu_items.solska_spletna_stran') }}</v-list-item-title>
         </v-list-item>
 
         <v-list-item v-if="user_type === 'dijak'" target="_blank" :href="config.eviweb_public_url">
-          <v-list-item-title><v-icon>language</v-icon> EviWeb</v-list-item-title>
+          <v-list-item-title><v-icon>language</v-icon> {{ $t('menu_items.eviweb') }}</v-list-item-title>
         </v-list-item>
 
         <v-list-item v-if="user_type === 'ucitelj'" target="_blank" :href="config.eviweb_private_url">
-          <v-list-item-title><v-icon>language</v-icon> EviWeb</v-list-item-title>
+          <v-list-item-title><v-icon>language</v-icon> {{ $t('menu_items.eviweb') }}</v-list-item-title>
         </v-list-item>
 
         <v-list-item target="_blank" :href="config.prehrana_site">
-          <v-list-item-title><v-icon>language</v-icon> Šolska prehrana</v-list-item-title>
+          <v-list-item-title><v-icon>language</v-icon> {{ $t('menu_items.solska_prehrana') }}</v-list-item-title>
         </v-list-item>
       </div>
 
       <v-divider class="mb-1"></v-divider>
       <v-list-item to="/about" nuxt>
-        <v-list-item-title><v-icon>info</v-icon> O aplikaciji</v-list-item-title>
+        <v-list-item-title><v-icon>info</v-icon> {{ $t('menu_items.about') }}</v-list-item-title>
       </v-list-item>
     </v-list-item-group>
 

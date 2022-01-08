@@ -34,7 +34,7 @@ export default {
 
   buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/pwa', '@nuxtjs/style-resources', '@nuxtjs/vuetify', '@nuxtjs/moment'],
 
-  modules: ['@nuxtjs/axios', '@nuxtjs/pwa', '@nuxtjs/auth-next', 'nuxt-polyfill', '@nuxtjs/universal-storage', 'nuxt-route-meta'],
+  modules: ['@nuxtjs/axios', '@nuxtjs/pwa', '@nuxtjs/auth-next', 'nuxt-polyfill', '@nuxtjs/universal-storage', 'nuxt-route-meta', '@nuxtjs/i18n'],
 
   pwa: {
     manifest: {
@@ -90,6 +90,26 @@ export default {
     /* workbox: {
       dev: process.env.NODE_ENV !== 'production'
     } */
+  },
+
+  i18n: {
+    locales: [
+      {
+        code: 'si',
+        iso: 'si-SI',
+        name: 'Slovenian',
+        file: 'si-SI.js',
+      },
+    ],
+    defaultLocale: 'si',
+    lazy: true,
+    langDir: 'lang/',
+    vueI18n: {
+      fallbackLocale: 'si',
+      messages: {
+        si: require('./lang/si-SI.js'),
+      },
+    },
   },
 
   auth: {

@@ -1,5 +1,5 @@
 <template>
-  <v-alert class="alert" text dismissible type="error"> Izgleda, da je povezava izgubljena. Vse funkcije v aplikaciji ne bodo delovale. </v-alert>
+  <v-alert class="alert" text dismissible type="error">{{ t('error_network') }}</v-alert>
 </template>
 
 <script>

@@ -1,5 +1,5 @@
 <template>
-  <v-alert class="alert" text dismissible type="error"> Napaka pri pridobivanju podatkov. Poskusite osvežiti stran. Če se napaka še naprej pojavlja obvestite skrbnika. </v-alert>
+  <v-alert class="alert" text dismissible type="error">{{ $t('error_request') }}</v-alert>
 </template>
 
 <script>

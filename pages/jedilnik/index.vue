@@ -7,9 +7,9 @@
         <v-app-bar color="">
           <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-          <v-toolbar-title>Šolski center Celje</v-toolbar-title>
+          <v-toolbar-title>{{ $t('scc') }}</v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-btn href="/Navodila.pdf" icon target="_blank" class="d-none d-sm-flex"><v-icon>help_outline</v-icon></v-btn>
+          <v-btn to="/navodila" icon target="_blank" class="d-none d-sm-flex"><v-icon>help_outline</v-icon></v-btn>
           <v-btn icon @click="darkMode()">
             <v-icon>{{ dark_light_icon }}</v-icon></v-btn
           >
@@ -32,7 +32,7 @@
 
         <v-main>
           <v-container fluid>
-            <v-alert v-if="show_notification" type="error" dismissible text dense>Prehrano je potrebno za naslednji dan urediti do 14. ure tekočega dne.</v-alert>
+            <v-alert v-if="show_notification" type="error" dismissible text dense>{{ $t('jedilnik.obvestilo') }}</v-alert>
             <!-- TABI -->
             <v-tabs v-model="tab" background-color="transparent" right grow :active-class="getSchoolColor()" :slider-color="getSchoolColor()">
               <v-tab v-for="item in items" :key="item">

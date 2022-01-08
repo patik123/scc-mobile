@@ -7,9 +7,9 @@
         <v-app-bar>
           <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-          <v-toolbar-title>Šolski center Celje</v-toolbar-title>
+          <v-toolbar-title>{{ $t('scc') }}</v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-btn href="/Navodila.pdf" icon target="_blank" class="d-none d-sm-flex"><v-icon>help_outline</v-icon></v-btn>
+          <v-btn to="/navodila" icon target="_blank" class="d-none d-sm-flex"><v-icon>help_outline</v-icon></v-btn>
           <v-btn icon @click="darkMode()">
             <v-icon>{{ dark_light_icon }}</v-icon></v-btn
           >
@@ -36,41 +36,43 @@
               <v-skeleton-loader v-for="i in 10" :key="i" type="card-heading"></v-skeleton-loader>
             </div>
             <!-- Vsa obvestila dialog -->
-            <div v-if="show_all_notifications">
-              <div v-if="no_notifications === true">
-                <v-alert color="blue" type="info" text>Ni obvestil.</v-alert>
+            <div v-if="!loading">
+              <div v-if="show_all_notifications">
+                <div v-if="no_notifications === true">
+                  <v-alert color="blue" type="info" text>{{ $t('obvestila.ni_obvestil') }}</v-alert>
+                </div>
+                <v-chip class="ma-2" color="primary">{{ $t('obvestila.stevilo_obvestil', { count: number_of_notifications }) }}</v-chip>
+                <v-card v-for="obvestilo in obvestila" :key="obvestilo.i" outlined class="margin-card" :data-url="obvestilo.link" :data-id="obvestilo.i" :class="getSchoolColor()" @click="show_obvestilo_func">
+                  <v-card-title class="card-text-title">
+                    <span>{{ obvestilo.title }}</span>
+                  </v-card-title>
+
+                  <v-card-subtitle>
+                    <span>{{ obvestilo.date }}</span>
+                  </v-card-subtitle>
+                </v-card>
               </div>
 
-              <v-card v-for="obvestilo in obvestila" :key="obvestilo.i" outlined class="margin-card" :data-url="obvestilo.link" :data-id="obvestilo.i" :class="getSchoolColor()" @click="show_obvestilo_func">
-                <v-card-title class="card-text-title">
-                  <span>{{ obvestilo.title }}</span>
-                </v-card-title>
+              <!-- Dialog za prikaz enega obvestila -->
 
-                <v-card-subtitle>
-                  <span>{{ obvestilo.date }}</span>
-                </v-card-subtitle>
-              </v-card>
-            </div>
+              <div v-if="show_notification">
+                <div>
+                  <v-btn :color="getSchoolColor()" class="mb-4" @click="back_to_obvestila">{{ $t('obvestila.nazaj') }}</v-btn>
+                </div>
 
-            <!-- Dialog za prikaz enega obvestila -->
+                <div v-if="loading_obvestilo">
+                  <v-skeleton-loader class="mb-2" type="heading"></v-skeleton-loader>
+                  <v-skeleton-loader type="paragraph,paragraph,paragraph,paragraph,paragraph,paragraph,paragraph"></v-skeleton-loader>
+                </div>
 
-            <div v-if="show_notification">
-              <div>
-                <v-btn :color="getSchoolColor()" class="mb-4" @click="back_to_obvestila">Nazaj</v-btn>
-              </div>
+                <div class="d-inline">
+                  <h1>{{ vsebina_obvestila_title }}</h1>
+                </div>
 
-              <div v-if="loading_obvestilo">
-                <v-skeleton-loader class="mb-2" type="heading"></v-skeleton-loader>
-                <v-skeleton-loader type="paragraph,paragraph,paragraph,paragraph,paragraph,paragraph,paragraph"></v-skeleton-loader>
-              </div>
-
-              <div class="d-inline">
-                <h1>{{ vsebina_obvestila_title }}</h1>
-              </div>
-
-              <div class="mt-5 responsive-area">
-                <!-- eslint-disable-next-line no-console -->
-                <span v-html="vsebina_obvestila_body"></span>
+                <div class="mt-5 responsive-area">
+                  <!-- eslint-disable-next-line no-console -->
+                  <span v-html="vsebina_obvestila_body"></span>
+                </div>
               </div>
             </div>
           </v-container>
@@ -98,6 +100,7 @@ export default {
       loading: true,
       no_notifications: false,
       loading_obvestilo: true,
+      number_of_notifications: 0,
     }
   },
 
@@ -155,6 +158,9 @@ export default {
               const title = $(el).find('.wp-show-posts-entry-title').text()
               const link = $(el).find('.wp-show-posts-entry-title a').attr('href')
               const date = $(el).find('.wp-show-posts-entry-date').text()
+              if (date === this.$moment().format('DD. MM. YYYY')) {
+                this.number_of_notifications++
+              }
               this.obvestila.push({
                 id: i,
                 title: title,
