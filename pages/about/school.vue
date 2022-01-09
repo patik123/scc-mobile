@@ -4,7 +4,7 @@
     <errorRequestAlter v-if="request_error"></errorRequestAlter>
     <v-sheet class="no-radius" height="100%" width="100%">
       <v-app-bar>
-        <v-toolbar-title>Šolski center Celje</v-toolbar-title>
+        <v-toolbar-title>{{ $t('scc') }}</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn to="/navodila" icon target="_blank"><v-icon>help_outline</v-icon></v-btn>
         <v-btn icon @click="darkMode()">
@@ -16,7 +16,7 @@
 
       <v-main>
         <v-container fluid>
-          <h3 class="text-center">ŠOLSKI CENTER CELJE – CENTER SODOBNIH ZNANJ, TEHNOLOGIJ IN INOVATIVNOSTI</h3>
+          <h3 class="text-center">ŠOLSKI CENTER CELJE U+002d CENTER SODOBNIH ZNANJ, TEHNOLOGIJ IN INOVATIVNOSTI</h3>
 
           <p>Lokacije Šolskega centra Celje</p>
           <p><strong>1.) Pot na Lavo 22:</strong></p>

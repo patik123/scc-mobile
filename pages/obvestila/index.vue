@@ -41,8 +41,8 @@
                 <div v-if="no_notifications === true">
                   <v-alert color="blue" type="info" text>{{ $t('obvestila.ni_obvestil') }}</v-alert>
                 </div>
-                <v-chip class="ma-2" color="primary">{{ $t('obvestila.stevilo_obvestil', { count: number_of_notifications }) }}</v-chip>
-                <v-card v-for="obvestilo in obvestila" :key="obvestilo.i" outlined class="margin-card" :data-url="obvestilo.link" :data-id="obvestilo.i" :class="getSchoolColor()" @click="show_obvestilo_func">
+                <v-chip v-if="no_notifications !== true" class="ma-2" color="primary">{{ $t('obvestila.stevilo_obvestil', { count: number_of_notifications }) }}</v-chip>
+                <v-card v-for="obvestilo in obvestila" :key="obvestilo.i" outlined class="margin-card" :data-url="obvestilo.link" :data-id="obvestilo.i" :data-date="obvestilo.date" :class="getSchoolColor()" @click="show_obvestilo_func">
                   <v-card-title class="card-text-title">
                     <span>{{ obvestilo.title }}</span>
                   </v-card-title>
@@ -62,11 +62,13 @@
 
                 <div v-if="loading_obvestilo">
                   <v-skeleton-loader class="mb-2" type="heading"></v-skeleton-loader>
+                  <v-skeleton-loader class="mb-2" type="chip"></v-skeleton-loader>
                   <v-skeleton-loader type="paragraph,paragraph,paragraph,paragraph,paragraph,paragraph,paragraph"></v-skeleton-loader>
                 </div>
 
                 <div class="d-inline">
                   <h1>{{ vsebina_obvestila_title }}</h1>
+                  <v-chip v-if="vsebina_obvestila_date" class="mt-2">{{ vsebina_obvestila_date }}</v-chip>
                 </div>
 
                 <div class="mt-5 responsive-area">
@@ -97,8 +99,9 @@ export default {
       show_notification: false,
       vsebina_obvestila_title: '',
       vsebina_obvestila_body: '',
-      loading: true,
+      vsebina_obvestila_date: '',
       no_notifications: false,
+      loading: true,
       loading_obvestilo: true,
       number_of_notifications: 0,
     }
@@ -114,6 +117,7 @@ export default {
       this.loading_obvestilo = true
       // eslint-disable-next-line no-console
       const url = e.currentTarget.dataset.url
+      const date = e.currentTarget.dataset.date
 
       this.$axios
         .get(`${this.config.url_backend_aplikacije}/sites/url_proxy?url=${url}`)
@@ -125,6 +129,7 @@ export default {
 
           this.vsebina_obvestila_title = title
           this.vsebina_obvestila_body = content
+          this.vsebina_obvestila_date = date
           this.loading_obvestilo = false
         })
         .catch((error) => {

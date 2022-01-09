@@ -1,5 +1,5 @@
 <template>
-  <v-alert class="alert" text dismissible type="error">{{ t('error_network') }}</v-alert>
+  <v-alert class="alert" text dismissible type="error">{{ $t('error_network') }}</v-alert>
 </template>
 
 <script>

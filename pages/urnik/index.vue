@@ -67,8 +67,8 @@
                   @change="changeTimetableClass"
                 ></v-select>
                 <div v-if="start_date && end_date">
-                  <p v-if="end_date.date !== start_date.date">{{ `Urnik za teden od ${$moment(start_date.date).format('DD. MM. YYYY')} do ${$moment(end_date.date).format('DD. MM. YYYY')}` }}</p>
-                  <p v-if="end_date.date === start_date.date">{{ `Urnik za dan ${$moment(start_date.date).format('DD. MM. YYYY')}` }}</p>
+                  <p v-if="end_date.date !== start_date.date">{{ $t('urnik.urnik_teden', { start_date: $moment(start_date.date).format('DD. MM. YYYY'), end_date: $moment(end_date.date).format('DD. MM. YYYY') }) }}</p>
+                  <p v-if="end_date.date === start_date.date">{{ $t('urnik.urnik_dan', { date: $moment(start_date.date).format('DD. MM. YYYY') }) }}</p>
                 </div>
               </div>
               <v-calendar

@@ -1,5 +1,5 @@
 export default {
-  scc: 'Šolski centar Celje',
+  scc: 'Šolski center Celje',
   scc_mobile: 'ŠCC Mobile',
   scc_mobile_description: 'Mobilna aplikacija Šolskega centra Celje',
   scc_mobile_description_short: 'Mobilna aplikacija ŠCC',
@@ -50,6 +50,8 @@ export default {
     danes: 'Danes',
     prikazi_moj_urnik: 'Prikaži moj urnik',
     oddelek: 'Oddelek',
+    urnik_teden: 'Urnik za teden od {start_date} do {end_date}',
+    urnik_dan: 'Urnik za dan {date}',
   },
   jedilnik: {
     jedilnik: 'Jedilnik',
