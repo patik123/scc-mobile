@@ -5,33 +5,33 @@
         <v-list-item-title><v-icon>home</v-icon> {{ $t('menu_items.domov') }}</v-list-item-title>
       </v-list-item>
 
-      <v-list-item to="/urnik" nuxt>
+      <v-list-item v-if="$auth.loggedIn" to="/urnik" nuxt>
         <v-list-item-title><v-icon>schedule</v-icon> {{ $t('menu_items.urnik') }}</v-list-item-title>
       </v-list-item>
 
-      <v-list-item to="/obvestila" nuxt>
+      <v-list-item v-if="$auth.loggedIn" to="/obvestila" nuxt>
         <v-list-item-title><v-icon>notifications</v-icon> {{ $t('menu_items.obvestila') }}</v-list-item-title>
       </v-list-item>
 
-      <v-list-item to="/nadomescanja" nuxt>
+      <v-list-item v-if="$auth.loggedIn" to="/nadomescanja" nuxt>
         <v-list-item-title><v-icon>shuffle</v-icon> {{ $t('menu_items.nadomescanja') }}</v-list-item-title>
       </v-list-item>
 
-      <v-list-item to="/jedilnik" nuxt>
+      <v-list-item v-if="$auth.loggedIn" to="/jedilnik" nuxt>
         <v-list-item-title><v-icon>restaurant_menu</v-icon> {{ $t('menu_items.jedilnik') }}</v-list-item-title>
       </v-list-item>
 
-      <v-list-item to="/koledar" nuxt>
+      <v-list-item v-if="$auth.loggedIn" to="/koledar" nuxt>
         <v-list-item-title><v-icon>event</v-icon> {{ $t('menu_items.koledar') }}</v-list-item-title>
       </v-list-item>
 
-      <v-list-item to="/opravila" nuxt>
+      <v-list-item v-if="$auth.loggedIn" to="/opravila" nuxt>
         <v-list-item-title><v-icon>task_alt</v-icon> {{ $t('menu_items.opravila') }}</v-list-item-title>
       </v-list-item>
 
-      <v-divider class="mb-1"></v-divider>
+      <v-divider v-if="$auth.loggedIn" class="mb-1"></v-divider>
 
-      <div>
+      <div v-if="$auth.loggedIn">
         <v-list-item target="_blank" :href="config.eucilnica_site">
           <v-list-item-title><v-icon>language</v-icon> {{ $t('menu_items.spletna_ucilnica') }}</v-list-item-title>
         </v-list-item>
@@ -53,21 +53,21 @@
         </v-list-item>
       </div>
 
-      <v-divider class="mb-1"></v-divider>
-      <v-list-item to="/about" nuxt>
+      <v-divider v-if="$auth.loggedIn" class="mb-1"></v-divider>
+      <v-list-item v-if="$auth.loggedIn" to="/about" nuxt>
         <v-list-item-title><v-icon>info</v-icon> {{ $t('menu_items.about') }}</v-list-item-title>
       </v-list-item>
     </v-list-item-group>
 
-    <div class="text-center mt-1">
+    <div v-if="$auth.loggedIn" class="text-center mt-1">
       <img :src="require(`~/static/${school}_cvet.png`)" class="school-logo" />
     </div>
 
-    <div class="text-center mt-1">
-      <a v-if="config[school].social.instagram !== ''" :href="config[school].social.instagram" target="_blank">
+    <div v-if="$auth.loggedIn" class="text-center mt-1">
+      <a v-if="config[school].social.instagram !== '' && $auth.loggedIn" :href="config[school].social.instagram" target="_blank">
         <img src="~/static/instagram_logo.png" class="social-logo" />
       </a>
-      <a v-if="config[school].social.facebook !== ''" :href="config[school].social.facebook" target="_blank">
+      <a v-if="config[school].social.facebook !== '' && $auth.loggedIn" :href="config[school].social.facebook" target="_blank">
         <img src="~/static/facebook_logo.png" class="social-logo" />
       </a>
     </div>
@@ -77,6 +77,12 @@
 <script>
 import * as configData from '~/static/config.json'
 export default {
+  created() {
+    if (!this.$auth.loggedIn) {
+      this.$emit('schoolWebsite', '')
+      this.$emit('school', '')
+    }
+  },
   props: {
     schoolWebsite: {
       type: String,
@@ -101,8 +107,12 @@ export default {
   },
   methods: {
     schoolBGColor() {
-      const school = this.$props.school
-      return `${school}-background`
+      if (this.$auth.loggedIn) {
+        const school = this.$props.school
+        return `${school}-background`
+      } else {
+        return 'SCC-default-background'
+      }
     },
 
     startUrl() {

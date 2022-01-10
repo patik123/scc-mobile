@@ -25,7 +25,7 @@
       </v-sheet>
 
       <v-sheet v-if="$auth.loggedIn" class="no-radius" height="100%" width="100%">
-        <v-app-bar color="">
+        <v-app-bar>
           <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
           <v-toolbar-title>{{ $t('scc') }}</v-toolbar-title>
           <v-spacer></v-spacer>
@@ -37,7 +37,7 @@
         </v-app-bar>
 
         <v-navigation-drawer v-model="drawer" absolute temporary>
-          <v-list>
+          <v-list v-if="$auth.loggedIn">
             <v-list-item link>
               <v-list-item-content>
                 <v-list-item-title class="text-h6"> {{ user_data.first_name + ' ' + user_data.last_name }} </v-list-item-title>

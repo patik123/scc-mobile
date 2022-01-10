@@ -3,12 +3,31 @@
     <offline-alert v-if="$nuxt.isOffline"></offline-alert>
     <v-sheet class="no-radius" height="100%" width="100%">
       <v-app-bar>
+        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
         <v-toolbar-title>Šolski center Celje</v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-icon class="mr-2" @click="darkMode()">{{ dark_light_icon }}</v-icon>
-        <v-icon v-if="!$auth.loggedIn" @click="login()">login</v-icon>
-        <v-icon v-if="$auth.loggedIn" @click="logout()">logout</v-icon>
+        <v-btn icon @click="darkMode()">
+          <v-icon>{{ dark_light_icon }}</v-icon></v-btn
+        >
+        <v-btn v-if="!$auth.loggedIn" icon @click="login()"><v-icon>login</v-icon></v-btn>
+        <v-btn v-if="$auth.loggedIn" icon @click="$auth.logout('aad')"><v-icon>logout</v-icon></v-btn>
       </v-app-bar>
+
+      <v-navigation-drawer v-model="drawer" absolute temporary>
+        <v-list v-if="$auth.loggedIn">
+          <v-list-item link>
+            <v-list-item-content>
+              <v-list-item-title class="text-h6"> {{ user_data.first_name + ' ' + user_data.last_name }} </v-list-item-title>
+              <v-list-item-subtitle>{{ user_class }}</v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+        <v-divider></v-divider>
+        <MenuLinks v-if="$auth.loggedIn" :school-website="school_website()" :school="school" />
+        <v-list-item v-else to="/" nuxt>
+          <v-list-item-title><v-icon>home</v-icon> {{ $t('menu_items.domov') }}</v-list-item-title>
+        </v-list-item>
+      </v-navigation-drawer>
 
       <v-main class="text-center">
         <img src="~/static/cvet_barvni.png" alt="ŠCC roža" width="100px" height="100px" class="mt-5" />

@@ -8,17 +8,18 @@ export default {
     return {
       jwt_decoded: null,
       jwt_token: null,
-      user: localStorage.getItem('user') ? localStorage.getItem('user') : null,
-      school: localStorage.getItem('school') ? localStorage.getItem('school') : null,
-      user_class: localStorage.getItem('class') ? localStorage.getItem('class') : null,
+      user: localStorage.getItem('user') ? localStorage.getItem('user') : '',
+      school: localStorage.getItem('school') ? localStorage.getItem('school') : '',
+      user_class: localStorage.getItem('class') ? localStorage.getItem('class') : '',
       config: configData.default,
       drawer: false,
       group: null,
       darkmode: false,
-      user_type: localStorage.getItem('user_type') ? localStorage.getItem('user_type') : null,
+      user_type: localStorage.getItem('user_type') ? localStorage.getItem('user_type') : '',
       dark_light_icon: 'dark_mode',
       request_error: false,
-      user_data: localStorage.getItem('user_data') ? JSON.parse(localStorage.getItem('user_data')) : null,
+      user_data: localStorage.getItem('user_data') ? JSON.parse(localStorage.getItem('user_data')) : '',
+      theme: '',
     }
   },
   watch: {
@@ -95,11 +96,13 @@ export default {
         this.$vuetify.theme.dark = true
         localStorage.setItem('dark', true)
         this.dark_light_icon = 'light_mode'
+        this.theme = 'dark'
         this.saveThemeOnline()
       } else if (this.darkmode === false) {
         this.$vuetify.theme.dark = false
         localStorage.setItem('dark', false)
         this.dark_light_icon = 'dark_mode'
+        this.theme = 'light'
         this.saveThemeOnline()
       }
     },
@@ -175,7 +178,7 @@ export default {
         const school = this.school
         return this.config[school].full_school_name
       }
-      return null
+      return ''
     },
 
     // Prijava v aplikacijo
@@ -189,7 +192,7 @@ export default {
         const school = this.school
         return this.config[school].website
       }
-      return null
+      return ''
     },
 
     // Vrne background-color šole

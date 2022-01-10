@@ -24,7 +24,7 @@ export default {
     koledar: 'Koledar',
     opravila: 'Opravila',
     spletna_ucilnica: 'Spletna učilnica',
-    solska_spletna_stran: 'Solska spletna stran',
+    solska_spletna_stran: 'Šolska spletna stran',
     eviweb: 'EviWeb',
     solska_prehrana: 'Šolska prehrana',
     about: 'O aplikaciji',
