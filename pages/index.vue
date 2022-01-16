@@ -282,7 +282,7 @@ export default {
 
     getTimetable() {
       const startDate = this.$moment().format('YYYYMMDD')
-      const endDate = this.$moment().add(1, 'day').format('YYYYMMDD')
+      const endDate = this.$moment().format('YYYYMMDD')
       const classId = this.timetable_class.id
       this.timetable_events = []
       this.$axios
