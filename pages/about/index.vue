@@ -16,7 +16,7 @@
           <v-btn @click="$auth.logout('aad')" icon><v-icon>logout</v-icon></v-btn>
         </v-app-bar>
 
-        <v-navigation-drawer v-model="drawer" absolute temporary>
+        <v-navigation-drawer v-model="drawer" absolute temporary app>
           <v-list>
             <v-list-item link>
               <v-list-item-content>

@@ -16,7 +16,7 @@
           <v-btn icon @click="login()"><v-icon>login</v-icon></v-btn>
         </v-app-bar>
 
-        <v-navigation-drawer v-model="drawer" absolute temporary>
+        <v-navigation-drawer v-model="drawer" absolute temporary app>
           <v-list>
             <v-list-item link>
               <v-list-item-content>
@@ -31,7 +31,7 @@
         </v-navigation-drawer>
 
         <v-main class="mt-2">
-          <v-container fluid> V razvoju ... </v-container>
+          <v-container fluid> V razvoju ... Namen modula obveščanje bo možnost ustvarjanja obvestil za dijake.</v-container>
         </v-main>
       </v-sheet>
     </v-app>

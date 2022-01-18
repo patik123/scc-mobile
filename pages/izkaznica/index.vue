@@ -13,7 +13,7 @@
           <v-icon @click="$auth.logout('aad')">logout</v-icon>
         </v-app-bar>
 
-        <v-navigation-drawer v-model="drawer" absolute temporary>
+        <v-navigation-drawer v-model="drawer" absolute temporary app>
           <v-list>
             <v-list-item link>
               <v-list-item-content>

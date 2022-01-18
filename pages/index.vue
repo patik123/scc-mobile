@@ -4,7 +4,7 @@
       <offlineAlter v-if="$nuxt.isOffline"></offlineAlter>
       <errorRequestAlter v-if="request_error"></errorRequestAlter>
       <v-sheet v-if="!$auth.loggedIn" class="no-radius" height="100%" width="100%">
-        <v-app-bar>
+        <v-app-bar >
           <v-toolbar-title>{{ $t('scc') }}</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-btn to="/navodila" icon target="_blank"><v-icon>help_outline</v-icon></v-btn>
@@ -36,7 +36,7 @@
           <v-btn icon @click="$auth.logout('aad')"><v-icon>logout</v-icon></v-btn>
         </v-app-bar>
 
-        <v-navigation-drawer v-model="drawer" absolute temporary>
+        <v-navigation-drawer v-model="drawer" absolute temporary app>
           <v-list v-if="$auth.loggedIn">
             <v-list-item link>
               <v-list-item-content>
