@@ -4,7 +4,7 @@
       <offlineAlter v-if="$nuxt.isOffline"></offlineAlter>
       <errorRequestAlter v-if="request_error"></errorRequestAlter>
       <v-sheet v-if="!$auth.loggedIn" class="no-radius" height="100%" width="100%">
-        <v-app-bar >
+        <v-app-bar>
           <v-toolbar-title>{{ $t('scc') }}</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-btn to="/navodila" icon target="_blank"><v-icon>help_outline</v-icon></v-btn>
@@ -51,7 +51,9 @@
 
         <v-main>
           <v-container fluid>
-            <v-alert type="info" dismissible text>Prosil bi vas, če si vzamete 5 minut časa in rešite anketo <a href="https://1ka.arnes.si/scc-mobile" target="_blank">na povezavi</a>.</v-alert>
+            <v-alert type="info" dismissible text>Vsem, se zahvaljujem za sodelovanja v anketi. V anketi ste podali kar nekaj predlogov. Predloge si lahko ogledate na <NuxtLink to="/predlogi">tej povezavi</NuxtLink>.
+            Zelo me zanima vaše mnenje o aplikaciji zato vas prosim, če podaste svoje mnenje v vprašalnik na <NuxtLink to="/podaj_mnenje">tej povezavi</NuxtLink>.
+            </v-alert>
 
             <!-- BLIŽNICE DO DELOV APLIKACIJE -->
             <v-chip-group mandatory>

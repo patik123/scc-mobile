@@ -188,6 +188,7 @@ export default {
       start_date: null,
       end_date: null,
       school_classes: [],
+      interval: null, // za onemogoočitev intervala
       options_select_class: false,
       options_select_class_name: '',
       untis_user_id: '',
@@ -205,6 +206,7 @@ export default {
       }
     },
   },
+
   created() {
     this.getClasses()
     if (this.$router.currentRoute.query.class) {
@@ -212,6 +214,9 @@ export default {
     } else {
       this.request_class = this.user_class
     }
+  },
+  beforeDestroy() {
+    clearInterval(this.interval)
   },
 
   methods: {
@@ -314,7 +319,7 @@ export default {
     },
 
     updateTime() {
-      setInterval(() => this.interval_function(), 60 * 1000)
+      this.interval = setInterval(() => this.interval_function(), 60 * 100)
     },
 
     changeTimetableView() {

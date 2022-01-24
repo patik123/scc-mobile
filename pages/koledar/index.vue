@@ -228,7 +228,7 @@
               <v-spacer></v-spacer>
               <v-toolbar-items>
                 <v-btn v-if="edit_event_modal.conference_link !== ''" icon link target="_blank" :href="edit_event_modal.conference_link"> <v-icon>videocam</v-icon> </v-btn>
-                <v-btn icon v-if="!edit_event_modal.isConference" :disabled="edit_event_modal.isConference || !edit_event_modal.valid" @click="edit_event_update"> <v-icon>save</v-icon> </v-btn>
+                <v-btn v-if="!edit_event_modal.isConference" icon :disabled="edit_event_modal.isConference || !edit_event_modal.valid" @click="edit_event_update"> <v-icon>save</v-icon> </v-btn>
                 <v-btn icon @click="edit_delete_event"> <v-icon>delete</v-icon> </v-btn>
                 <v-btn v-if="edit_event_modal.web_link !== ''" icon link target="_blank" :href="edit_event_modal.web_link"> <v-icon>open_in_new</v-icon> </v-btn>
               </v-toolbar-items>
@@ -387,6 +387,7 @@ export default {
       calendar_events: [],
       calendar_view_icon: 'calendar_view_day',
       calendar_view: 'week',
+      interval: null,
 
       // Modal variables
       new_event_dialog: false,
@@ -429,6 +430,9 @@ export default {
     if (this.$router.currentRoute.query.action === 'new-event') {
       this.new_event_dialog = true
     }
+  },
+  beforeDestroy() {
+    clearInterval(this.interval)
   },
 
   methods: {
@@ -590,7 +594,7 @@ export default {
     },
 
     updateTime() {
-      setInterval(() => this.interval_function(), 60 * 1000)
+      this.interval = setInterval(() => this.interval_function(), 60 * 100)
     },
 
     nowY() {

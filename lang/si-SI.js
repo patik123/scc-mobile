@@ -51,7 +51,7 @@ export default {
     prikazi_moj_urnik: 'Prikaži moj urnik',
     oddelek: 'Oddelek',
     urnik_teden: 'Urnik za teden od {start_date} do {end_date}',
-    urnik_dan: 'Urnik za dan {date}'
+    urnik_dan: 'Urnik za dan {date}',
   },
   jedilnik: {
     jedilnik: 'Jedilnik',
