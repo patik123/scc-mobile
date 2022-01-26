@@ -28,6 +28,8 @@ export default {
     eviweb: 'EviWeb',
     solska_prehrana: 'Šolska prehrana',
     about: 'O aplikaciji',
+    ocene: 'Ocene',
+    preizkusi_znanja: 'Preizkusi znanja',
   },
 
   first_page: {
@@ -97,5 +99,16 @@ export default {
     nazaj: 'Nazaj',
     ni_obvestil: 'Ni obvestil',
     stevilo_obvestil: 'Število novih obvestil: {count}',
+  },
+  ocene: {
+    ocene: 'Ocene',
+    predmeti: 'Predmeti',
+    ni_predmetov: 'Ni predmetov',
+    napaka_pri_pridobivanju_ocene: 'Napaka pri pridobivanju ocen',
+    napaka_pri_pridobivanju_predmetov: 'Napaka pri pridobivanju predmetov',
+    prijava_v_eviweb: 'Prijava v EviWeb',
+    geslo_eviweb: 'Geslo za EviWeb',
+    email_eviweb: 'Uporabniško ime za EviWeb',
+    login_eviweb: 'Prijava',
   },
 }

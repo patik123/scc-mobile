@@ -20,6 +20,14 @@
       <v-list-item v-if="$auth.loggedIn" to="/jedilnik" nuxt>
         <v-list-item-title><v-icon>restaurant_menu</v-icon> {{ $t('menu_items.jedilnik') }}</v-list-item-title>
       </v-list-item>
+      <!--
+      <v-list-item v-if="$auth.loggedIn && user_type === 'dijak'" to="/ocene" nuxt>
+        <v-list-item-title><v-icon>done_all</v-icon> {{ $t('menu_items.ocene') }}</v-list-item-title>
+      </v-list-item>
+-->
+      <v-list-item v-if="$auth.loggedIn && user_type === 'dijak'" to="/ocenjevanja" nuxt>
+        <v-list-item-title><v-icon>assessment</v-icon> {{ $t('menu_items.preizkusi_znanja') }} <v-chip class="float-end" text>Beta</v-chip></v-list-item-title>
+      </v-list-item>
 
       <v-list-item v-if="$auth.loggedIn" to="/koledar" nuxt>
         <v-list-item-title><v-icon>event</v-icon> {{ $t('menu_items.koledar') }}</v-list-item-title>
