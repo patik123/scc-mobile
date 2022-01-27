@@ -26,7 +26,7 @@ export default {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
-  css: ['@/assets/scss/main.scss'],
+  css: ['@/assets/scss/main.scss', 'material-design-icons-iconfont/dist/material-design-icons.css'],
 
   plugins: ['~/plugins/barcode.client.js', { src: '~/plugins/vue-matomo.js', ssr: false }],
 

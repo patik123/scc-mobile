@@ -30,6 +30,7 @@ export default {
     about: 'O aplikaciji',
     ocene: 'Ocene',
     preizkusi_znanja: 'Preizkusi znanja',
+    nastavitve: 'Nastavitve',
   },
 
   first_page: {

@@ -7,14 +7,11 @@
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
         <v-toolbar-title>Šolski center Celje</v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn icon @click="darkMode()">
-          <v-icon>{{ dark_light_icon }}</v-icon></v-btn
-        >
         <v-btn v-if="!$auth.loggedIn" icon @click="login()"><v-icon>login</v-icon></v-btn>
         <v-btn v-if="$auth.loggedIn" icon @click="$auth.logout('aad')"><v-icon>logout</v-icon></v-btn>
       </v-app-bar>
 
-      <v-navigation-drawer v-model="drawer" absolute temporary>
+      <v-navigation-drawer v-model="drawer" app absolute temporary>
         <v-list v-if="$auth.loggedIn">
           <v-list-item link>
             <v-list-item-content>
@@ -63,7 +60,7 @@
           <p>S spodnjim vprašalnikom lahko podaste svoje ideje za aplikacijo.</p>
           <iframe
             width="100%"
-            height="700px"
+            height="800px"
             src="https://forms.office.com/Pages/ResponsePage.aspx?id=LqzK6Lz5lkOfGI3IDgRExckrds-p8kVPr90d71g_VkhUNk9VMTRQNzdZMElTSEZCOVg0S0JSODJXNy4u&embed=true"
             frameborder="0"
             marginwidth="0"

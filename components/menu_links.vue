@@ -60,6 +60,10 @@
           <v-list-item-title><v-icon>language</v-icon> {{ $t('menu_items.solska_prehrana') }}</v-list-item-title>
         </v-list-item>
       </div>
+      <v-divider v-if="$auth.loggedIn" class="mb-1"></v-divider>
+      <v-list-item v-if="$auth.loggedIn" to="/nastavitve" nuxt>
+        <v-list-item-title><v-icon>settings</v-icon> {{ $t('menu_items.nastavitve') }}</v-list-item-title>
+      </v-list-item>
 
       <v-divider v-if="$auth.loggedIn" class="mb-1"></v-divider>
       <v-list-item v-if="$auth.loggedIn" to="/about" nuxt>

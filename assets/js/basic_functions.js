@@ -117,6 +117,7 @@ export default {
                 '@odata.type': 'microsoft.graph.openTypeExtension',
                 extensionName: 'com.scc-mobile-theme',
                 theme: this.darkmode ? 'dark' : 'light',
+                last_modified: this.$moment().format('YYYY-MM-DD HH:mm:ss'),
               })
               .then((response) => {
                 // eslint-disable-next-line no-console
@@ -130,6 +131,7 @@ export default {
             this.$axios
               .patch('https://graph.microsoft.com/v1.0/me/extensions/com.scc-mobile-theme', {
                 theme: this.darkmode ? 'dark' : 'light',
+                last_modified: this.$moment().format('YYYY-MM-DD HH:mm:ss'),
               })
               .then((response) => {
                 // eslint-disable-next-line no-console

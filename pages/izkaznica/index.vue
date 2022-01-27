@@ -9,7 +9,6 @@
 
           <v-toolbar-title>Šolski center Celje</v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-icon class="mr-2" @click="darkMode()">{{ dark_light_icon }}</v-icon>
           <v-icon @click="$auth.logout('aad')">logout</v-icon>
         </v-app-bar>
 

@@ -15,10 +15,11 @@ export default {
       localStorage.setItem(
         'user_data',
         JSON.stringify({
-          id: decodedBearer.oid,
-          email: decodedBearer.upn,
-          first_name: decodedBearer.given_name,
-          last_name: decodedBearer.family_name,
+          id: decodedBearer.oid, // ID uporabnkika
+          email: decodedBearer.upn, // uporabnikov email
+          first_name: decodedBearer.given_name, // uporabnikovo ime
+          last_name: decodedBearer.family_name, // uporabnikov priimek
+          type: this.detect_user_type(decodedBearer.upn), // tip uporabnika
         })
       )
       this.detect_user_type(decodedBearer.upn)
@@ -34,10 +35,13 @@ export default {
     detect_user_type(userEmail) {
       if (userEmail.includes('@sc-celje.si')) {
         localStorage.setItem('user_type', 'ucitelj')
+        return 'ucitelj'
       } else if (userEmail.includes('@dijak.sc-celje.si')) {
         localStorage.setItem('user_type', 'dijak')
+        return 'dijak'
       } else {
         localStorage.setItem('user_type', 'neznano')
+        return 'neznano'
       }
     },
   },
