@@ -20,6 +20,9 @@ export default {
       request_error: false,
       user_data: localStorage.getItem('user_data') ? JSON.parse(localStorage.getItem('user_data')) : '',
       theme: '',
+      eviweb_password: '',
+      eviweb_username: '',
+      eviweb_available: localStorage.getItem('eviweb_available') ? localStorage.getItem('eviweb_available') : false,
     }
   },
   watch: {
@@ -65,10 +68,13 @@ export default {
         .then((response) => {
           window.localStorage.setItem('user', JSON.stringify(response.data))
           this.user = response.data
-          window.localStorage.setItem('school', this.user.positions['0'].detail.company.department.split('(D)')[0])
+          window.localStorage.setItem('school', this.user.positions['0'].detail.company.department.split('(D)')[0]) // da dobimo samo celo ime šole (ta kratko)
           window.localStorage.setItem('class', this.user.positions['0'].detail.jobTitle)
           this.school = window.localStorage.getItem('school')
           this.user_class = window.localStorage.getItem('class')
+          this.user_data = Object.assign({ school: this.school }, this.user_data)
+          this.user_data = Object.assign({ class: this.user_class }, this.user_data)
+          localStorage.setItem('user_data', JSON.stringify(this.user_data))
           this.$router.go() // refresh page zaradi napake pri pridobivanju podatkov - le začasna rešitev
         })
 
@@ -76,6 +82,43 @@ export default {
           // eslint-disable-next-line no-console
           console.log(error)
         })
+    },
+
+    checkEviLogin() {
+      this.$axios.get('https://graph.microsoft.com/v1.0/me/extensions/com.scc-mobile-eviweb', { validateStatus: false }).then((response) => {
+        if (response.status === 404) {
+          this.eviweb_check = true
+          this.eviweb_available = false
+        } else {
+          const eviweb_data = response.data
+          console.log(eviweb_data)
+          this.eviweb_connected_at = eviweb_data.last_update
+
+          this.$axios
+            .post(
+              `${this.config.url_backend_aplikacije}/eviweb/available`,
+              {
+                username: eviweb_data.username,
+                password: eviweb_data.password,
+              },
+              { validateStatus: false }
+            )
+            .then((response) => {
+              if (response.data === 1) {
+                this.eviweb_available = true
+                localStorage.setItem('eviweb_available', this.eviweb_available)
+                this.eviweb_username = eviweb_data.username
+                this.eviweb_password = eviweb_data.password
+                this.eviweb_check = true
+              }
+            })
+            .catch((error) => {
+              // eslint-disable-next-line no-console
+              console.log(error)
+            })
+        }
+        this.eviweb_login_dialog = false
+      })
     },
 
     restartErrorRequestNotification() {

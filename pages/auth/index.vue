@@ -22,6 +22,7 @@ export default {
           type: this.detect_user_type(decodedBearer.upn), // tip uporabnika
         })
       )
+      console.warn('Uporabnik je prijavljen.' + localStorage.getItem('user_data'))
       this.detect_user_type(decodedBearer.upn)
     } catch (error) {
       // eslint-disable-next-line no-console

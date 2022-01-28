@@ -9,7 +9,6 @@
 
           <v-toolbar-title>{{ $t('scc') }}</v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-btn to="/navodila" icon target="_blank" class="d-none d-sm-flex"><v-icon>help_outline</v-icon></v-btn>
           <v-btn icon @click="$auth.logout('aad')"><v-icon>login</v-icon></v-btn>
         </v-app-bar>
 

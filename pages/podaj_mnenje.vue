@@ -22,9 +22,17 @@
         </v-list>
         <v-divider></v-divider>
         <MenuLinks v-if="$auth.loggedIn" :school-website="school_website()" :school="school" />
-        <v-list-item v-else to="/" nuxt>
-          <v-list-item-title><v-icon>home</v-icon> {{ $t('menu_items.domov') }}</v-list-item-title>
-        </v-list-item>
+        <v-list v-else nav dense shaped>
+          <v-list-item-group :active-class="schoolBGColor()">
+            <v-list-item to="/" nuxt>
+              <v-list-item-title><v-icon>home</v-icon> {{ $t('menu_items.domov') }}</v-list-item-title>
+            </v-list-item>
+            <v-divider></v-divider>
+            <v-list-item to="/navodila" nuxt>
+              <v-list-item-title><v-icon>help_outline</v-icon> {{ $t('menu_items.navodila') }}</v-list-item-title>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
       </v-navigation-drawer>
 
       <v-main>

@@ -31,6 +31,7 @@ export default {
     ocene: 'Ocene',
     preizkusi_znanja: 'Preizkusi znanja',
     nastavitve: 'Nastavitve',
+    navodila: 'Navodila',
   },
 
   first_page: {

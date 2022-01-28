@@ -25,7 +25,7 @@
         <v-list-item-title><v-icon>done_all</v-icon> {{ $t('menu_items.ocene') }}</v-list-item-title>
       </v-list-item>
 -->
-      <v-list-item v-if="$auth.loggedIn && user_type === 'dijak'" to="/ocenjevanja" nuxt>
+      <v-list-item v-if="$auth.loggedIn && user_type === 'dijak' && eviweb_available" to="/ocenjevanja" nuxt>
         <v-list-item-title><v-icon>assessment</v-icon> {{ $t('menu_items.preizkusi_znanja') }} <v-chip class="float-end" text>Beta</v-chip></v-list-item-title>
       </v-list-item>
 
@@ -66,6 +66,11 @@
       </v-list-item>
 
       <v-divider v-if="$auth.loggedIn" class="mb-1"></v-divider>
+
+      <v-list-item v-if="$auth.loggedIn" to="/navodila" nuxt>
+        <v-list-item-title><v-icon>help_outline</v-icon> {{ $t('menu_items.navodila') }}</v-list-item-title>
+      </v-list-item>
+
       <v-list-item v-if="$auth.loggedIn" to="/about" nuxt>
         <v-list-item-title><v-icon>info</v-icon> {{ $t('menu_items.about') }}</v-list-item-title>
       </v-list-item>
@@ -110,6 +115,7 @@ export default {
       config: configData.default,
       group: null,
       user_type: localStorage.getItem('user_type'),
+      eviweb_available: localStorage.getItem('eviweb_available') ? localStorage.getItem('eviweb_available') : false,
     }
   },
   watch: {
@@ -136,7 +142,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .school-logo {
   margin-top: 10px;
   width: 55px;

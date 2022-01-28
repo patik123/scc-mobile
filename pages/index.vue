@@ -5,11 +5,25 @@
       <errorRequestAlter v-if="request_error"></errorRequestAlter>
       <v-sheet v-if="!$auth.loggedIn" class="no-radius" height="100%" width="100%">
         <v-app-bar>
+          <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
           <v-toolbar-title>{{ $t('scc') }}</v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-btn to="/navodila" icon target="_blank"><v-icon>help_outline</v-icon></v-btn>
           <v-btn icon @click="login()"><v-icon>login</v-icon></v-btn>
         </v-app-bar>
+
+        <v-navigation-drawer v-model="drawer" app absolute temporary>
+          <v-list nav dense shaped>
+            <v-list-item-group :active-class="schoolBGColor()">
+              <v-list-item to="/" nuxt>
+                <v-list-item-title><v-icon>home</v-icon> {{ $t('menu_items.domov') }}</v-list-item-title>
+              </v-list-item>
+              <v-divider></v-divider>
+              <v-list-item to="/navodila" nuxt>
+                <v-list-item-title><v-icon>help_outline</v-icon> {{ $t('menu_items.navodila') }}</v-list-item-title>
+              </v-list-item>
+            </v-list-item-group>
+          </v-list>
+        </v-navigation-drawer>
 
         <v-main class="text-center">
           <img src="~/static/cvet_barvni.png" alt="ŠCC roža" width="100px" height="100px" class="mt-5" />
@@ -26,10 +40,6 @@
           <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
           <v-toolbar-title>{{ $t('scc') }}</v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-btn to="/navodila" icon target="_blank"><v-icon>help_outline</v-icon></v-btn>
-          <v-btn icon @click="darkMode()">
-            <v-icon>{{ dark_light_icon }}</v-icon></v-btn
-          >
           <v-btn icon @click="$auth.logout('aad')"><v-icon>logout</v-icon></v-btn>
         </v-app-bar>
 
@@ -52,7 +62,6 @@
               >Vsem, se zahvaljujem za sodelovanja v anketi. V anketi ste podali kar nekaj predlogov. Predloge si lahko ogledate na <NuxtLink to="/predlogi">tej povezavi</NuxtLink>. Zelo me zanima vaše mnenje o aplikaciji zato vas prosim, če podaste
               svoje mnenje v vprašalnik na <NuxtLink to="/podaj_mnenje">tej povezavi</NuxtLink>.
             </v-alert>
-
             <!-- BLIŽNICE DO DELOV APLIKACIJE -->
             <v-chip-group mandatory>
               <v-chip @click="goToPath('urnik')">
@@ -87,7 +96,7 @@
                   <v-card-title :class="getSchoolColor()" class="title"
                     >{{ $t('first_page.trenutna_ura') }}<v-spacer></v-spacer
                     ><v-btn :class="getSchoolColor()" @click="$router.push('/urnik')"
-                      ><v-icon>calendar_month</v-icon><span class="d-none d-sm-flex">{{ $t('first_page.moj_urnik') }}</span></v-btn
+                      ><v-icon>calendar_today</v-icon><span class="d-none d-sm-flex"> {{ $t('first_page.moj_urnik') }}</span></v-btn
                     ></v-card-title
                   >
                 </div>
@@ -222,7 +231,7 @@
 import basicFunctions from '~/assets/js/basic_functions.js'
 import 'moment/locale/sl'
 export default {
-  name: 'VstopnaStran',
+  name: 'DomacaStran',
   mixins: [basicFunctions],
 
   data() {
@@ -241,6 +250,7 @@ export default {
     if (this.$auth.loggedIn) {
       this.getCalendarEvents()
       this.getTaskList()
+      this.checkEviLogin()
 
       if (this.user_type === 'dijak' && this.user_class !== null) {
         this.getClasses()
