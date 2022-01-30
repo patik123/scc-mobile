@@ -7,7 +7,6 @@ export default {
   data() {
     return {
       jwt_decoded: null,
-      jwt_token: null,
       user: localStorage.getItem('user') ? localStorage.getItem('user') : '',
       school: localStorage.getItem('school') ? localStorage.getItem('school') : '',
       user_class: localStorage.getItem('class') ? localStorage.getItem('class') : '',
@@ -32,7 +31,6 @@ export default {
   },
 
   created() {
-    this.jwt_token = this.$auth.$storage.getUniversal('_token.aad')
     this.getThemeOnline()
     this.config = configData.default
     if (this.$auth.loggedIn && !localStorage.getItem('user')) {
@@ -85,13 +83,13 @@ export default {
     },
 
     checkEviLogin() {
+      this.restartErrorRequestNotification()
       this.$axios.get('https://graph.microsoft.com/v1.0/me/extensions/com.scc-mobile-eviweb', { validateStatus: false }).then((response) => {
         if (response.status === 404) {
           this.eviweb_check = true
           this.eviweb_available = false
         } else {
           const eviweb_data = response.data
-          console.log(eviweb_data)
           this.eviweb_connected_at = eviweb_data.last_update
 
           this.$axios
@@ -106,6 +104,8 @@ export default {
             .then((response) => {
               if (response.data === 1) {
                 this.eviweb_available = true
+                this.user_data = Object.assign({ eviweb_available: true }, this.user_data)
+                localStorage.setItem('user_data', JSON.stringify(this.user_data))
                 localStorage.setItem('eviweb_available', this.eviweb_available)
                 this.eviweb_username = eviweb_data.username
                 this.eviweb_password = eviweb_data.password
@@ -115,10 +115,32 @@ export default {
             .catch((error) => {
               // eslint-disable-next-line no-console
               console.log(error)
+              this.setRequestError()
             })
         }
         this.eviweb_login_dialog = false
       })
+    },
+
+    eviLoginWithCallback(callback) {
+      this.restartErrorRequestNotification()
+      const evi_available = localStorage.getItem('eviweb_available')
+      if (evi_available === 'true') {
+        this.$axios
+          .get('https://graph.microsoft.com/v1.0/me/extensions/com.scc-mobile-eviweb', { validateStatus: false })
+          .then((response) => {
+            const eviweb_data = response.data
+            this.eviweb_username = eviweb_data.username
+            this.eviweb_password = eviweb_data.password
+            callback()
+          })
+
+          .catch((error) => {
+            // eslint-disable-next-line no-console
+            console.log(error)
+            this.setRequestError()
+          })
+      }
     },
 
     restartErrorRequestNotification() {
@@ -152,6 +174,7 @@ export default {
 
     // Save user theme
     saveThemeOnline() {
+      this.restartErrorRequestNotification()
       if (this.$auth.loggedIn) {
         this.$axios.get('https://graph.microsoft.com/v1.0/me/extensions/com.scc-mobile-theme', { validateStatus: false }).then((response) => {
           if (response.status === 404) {
@@ -169,6 +192,7 @@ export default {
               .catch((error) => {
                 // eslint-disable-next-line no-console
                 console.log(error)
+                this.setRequestError()
               })
           } else {
             this.$axios
@@ -176,12 +200,10 @@ export default {
                 theme: this.darkmode ? 'dark' : 'light',
                 last_modified: this.$moment().format('YYYY-MM-DD HH:mm:ss'),
               })
-              .then((response) => {
-                // eslint-disable-next-line no-console
-              })
               .catch((error) => {
                 // eslint-disable-next-line no-console
                 console.log(error)
+                this.setRequestError()
               })
           }
         })
@@ -199,12 +221,6 @@ export default {
           }
         })
       }
-    },
-
-    // Odjava iz aplikacije
-    logout() {
-      this.$auth.logout()
-      this.$router.push('/')
     },
 
     // Vrne CSS razred katere barve je šola
@@ -229,6 +245,12 @@ export default {
     // Prijava v aplikacijo
     login() {
       this.$auth.login('aad')
+    },
+
+    // Odjava iz aplikacije
+    logout() {
+      this.$auth.logout()
+      this.$router.push('/')
     },
 
     // Vrne spletno stran šole

@@ -32,6 +32,7 @@ export default {
     preizkusi_znanja: 'Preizkusi znanja',
     nastavitve: 'Nastavitve',
     navodila: 'Navodila',
+    profesorji: 'Profesorji',
   },
 
   first_page: {
