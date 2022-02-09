@@ -158,6 +158,16 @@ export default {
           utemeljitev: 'V primeru, da bo uradno sprejeta s strani ŠCC bo to prednostna naloga.',
           opomba: 'Trenutno ne',
         },
+        {
+          naziv_predloga: 'Aplikacija mi prikrajsa dosti časa, ampak potrebuje nekaj casa na zacetku, da mi prikaze vse podatke ',
+          utemeljitev: 'Bom v prihodnjih verzijah poskusil tudi to izboljšati.',
+          opomba: 'Da',
+        },
+        {
+          naziv_predloga: 'Aplikacija je zelo dobra. Močno olajša pregled nad vsemi potrebnimi informacijami. Fino bi bilo, da bi bil vključen se Outlook in MS Teams. ',
+          utemeljitev: 'Možnost integracije Outlooka je mogoča, da vidite zadnja elektronska sporočila. O integraciji MS Teams pa ne razmišljam zaradi komplekstnosti.',
+          opomba: 'Mogoče',
+        },
       ],
     }
   },

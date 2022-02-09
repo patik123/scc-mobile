@@ -70,9 +70,6 @@ export default {
           window.localStorage.setItem('class', this.user.positions['0'].detail.jobTitle)
           this.school = window.localStorage.getItem('school')
           this.user_class = window.localStorage.getItem('class')
-          this.user_data = Object.assign({ school: this.school }, this.user_data)
-          this.user_data = Object.assign({ class: this.user_class }, this.user_data)
-          localStorage.setItem('user_data', JSON.stringify(this.user_data))
           this.$router.go() // refresh page zaradi napake pri pridobivanju podatkov - le začasna rešitev
         })
 
@@ -109,6 +106,12 @@ export default {
                 localStorage.setItem('eviweb_available', this.eviweb_available)
                 this.eviweb_username = eviweb_data.username
                 this.eviweb_password = eviweb_data.password
+                this.eviweb_check = true
+              } else {
+                this.eviweb_available = false
+                this.user_data = Object.assign({ eviweb_available: false }, this.user_data)
+                localStorage.setItem('user_data', JSON.stringify(this.user_data))
+                localStorage.setItem('eviweb_available', this.eviweb_available)
                 this.eviweb_check = true
               }
             })

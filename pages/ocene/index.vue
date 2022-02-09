@@ -68,14 +68,14 @@ export default {
   },
 
   created() {
-    this.eviLoginWithCallback(this.getPredmeti)
+    this.eviLoginWithCallback(this.getOcene)
   },
 
   methods: {
     getOcene() {
       this.$axios
         .post(
-          `${this.config.url_backend_aplikacije}/eviweb/redovalnica`,
+          `${this.config.url_backend_aplikacije}/eviweb/redovalnica_v2`,
           {
             username: this.eviweb_username,
             password: this.eviweb_password,
@@ -83,13 +83,14 @@ export default {
           { validateStatus: false }
         )
         .then((response) => {
-          this.ocene = response.data.message
+          this.ocene = response.data.message.ocene
+          this.predmeti = response.data.message.predmeti
           this.ocene_count = this.ocene.length
 
           this.ocene_array = []
 
           this.ocene.forEach((ocena) => {
-            let predmet = this.predmeti.find((predmet) => {
+            const predmet = this.predmeti.find((predmet) => {
               return predmet[1] === ocena[4]
             })
             this.ocene_array.push({
@@ -101,27 +102,6 @@ export default {
             })
           })
           this.loading = false
-        })
-        .catch((error) => {
-          // eslint-disable-next-line no-console
-          console.log(error)
-        })
-    },
-
-    getPredmeti() {
-      this.$axios
-        .post(
-          `${this.config.url_backend_aplikacije}/eviweb/predmeti`,
-          {
-            username: this.eviweb_username,
-            password: this.eviweb_password,
-          },
-          { validateStatus: false }
-        )
-        .then((response) => {
-          this.predmeti = response.data.message
-
-          this.getOcene()
         })
         .catch((error) => {
           // eslint-disable-next-line no-console
