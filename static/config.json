@@ -46,7 +46,7 @@
   "scc_main_site": "https://www.sc-celje.si",
   "contact_email": "patrick.kosir.16867@dijak.sc-celje.si",
   "url_frontend_aplikacije": "https://scc-mobile.thepatik.eu.org",
-  "url_backend_aplikacije": "http://localhost:90",
+  "url_backend_aplikacije": "https://scc-mobile-api.thepatik.eu.org",
   "telefonska_stevilka_scc": "03 42 858 00",
-  "version": "1.2.0"
+  "version": "1.2.1"
 }
