@@ -33,6 +33,7 @@ export default {
     nastavitve: 'Nastavitve',
     navodila: 'Navodila',
     profesorji: 'Profesorji',
+    izostanki: 'Izostanki',
   },
 
   first_page: {

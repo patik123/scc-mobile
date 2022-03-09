@@ -59,8 +59,7 @@
         <v-main>
           <v-container fluid>
             <v-alert type="info" dismissible text
-              >Vsem, se zahvaljujem za sodelovanja v anketi. V anketi ste podali kar nekaj predlogov. Predloge si lahko ogledate na <NuxtLink to="/predlogi">tej povezavi</NuxtLink>. Zelo me zanima vaše mnenje o aplikaciji zato vas prosim, če podaste
-              svoje mnenje v vprašalnik na <NuxtLink to="/podaj_mnenje">tej povezavi</NuxtLink>.
+              >V aplikacijo je po novem integrirane funkcije EviWeba (pregled ocen, pregled ocenjevanj znanja in izostankov). 
             </v-alert>
             <!-- BLIŽNICE DO DELOV APLIKACIJE -->
             <v-chip-group mandatory>

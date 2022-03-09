@@ -28,18 +28,40 @@
 
         <v-main class="mt-2">
           <v-container fluid>
-            <v-alert type="info" text dismissible>Prikaz ocen je v beta fazi. Če se vam pojavi kakšna težava obvestite skrbnika.</v-alert>
+            <v-alert type="info" text dismissible>Prikaz izostankov je v beta fazi. Če se vam pojavi kakšna težava obvestite skrbnika.</v-alert>
             <div v-if="loading">
               <v-skeleton-loader v-for="i in 10" :key="i" type="card-heading"></v-skeleton-loader>
             </div>
             <!-- Vse ocene  -->
             <div v-if="!loading">
-              <v-card v-for="ocena in ocene_array" :key="ocena['id']" :data-id="ocena['id']" outlined class="margin-card" :class="getSchoolColor()">
+              <v-card v-for="izostanek in izostanki" :key="izostanek[0]"  outlined class="margin-card" :class="getSchoolColor()">
                 <v-card-title class="card-text-title">
-                  <span>{{ ocena.predmet }}</span>
+                  <span>{{ $moment(izostanek[0]).format('DD. MM. YYYY') }}</span>
                 </v-card-title>
                 <v-card-subtitle>
-                  {{ ocena.ocena }}
+                <table style="width: 100%">
+                    <tr v-if=" izostanek[1]['opravicene'].length !== 0">
+                        <td style="width: 25%">Opravičen izostanek</td>
+                        <td><span class="font-weight-bold" v-for="ura in izostanek[1]['opravicene']" :key="ura">{{ ura + ' ' }}</span></td>
+                    </tr>
+
+                              <tr v-if=" izostanek[1]['neopravicene'].length !== 0">
+                        <td style="width: 25%">Neopravičen izostanek</td>
+                        <td><span class="font-weight-bold" v-for="ura in izostanek[1]['neopravicene']" :key="ura">{{ ura + ' ' }}</span></td>
+                    </tr>
+
+
+                              <tr v-if=" izostanek[1]['vsoli'].length !== 0">
+                        <td style="width: 25%">V šoli</td>
+                        <td><span class="font-weight-bold" v-for="ura in izostanek[1]['vsoli']" :key="ura">{{ ura + ' ' }}</span></td>
+                    </tr>
+
+                              <tr v-if=" izostanek[1]['neobdelane'].length !== 0">
+                        <td style="width: 25%">Neobdelano</td>
+                        <td><span class="font-weight-bold" v-for="ura in izostanek[1]['neobdelane']" :key="ura">{{ ura + ' ' }}</span></td>
+                    </tr>
+                </table>
+                    
                 </v-card-subtitle>
               </v-card>
             </div>
@@ -59,23 +81,21 @@ export default {
   mixins: [basicFunctions, authMiddleware],
   data() {
     return {
-      ocene: [],
-      ocene_count: 0,
-      predmeti: [],
+      izostanki: [],
+      izostanki_count: 0,
       loading: true,
-      ocene_array: [], // namenjen prilagoditvi ocen za prikaz
     }
   },
 
   created() {
-    this.eviLoginWithCallback(this.getOcene)
+    this.eviLoginWithCallback(this.getIzostanki)
   },
 
   methods: {
-    getOcene() {
+    getIzostanki() {
       this.$axios
         .post(
-          `${this.config.url_backend_aplikacije}/eviweb/redovalnica`,
+          `${this.config.url_backend_aplikacije}/eviweb/izostanki`,
           {
             username: this.eviweb_username,
             password: this.eviweb_password,
@@ -83,24 +103,10 @@ export default {
           { validateStatus: false }
         )
         .then((response) => {
-          this.ocene = response.data.message.ocene
-          this.predmeti = response.data.message.predmeti
-          this.ocene_count = this.ocene.length
+          this.izostanki = response.data.message.izostanki
+          this.izostanki_count = response.data.message.count
 
-          this.ocene_array = []
-
-          this.ocene.forEach((ocena) => {
-            const predmet = this.predmeti.find((predmet) => {
-              return predmet[1] === ocena[4]
-            })
-            this.ocene_array.push({
-              id: ocena[1],
-              ocena: ocena[6],
-              cas_vpisa: ocena[9],
-              predmet: predmet[2],
-              tip_ocene: ocena[8],
-            })
-          })
+         
           this.loading = false
         })
         .catch((error) => {

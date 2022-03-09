@@ -162,7 +162,7 @@ export default {
     },
     getUciteljData(e) {
       const ucitelj_id = e.currentTarget.dataset.id
-      this.ucitelj_data = this.ucitelji[ucitelj_id - 1]
+      this.ucitelj_data = this.ucitelji[ucitelj_id]
       this.ucitelj_data_dialog = true
     },
     hideUciteljData() {

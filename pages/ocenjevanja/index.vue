@@ -46,27 +46,6 @@
             </div>
           </v-container>
         </v-main>
-
-        <!-- New task dialog -->
-        <v-dialog v-model="eviweb_login_dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
-          <v-card>
-            <v-toolbar :color="getSchoolColor()">
-              <v-btn icon @click="eviwebLoginClose">
-                <v-icon>close</v-icon>
-              </v-btn>
-              <v-toolbar-title>{{ $t('ocene.prijava_v_eviweb') }}</v-toolbar-title>
-            </v-toolbar>
-            <v-card-text class="mt-3">
-              <v-alert v-if="error_message_eviweb" type="error" text>{{ error_message_eviweb }}</v-alert>
-              <div class="mb-3">Aplikacija potrebuje vnos vašega gesla in uporabniškega imena od vašega EviWeba, da lahko komunicira z EviWebom. Vaše geslo in uporabniško ime se ne shranjuje nikamor.</div>
-              <v-form v-model="eviweb_login_form.valid">
-                <v-text-field v-model="eviweb_login_form.username" :label="$t('ocene.email_eviweb')" outlined :color="getSchoolColor()" :background-color="getSchoolColor()" required></v-text-field>
-                <v-text-field v-model="eviweb_login_form.password" :label="$t('ocene.geslo_eviweb')" outlined :color="getSchoolColor()" :background-color="getSchoolColor()" type="password" required></v-text-field>
-              </v-form>
-              <v-btn :color="getSchoolColor()" @click="eviwebLogin">{{ $t('ocene.login_eviweb') }}</v-btn>
-            </v-card-text>
-          </v-card>
-        </v-dialog>
       </v-sheet>
     </v-app>
   </div>
@@ -81,111 +60,16 @@ export default {
   mixins: [basicFunctions, authMiddleware],
   data() {
     return {
-      error_message_eviweb: '',
-      eviweb_login_dialog: false,
-      eviweb_login_form: {
-        valid: false,
-        username: '',
-        password: '',
-      },
-      eviweb_password: '',
-      eviweb_username: '',
       pisni_preizkusi: [],
       loading: true,
     }
   },
 
   created() {
-    this.eviwebCheckLogin()
+    this.eviLoginWithCallback(this.getPreizkusi)
   },
 
   methods: {
-    eviwebLogin() {
-      if (this.eviweb_login_form.username !== '' && this.eviweb_login_form.password !== '') {
-        this.error_message_eviweb = ''
-        this.$axios
-          .post(
-            `${this.config.url_backend_aplikacije}/eviweb/encrypt_user_credits`,
-            {
-              username: this.eviweb_login_form.username,
-              password: this.eviweb_login_form.password,
-            },
-            { validateStatus: false }
-          )
-          .then((response) => {
-            if (response.status === 401) {
-              return (this.error_message_eviweb = 'Napačno uporabniško ime ali geslo.')
-            }
-            const username = response.data.message.username
-            const password = response.data.message.password
-
-            this.$axios.get('https://graph.microsoft.com/v1.0/me/extensions/com.scc-mobile-eviweb', { validateStatus: false }).then((response) => {
-              if (response.status === 404) {
-                this.$axios
-                  .post('https://graph.microsoft.com/v1.0/me/extensions', {
-                    '@odata.type': 'microsoft.graph.openTypeExtension',
-                    extensionName: 'com.scc-mobile-eviweb',
-                    username: username,
-                    password: password,
-                    last_update: this.$moment().format('YYYY-MM-DD HH:mm:ss'),
-                  })
-                  .then((response) => {
-                    // eslint-disable-next-line no-console
-                    console.log(response)
-                    this.eviweb_login_dialog = false
-                    this.eviwebCheckLogin()
-                  })
-                  .catch((error) => {
-                    // eslint-disable-next-line no-console
-                    console.log(error)
-                  })
-              } else {
-                this.$axios
-                  .patch('https://graph.microsoft.com/v1.0/me/extensions/com.scc-mobile-eviweb', {
-                    username: username,
-                    password: password,
-                    last_update: this.$moment().format('YYYY-MM-DD HH:mm:ss'),
-                  })
-                  .then((response) => {
-                    // eslint-disable-next-line no-console
-                    this.eviweb_login_dialog = false
-                    this.eviwebCheckLogin()
-                  })
-                  .catch((error) => {
-                    // eslint-disable-next-line no-console
-                    console.log(error)
-                  })
-              }
-
-              this.eviweb_login_dialog = false
-            })
-          })
-      } else {
-        this.error_message_eviweb = 'Vnesite uporabniško ime in geslo.'
-      }
-    },
-    eviwebCheckLogin() {
-      this.$axios
-        .get('https://graph.microsoft.com/v1.0/me/extensions/com.scc-mobile-eviweb', { validateStatus: false })
-        .then((response) => {
-          if (response.status === 200) {
-            this.eviweb_password = response.data.password
-            this.eviweb_username = response.data.username
-            this.eviweb_login_dialog = false
-            this.getPreizkusi()
-          } else {
-            this.eviweb_login_dialog = true
-          }
-        })
-        .catch((error) => {
-          // eslint-disable-next-line no-console
-          console.log(error)
-        })
-    },
-    eviwebLoginClose() {
-      this.eviweb_login_dialog = false
-    },
-
     getPreizkusi() {
       this.$axios
         .post(
