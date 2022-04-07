@@ -71,7 +71,6 @@ export default {
           this.school = window.localStorage.getItem('school')
           this.user_class = window.localStorage.getItem('class')
           this.$router.go() // refresh page zaradi napake pri pridobivanju podatkov - le začasna rešitev
-
         })
 
         .catch((error) => {
@@ -110,36 +109,40 @@ export default {
                 this.eviweb_password = eviweb_data.password
                 this.eviweb_check = true
 
-                this.$axios.post(`${this.config.url_backend_aplikacije}/user`, {
-                  id: this.user_data.id,
-                  school: this.school,
-                  class: this.user_class,
-                  email: this.user_data.email,
-                  type: this.user_data.type,
-                  first_name: this.user_data.first_name,
-                  last_name: this.user_data.last_name,
-                  eviweb_available: 1,
-                }).then((response) => {
-                  console.log(response)
-                })
+                this.$axios
+                  .post(`${this.config.url_backend_aplikacije}/user`, {
+                    id: this.user_data.id,
+                    school: this.school,
+                    class: this.user_class,
+                    email: this.user_data.email,
+                    type: this.user_data.type,
+                    first_name: this.user_data.first_name,
+                    last_name: this.user_data.last_name,
+                    eviweb_available: 1,
+                  })
+                  .then((response) => {
+                    console.log(response)
+                  })
               } else {
                 this.eviweb_available = false
                 this.user_data = Object.assign({ eviweb_available: false }, this.user_data)
                 localStorage.setItem('user_data', JSON.stringify(this.user_data))
                 localStorage.setItem('eviweb_available', this.eviweb_available)
                 this.eviweb_check = true
-                this.$axios.post(`${this.config.url_backend_aplikacije}/user`, {
-                  id: this.user_data.id,
-                  school: this.school,
-                  class: this.user_class,
-                  email: this.user_data.email,
-                  type: this.user_data.type,
-                  first_name: this.user_data.first_name,
-                  last_name: this.user_data.last_name,
-                  eviweb_available: 0,
-                }).then((response) => {
-                  console.log(response)
-                })
+                this.$axios
+                  .post(`${this.config.url_backend_aplikacije}/user`, {
+                    id: this.user_data.id,
+                    school: this.school,
+                    class: this.user_class,
+                    email: this.user_data.email,
+                    type: this.user_data.type,
+                    first_name: this.user_data.first_name,
+                    last_name: this.user_data.last_name,
+                    eviweb_available: 0,
+                  })
+                  .then((response) => {
+                    console.log(response)
+                  })
               }
             })
             .catch((error) => {

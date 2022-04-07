@@ -32,18 +32,39 @@
             <div v-if="loading">
               <v-skeleton-loader v-for="i in 10" :key="i" type="card-heading"></v-skeleton-loader>
             </div>
-            <!-- Vse ocene  -->
+
             <div v-if="!loading">
-              <v-card v-for="test in pisni_preizkusi" :key="test[0]" outlined class="margin-card" :class="getSchoolColor()">
-                <v-card-title class="card-text-title">
-                  <span>{{ test[1] }}</span>
+              <v-btn :color="getSchoolColor()" class="mb-3" @click="$refs.calendar.prev()"
+                ><v-icon>navigate_before</v-icon><span class="d-none d-sm-flex">{{ $t('koledar.nazaj') }}</span></v-btn
+              >
+              <v-btn :color="getSchoolColor()" class="mb-3" @click="$refs.calendar.next()"
+                ><span class="d-none d-sm-flex">{{ $t('koledar.naprej') }}</span
+                ><v-icon>navigate_next</v-icon></v-btn
+              >
+              <v-calendar ref="calendar" v-model="calendar" type="month" :weekdays="[1, 2, 3, 4, 5]" :event-color="schoolBGColor()" :events="pisni_preizkusi_array" @click:event="event_click"></v-calendar>
+            </div>
+
+            <v-dialog v-model="dialog" width="500">
+              <v-card>
+                <v-card-title>
+                  <span>{{ data_about_test.name }}</span>
                 </v-card-title>
 
-                <v-card-subtitle>
-                  <span>{{ $moment(test[2], 'YYYY-MM-DD').format('DD. MM. YYYY') }}</span>
-                </v-card-subtitle>
+                <v-card-text>
+                  <div>
+                    <v-icon class="mr-2">schedule</v-icon>
+                    <span>{{ $moment(data_about_test.start, 'YYYY-MM-DD').format('DD. MM. YYYY') }}</span>
+                  </div>
+                </v-card-text>
+
+                <v-divider></v-divider>
+
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn :color="getSchoolColor()" text @click="dialog = false"> OK </v-btn>
+                </v-card-actions>
               </v-card>
-            </div>
+            </v-dialog>
           </v-container>
         </v-main>
       </v-sheet>
@@ -61,12 +82,17 @@ export default {
   data() {
     return {
       pisni_preizkusi: [],
+      calendar: null,
+      pisni_preizkusi_array: [],
       loading: true,
+      dialog: false,
+      data_about_test: {},
     }
   },
 
   created() {
     this.eviLoginWithCallback(this.getPreizkusi)
+    this.$vuetify.lang.current = 'sl'
   },
 
   methods: {
@@ -82,12 +108,26 @@ export default {
         )
         .then((response) => {
           this.pisni_preizkusi = response.data.message
+          this.pisni_preizkusi_array = []
+          this.pisni_preizkusi.forEach((test) => {
+            this.pisni_preizkusi_array.push({
+              id: test[0],
+              name: 'Pisni preizkus znanja ' + test[1],
+              start: this.$moment(test[2]).format('YYYY-MM-DD'),
+              end: this.$moment(test[2]).format('YYYY-MM-DD'),
+              timed: true,
+            })
+          })
           this.loading = false
         })
         .catch((error) => {
           // eslint-disable-next-line no-console
           console.log(error)
         })
+    },
+    event_click(event) {
+      this.data_about_test = event.event
+      this.dialog = true
     },
   },
 }

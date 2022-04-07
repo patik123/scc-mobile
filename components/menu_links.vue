@@ -33,7 +33,7 @@
         <v-list-item-title><v-icon>people</v-icon> {{ $t('menu_items.profesorji') }} <v-chip class="float-end" text>Beta</v-chip></v-list-item-title>
       </v-list-item>
 
-            <v-list-item v-if="$auth.loggedIn && user_type === 'dijak' && eviweb_available" to="/izostanki" nuxt>
+      <v-list-item v-if="$auth.loggedIn && user_type === 'dijak' && eviweb_available" to="/izostanki" nuxt>
         <v-list-item-title><v-icon>lock_clock</v-icon> {{ $t('menu_items.izostanki') }} <v-chip class="float-end" text>Beta</v-chip></v-list-item-title>
       </v-list-item>
 

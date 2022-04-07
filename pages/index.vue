@@ -58,9 +58,7 @@
 
         <v-main>
           <v-container fluid>
-            <v-alert type="info" dismissible text
-              >V aplikacijo je po novem integrirane funkcije EviWeba (pregled ocen, pregled ocenjevanj znanja in izostankov). 
-            </v-alert>
+            <v-alert type="info" dismissible text>V aplikacijo je po novem integrirane funkcije EviWeba (pregled ocen, pregled ocenjevanj znanja in izostankov). </v-alert>
             <!-- BLIŽNICE DO DELOV APLIKACIJE -->
             <v-chip-group mandatory>
               <v-chip @click="goToPath('urnik')">

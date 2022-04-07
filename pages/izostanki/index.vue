@@ -34,34 +34,40 @@
             </div>
             <!-- Vse ocene  -->
             <div v-if="!loading">
-              <v-card v-for="izostanek in izostanki" :key="izostanek[0]"  outlined class="margin-card" :class="getSchoolColor()">
+              <v-card v-for="izostanek in izostanki" :key="izostanek[0]" outlined class="margin-card" :class="getSchoolColor()">
                 <v-card-title class="card-text-title">
                   <span>{{ $moment(izostanek[0]).format('DD. MM. YYYY') }}</span>
                 </v-card-title>
                 <v-card-subtitle>
-                <table style="width: 100%">
-                    <tr v-if=" izostanek[1]['opravicene'].length !== 0">
-                        <td style="width: 25%">Opravičen izostanek</td>
-                        <td><span class="font-weight-bold" v-for="ura in izostanek[1]['opravicene']" :key="ura">{{ ura + ' ' }}</span></td>
+                  <table style="width: 100%">
+                    <tr v-if="izostanek[1]['opravicene'].length !== 0">
+                      <td style="width: 25%">Opravičen izostanek</td>
+                      <td>
+                        <span class="font-weight-bold" v-for="ura in izostanek[1]['opravicene']" :key="ura">{{ ura + ' ' }}</span>
+                      </td>
                     </tr>
 
-                              <tr v-if=" izostanek[1]['neopravicene'].length !== 0">
-                        <td style="width: 25%">Neopravičen izostanek</td>
-                        <td><span class="font-weight-bold" v-for="ura in izostanek[1]['neopravicene']" :key="ura">{{ ura + ' ' }}</span></td>
+                    <tr v-if="izostanek[1]['neopravicene'].length !== 0">
+                      <td style="width: 25%">Neopravičen izostanek</td>
+                      <td>
+                        <span class="font-weight-bold" v-for="ura in izostanek[1]['neopravicene']" :key="ura">{{ ura + ' ' }}</span>
+                      </td>
                     </tr>
 
-
-                              <tr v-if=" izostanek[1]['vsoli'].length !== 0">
-                        <td style="width: 25%">V šoli</td>
-                        <td><span class="font-weight-bold" v-for="ura in izostanek[1]['vsoli']" :key="ura">{{ ura + ' ' }}</span></td>
+                    <tr v-if="izostanek[1]['vsoli'].length !== 0">
+                      <td style="width: 25%">V šoli</td>
+                      <td>
+                        <span class="font-weight-bold" v-for="ura in izostanek[1]['vsoli']" :key="ura">{{ ura + ' ' }}</span>
+                      </td>
                     </tr>
 
-                              <tr v-if=" izostanek[1]['neobdelane'].length !== 0">
-                        <td style="width: 25%">Neobdelano</td>
-                        <td><span class="font-weight-bold" v-for="ura in izostanek[1]['neobdelane']" :key="ura">{{ ura + ' ' }}</span></td>
+                    <tr v-if="izostanek[1]['neobdelane'].length !== 0">
+                      <td style="width: 25%">Neobdelano</td>
+                      <td>
+                        <span class="font-weight-bold" v-for="ura in izostanek[1]['neobdelane']" :key="ura">{{ ura + ' ' }}</span>
+                      </td>
                     </tr>
-                </table>
-                    
+                  </table>
                 </v-card-subtitle>
               </v-card>
             </div>
@@ -106,7 +112,6 @@ export default {
           this.izostanki = response.data.message.izostanki
           this.izostanki_count = response.data.message.count
 
-         
           this.loading = false
         })
         .catch((error) => {
