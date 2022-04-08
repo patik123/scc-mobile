@@ -157,6 +157,12 @@ export default {
     scss: {
       implementation: require('sass'),
     },
+    hotMiddleware: {
+      client: {
+        // turn off client overlay when errors are present
+        overlay: false,
+      },
+    },
   },
 
   vuetify: {

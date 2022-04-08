@@ -61,7 +61,16 @@
 
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn :color="getSchoolColor()" text @click="dialog = false"> OK </v-btn>
+                  <v-btn
+                    :color="getSchoolColor()"
+                    text
+                    @click="
+                      dialog = false
+                      data_about_test = {}
+                    "
+                  >
+                    OK
+                  </v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>

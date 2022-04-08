@@ -58,7 +58,10 @@
 
         <v-main>
           <v-container fluid>
-            <v-alert type="info" dismissible text>V aplikacijo je po novem integrirane funkcije EviWeba (pregled ocen, pregled ocenjevanj znanja in izostankov). </v-alert>
+            <v-alert type="info" dismissible text
+              >V aplikacijo je integriran informacijski sistem EviWeb (funkcije pregleda ocen, izostankov, kontaktov profesorjev in datumi preizkusov znanja). Za vzpostavitev povezave z EviWebom pojdite na stran
+              <nuxt-link to="/nastavitve">Nastavitve</nuxt-link> in povežite vaš račun z EviWebom.</v-alert
+            >
             <!-- BLIŽNICE DO DELOV APLIKACIJE -->
             <v-chip-group mandatory>
               <v-chip @click="goToPath('urnik')">

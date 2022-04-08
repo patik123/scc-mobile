@@ -34,15 +34,66 @@
             </div>
             <!-- Vse ocene  -->
             <div v-if="!loading">
-              <v-card v-for="ocena in ocene_array" :key="ocena['id']" :data-id="ocena['id']" outlined class="margin-card" :class="getSchoolColor()">
-                <v-card-title class="card-text-title">
-                  <span>{{ ocena.predmet }}</span>
-                </v-card-title>
-                <v-card-subtitle>
-                  {{ ocena.ocena }}
-                </v-card-subtitle>
-              </v-card>
+              <v-simple-table>
+                <template v-slot:default>
+                  <thead>
+                    <tr>
+                      <th class="text-left">Predmet</th>
+                      <th class="text-left">Ocene</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="(item, index) in ocene_array" :key="item.id">
+                      <td>{{ item.naziv }}</td>
+                      <td>
+                        <span v-for="mark in ocene_array[index].ocene" :key="mark.id" class="mr-3" @click="markData(item.naziv, mark.ocena, mark.cas_vpisa, mark.tip_ocene)">{{ mark.ocena }}</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </template>
+              </v-simple-table>
             </div>
+
+            <v-dialog v-model="dialog" width="500">
+              <v-card>
+                <v-card-title>
+                  <span>{{ grade_data.predmet }}</span>
+                </v-card-title>
+
+                <v-card-text>
+                  <div>
+                    <v-icon class="mr-2">grade</v-icon>
+                    <span>{{ grade_data.ocena }}</span>
+                  </div>
+
+                  <div>
+                    <v-icon class="mr-2">numbers</v-icon>
+                    <span>{{ markType(grade_data.tip_ocene) }}</span>
+                  </div>
+
+                  <div>
+                    <v-icon class="mr-2">schedule</v-icon>
+                    <span>{{ grade_data.cas_vpisa }}</span>
+                  </div>
+                </v-card-text>
+
+                <v-divider></v-divider>
+
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    :color="getSchoolColor()"
+                    text
+                    @click="
+                      dialog = false
+                      grade_data = {}
+                    "
+                  >
+                    OK
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </v-container>
         </v-main>
       </v-sheet>
@@ -64,6 +115,8 @@ export default {
       predmeti: [],
       loading: true,
       ocene_array: [], // namenjen prilagoditvi ocen za prikaz
+      grade_data: {},
+      dialog: false,
     }
   },
 
@@ -72,6 +125,31 @@ export default {
   },
 
   methods: {
+    markType(type) {
+      const grade_type = type
+      if (grade_type == 0) {
+        return 'Ustna ocena'
+      }
+      if (grade_type == 1) {
+        return 'Pisna ocena'
+      }
+      if (grade_type == 2) {
+        return 'Izdelek'
+      }
+      if(grade_type === 'G'){
+        return 'Graja'
+      }
+
+    },
+    markData(predmet, ocena, cas_vpisa, tip_ocene) {
+      this.grade_data = {
+        predmet: predmet,
+        ocena: ocena,
+        tip_ocene: tip_ocene,
+        cas_vpisa: cas_vpisa,
+      }
+      this.dialog = true
+    },
     getOcene() {
       this.$axios
         .post(
@@ -89,17 +167,30 @@ export default {
 
           this.ocene_array = []
 
+          this.predmeti.forEach((predmet) => {
+            this.ocene_array.push({
+              id: predmet[1],
+              krajsava: predmet[2],
+              naziv: predmet[3],
+              ocene: [],
+            })
+          })
+
           this.ocene.forEach((ocena) => {
             const predmet = this.predmeti.find((predmet) => {
               return predmet[1] === ocena[4]
             })
-            this.ocene_array.push({
-              id: ocena[1],
-              ocena: ocena[6],
-              cas_vpisa: ocena[9],
-              predmet: predmet[2],
-              tip_ocene: ocena[8],
-            })
+
+            for (var i = 0; i < this.ocene_array.length; i++) {
+              if (this.ocene_array[i]['id'] === ocena[4]) {
+                this.ocene_array[i]['ocene'].push({
+                  id: ocena[1],
+                  ocena: ocena[6],
+                  cas_vpisa: ocena[9],
+                  tip_ocene: ocena[8],
+                })
+              }
+            }
           })
           this.loading = false
         })
