@@ -139,7 +139,6 @@ export default {
       if(grade_type === 'G'){
         return 'Graja'
       }
-
     },
     markData(predmet, ocena, cas_vpisa, tip_ocene) {
       this.grade_data = {
