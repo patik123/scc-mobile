@@ -23,7 +23,7 @@
     "core-js": "^3.20.0",
     "html-table-to-json": "^1.0.0",
     "jwt-decode": "^3.1.2",
-    "nuxt": "^3.0.0",
+    "nuxt": "^3.4.3",
     "nuxt-polyfill": "^1.0.3",
     "nuxt-route-meta": "^2.3.2",
     "regenerator-runtime": "^0.13.9",
